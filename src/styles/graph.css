@@ -1,0 +1,16 @@
+@media (max-width: 767px) {
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .form-group:nth-child(odd) label, .form-group:nth-child(odd) select {
+        width: 100%;
+    }
+    .form-group:nth-child(even) label {
+        width: 30%;
+    }
+    .form-group:nth-child(even) select {
+        width: 30%;
+    }
+}

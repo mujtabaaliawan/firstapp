@@ -6,15 +6,29 @@ import {increase_transaction} from "../features/transaction/transactionSlice";
 function TransactionNew() {
 
     const token = useSelector((state) => state.token.value);
-    const [stockid, setStockID] = useState('');
+    const [stock_id, setStockID] = useState('');
     const [nature, setNature] = useState('');
     const [volume, setVolume] = useState('');
     const [page_changer, setPageChanger] = useState(false);
+    const [companies, setCompanies] = useState([]);
+
     const dispatch = useDispatch()
+    let selectedCompany = '';
 
     useEffect(() => {
         document.title = 'New Transaction';
         }, []);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/company-name', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }})
+            .then(response => response.json())
+            .then(data => setCompanies(data.map(company => company.name)))
+    }, [token]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,7 +38,7 @@ function TransactionNew() {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify({'stock_detail_id':stockid, 'nature':nature, 'volume_transacted':volume})
+            body: JSON.stringify({'stock_detail_id':stock_id, 'nature':nature, 'volume_transacted':volume})
         })
             .then(response => {
                 if (response.status === 201) {
@@ -33,6 +47,21 @@ function TransactionNew() {
                 }
             })
     }
+
+    const handleCompanyChange = (selected_company_name) => {
+        const url = 'http://127.0.0.1:8000/stock-id-search';
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"company_name": selected_company_name})
+        })
+      .then(response => response.json())
+      .then(data => setStockID(data.id));
+    };
+
     if(page_changer===true) {
         return <Navigate to="/transactionlist"/>;
     }
@@ -46,8 +75,13 @@ function TransactionNew() {
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="stockid" className="form-label">StockID</label>
-                            <input type="number" className="form-control" id="stockid" value={stockid} onChange={(event) => setStockID(event.target.value)} required />
+                            <label htmlFor="company_name" className="form-label">Company Name</label>
+                            <select className="form-control" id="company_name" value={selectedCompany} onChange={(event) => handleCompanyChange(event.target.value)}>
+                                <option value="">Select Company</option>
+                                {companies.map((companyName, index) => (
+                                    <option key={index} value={companyName}>{companyName}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nature" className="form-label">Nature</label>

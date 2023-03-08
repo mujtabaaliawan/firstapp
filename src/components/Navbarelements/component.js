@@ -26,6 +26,7 @@ function Navigator() {
               <NavDropdown.Item href="/newfavourite">Create New</NavDropdown.Item>
               <NavDropdown.Item href="/favouritelist">List</NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link href="/graph">Graph</Nav.Link>
           </Nav>
             <Nav className="ms-auto"> {
                     isLoggedIn ? (

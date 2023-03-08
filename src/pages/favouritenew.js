@@ -12,6 +12,7 @@ function FavouriteNew() {
     const [minimum_limit, setMinimumLimit] = useState('');
     const [page_changer, setPageChanger] = useState(false);
     const [companies, setCompanies] = useState([]);
+    let selectedCompany='';
 
 
     useEffect(() => {
@@ -49,14 +50,14 @@ function FavouriteNew() {
     }
 
     const handleCompanyChange = (selected_company_name) => {
-        const url = 'http://127.0.0.1:8000/id-search';
+        const url = 'http://127.0.0.1:8000/name-id-search';
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify({'company_name': selected_company_name})
+            body: JSON.stringify({"company_name": selected_company_name})
         })
       .then(response => response.json())
       .then(data => setCompanyID(data.id));
@@ -66,7 +67,7 @@ function FavouriteNew() {
         return <Navigate to="/favouritelist"/>;
     }
 
-    let selectedCompany;
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
