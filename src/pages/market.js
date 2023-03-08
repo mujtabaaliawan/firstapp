@@ -30,7 +30,6 @@ const Market = () => {
         })
             const json = await response.json();
             setData(json);
-            console.log(json);
         }
         fetchData();
         }, [field, token]);

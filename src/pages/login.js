@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux';
 import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+
 
 function Login() {
   const dispatch = useDispatch()
@@ -27,6 +30,8 @@ function Login() {
       if (response.status === 200) {
         return response.json();
       } else {
+        setEmail('');
+        setPassword('');
         throw new Error('Invalid credentials');
       }
     })
@@ -35,7 +40,10 @@ function Login() {
       dispatch(logged_in());
       setStatus(200);
     })
-  }
+    .catch(error => {
+          toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
+  })
+}
 
   if (status===200) {
     return <Navigate to="/" />;
