@@ -9,8 +9,8 @@ import Chart from "react-apexcharts";
 const Graph = () => {
 
   const token = useSelector((state) => state.token.value)
-  const [fieldData, setFieldData] = useState([]);
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [xValues, setXValues] = useState([]);
+  const [yValues, setYValues] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [company_id, setCompanyID] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -100,26 +100,21 @@ const Graph = () => {
     })
         .then(response => {
           if (response.status === 200) {
-            response.json().then(data => {
-              fetch("http://127.0.0.1:8000/refine-filter", {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({"filter_result": data, "field": {field}})
-              })
-                  .then(response => response.json()
-                      .then(data => {
-                        const categoriesData = data["xValues"];
-                        const fieldData = data["yValues"];
-                        setCategoriesData(categoriesData);
-                        setFieldData(fieldData);
-                      }))
+            response.json()
+                .then(data => {
+              let dateTimeData = data.map(data => {
+                return data.date_time
+              });
+              let fieldValueData = data.map(data => {
+                return data[field]
+              });
+              setXValues(dateTimeData);
+              setYValues(fieldValueData);
             })
           }
         })
   }
+
     let yAxisTitle = field.charAt(0).toUpperCase() + field.slice(1);
     const options = {
       chart: {
@@ -144,7 +139,7 @@ const Graph = () => {
       },
       xaxis: {
         type: "dateTime",
-        categories: categoriesData,
+        categories: xValues,
         title: {
           text: "Date and Time",
           style: {
@@ -187,7 +182,7 @@ const Graph = () => {
     const dataSeries = [
       {
         name: field,
-        data: fieldData
+        data: yValues
       }
     ]
 
