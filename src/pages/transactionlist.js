@@ -2,17 +2,14 @@ import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import useDocumentName from "../hooks/documentname";
 
 function Transaction(){
     const token = useSelector((state) => state.token.value)
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
 
-
-    useEffect(() => {
-        document.title = 'Transaction List';
-        }, []);
-
+    useDocumentName('Transaction List');
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/transaction', {

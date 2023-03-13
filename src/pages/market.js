@@ -1,22 +1,35 @@
 import React from 'react';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import {useEffect} from "react";
+import useDocumentName from "../hooks/documentname";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import {set_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
+import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice"
+import Button from "react-bootstrap/Button";
 
 const Market = () => {
-  const token = useSelector((state) => state.token.value)
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const token = useSelector((state) => state.token.value)
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
 
-    useEffect(() => {
-        document.title = 'Market';
-        }, []);
+    useDocumentName('Market');
+    function handleHeaderClick(headerName) {
+        setField(headerName);
+    }
+    function handleFavouriteClick(company_name) {
+        dispatch(set_favourite_company(company_name));
+        navigate("/custom-favourite");
+    }
 
-  function handleHeaderClick(headerName) {
-    setField(headerName);
-  }
+    function handleTransactionClick(company_name) {
+        dispatch(set_transaction_company(company_name));
+        navigate("/custom-transaction");
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -75,20 +88,26 @@ const Market = () => {
             cursor: 'pointer',
             color: '#0d6efd',
             }} onClick={() => handleHeaderClick('volume')}>Volume</Th>
+            <Th colSpan = "2" style={{
+                textAlign: 'center',
+                color: 'red',
+            }}>Actions</Th>
         </Tr>
       </Thead>
       <Tbody>
         {data.map(item => (
-          <Tr key={item.id}>
-            <Td>{item.id}</Td>
-            <Td>{item.category_name}</Td>
-            <Td>{item.company_name}</Td>
-            <Td>{item.current}</Td>
-            <Td>{item.open}</Td>
-            <Td>{item.high}</Td>
-            <Td>{item.low}</Td>
-            <Td>{item.ldcp}</Td>
-            <Td>{item.volume}</Td>
+            <Tr key={item.id}>
+                <Td>{item.id}</Td>
+                <Td>{item.category_name}</Td>
+                <Td>{item.company_name}</Td>
+                <Td>{item.current}</Td>
+                <Td>{item.open}</Td>
+                <Td>{item.high}</Td>
+                <Td>{item.low}</Td>
+                <Td>{item.ldcp}</Td>
+                <Td>{item.volume}</Td>
+                <Td><Button onClick={() => handleFavouriteClick(item.company_name)}>Mark Favourite</Button></Td>
+                <Td><Button onClick={() => handleTransactionClick(item.company_name)}>Perform Transaction</Button></Td>
           </Tr>
         ))}
       </Tbody>

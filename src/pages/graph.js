@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import '../styles/graph.css';
 import Chart from "react-apexcharts";
+import useDocumentName from "../hooks/documentname";
 
 
 const Graph = () => {
@@ -27,9 +28,7 @@ const Graph = () => {
       /[/]/g, '-');
   const [ fromDateTime, setFromDateTime] = useState(fromDateTimeOneDay);
 
-  useEffect(() => {
-    document.title = 'Graph';
-  }, [])
+  useDocumentName('Graph');
 
 
   useEffect(() => {

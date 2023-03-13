@@ -13,6 +13,9 @@ import Logout from '../../pages/logout';
 import Dashboard from "../../pages/dashboard";
 import Favourite from "../../pages/favourite";
 import Report from "../../pages/report";
+import FavouriteCustom from "../../pages/customfavourite";
+import TransactionCustom from "../../pages/customtransaction";
+
 
 function Routing() {
   return (
@@ -22,8 +25,10 @@ function Routing() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/market' element={<Market />} />
         <Route path='/newtransaction' element={<TransactionNew />} />
+        <Route path='/custom-transaction' element={<TransactionCustom />} />
         <Route path='/transactionlist' element={<TransactionList />} />
         <Route path='/newfavourite' element={<FavouriteNew />} />
+        <Route path='/custom-favourite' element={<FavouriteCustom />} />
         <Route path='/favouritelist' element={<FavouriteList />} />
         <Route path='/favourite' element={<Favourite />} />
         <Route path='/report' element={<Report />} />

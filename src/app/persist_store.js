@@ -6,6 +6,9 @@ import tokenReducer from '../features/token/tokenSlice';
 import favouriteReducer from '../features/favourite/favouriteSlice';
 import transactionReducer from '../features/transaction/transactionSlice';
 import managerReducer from '../features/manager/managerSlice';
+import favouriteCompanyReducer from '../features/favourite-company/favouriteCompanySlice';
+import transactionCompanyReducer from '../features/transaction-company/transactionCompanySlice';
+
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   logged: loggedReducer,
@@ -13,6 +16,8 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   favourite: favouriteReducer,
   transaction: transactionReducer,
   manager: managerReducer,
+  favouriteCompany: favouriteCompanyReducer,
+  transactionCompany: transactionCompanyReducer,
 }));
 
 export const store = configureStore({

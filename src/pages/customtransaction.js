@@ -4,32 +4,34 @@ import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
 
-function TransactionNew() {
+function TransactionCustom() {
 
     const token = useSelector((state) => state.token.value);
     const [stock_id, setStockID] = useState('');
     const [nature, setNature] = useState('');
     const [volume, setVolume] = useState('');
     const [page_changer, setPageChanger] = useState(false);
-    const [companies, setCompanies] = useState([]);
-
     const dispatch = useDispatch()
-    let selectedCompany = '';
+    let markedCompany = useSelector((state) => state.transactionCompany.value);
 
-    useDocumentName('New Transaction');
 
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/company-name', {
-            method: 'GET',
+    useDocumentName('Perform Transaction');
+
+    useEffect( () => {
+        const url = 'http://127.0.0.1:8000/stock-id-search';
+        fetch(url, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
-            }})
+            },
+            body: JSON.stringify({"company_name": markedCompany})
+        })
             .then(response => response.json())
-            .then(data => setCompanies(data.map(company => company.name)))
-    }, [token]);
+            .then(data => setStockID(data.id));
+    })
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         fetch('http://127.0.0.1:8000/transaction', {
             method: 'POST',
@@ -47,20 +49,6 @@ function TransactionNew() {
             })
     }
 
-    const handleCompanyChange = (selected_company_name) => {
-        const url = 'http://127.0.0.1:8000/stock-id-search';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({"company_name": selected_company_name})
-        })
-      .then(response => response.json())
-      .then(data => setStockID(data.id));
-    };
-
     if(page_changer===true) {
         return <Navigate to="/transactionlist"/>;
     }
@@ -75,12 +63,7 @@ function TransactionNew() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="company_name" className="form-label">Company Name</label>
-                            <select className="form-control" id="company_name" value={selectedCompany} onChange={(event) => handleCompanyChange(event.target.value)}>
-                                <option value="">Select Company</option>
-                                {companies.map((companyName, index) => (
-                                    <option key={index} value={companyName}>{companyName}</option>
-                                ))}
-                            </select>
+                            <input type="text" className="form-control" id="company_name" value={markedCompany} readOnly />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nature" className="form-label">Nature</label>
@@ -105,4 +88,4 @@ function TransactionNew() {
     );
 }
 
-export default TransactionNew;
+export default TransactionCustom;

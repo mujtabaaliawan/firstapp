@@ -4,7 +4,8 @@ import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
 import useDocumentName from "../hooks/documentname";
 
-function FavouriteNew() {
+function FavouriteCustom() {
+
     const token = useSelector((state) => state.token.value);
     const dispatch = useDispatch()
     const [company_id, setCompanyID] = useState('');
@@ -12,24 +13,27 @@ function FavouriteNew() {
     const [maximum_limit, setMaximumLimit] = useState('');
     const [minimum_limit, setMinimumLimit] = useState('');
     const [page_changer, setPageChanger] = useState(false);
-    const [companies, setCompanies] = useState([]);
-    let selectedCompany='';
-    useDocumentName('New Favourite');
+    const markedCompany = useSelector((state) => state.favouriteCompany.value);
 
+    useDocumentName('Mark Favourite');
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/company-name', {
-            method: 'GET',
+        const url = 'http://127.0.0.1:8000/name-id-search';
+        fetch(url, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
-            }})
+            },
+            body: JSON.stringify({"company_name": markedCompany})
+        })
             .then(response => response.json())
-            .then(data => setCompanies(data.map(company => company.name)))
-    }, [token]);
+            .then(data => setCompanyID(data.id));
+    })
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
+
         fetch('http://127.0.0.1:8000/favourite', {
             method: 'POST',
             headers: {
@@ -47,24 +51,9 @@ function FavouriteNew() {
             })
     }
 
-    const handleCompanyChange = (selected_company_name) => {
-        const url = 'http://127.0.0.1:8000/name-id-search';
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({"company_name": selected_company_name})
-        })
-      .then(response => response.json())
-      .then(data => setCompanyID(data.id));
-    };
-
     if(page_changer===true) {
         return <Navigate to="/favouritelist"/>;
     }
-
 
     return (
         <div className="container mt-5">
@@ -76,12 +65,7 @@ function FavouriteNew() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="company_name" className="form-label">Company Name</label>
-                            <select className="form-control" id="company_name" value={selectedCompany} onChange={(event) => handleCompanyChange(event.target.value)}>
-                                <option value="">Select Company</option>
-                                {companies.map((companyName, index) => (
-                                    <option key={index} value={companyName}>{companyName}</option>
-                                ))}
-                            </select>
+                            <input type="text" className="form-control" id="company_name" value={markedCompany} readOnly />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="monitor_field" className="form-label">Monitor Field</label>
@@ -115,4 +99,4 @@ function FavouriteNew() {
     );
 }
 
-export default FavouriteNew;
+export default FavouriteCustom;

@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {set_manager} from "../features/manager/managerSlice";
+import useDocumentName from "../hooks/documentname";
 
 
 function Login() {
@@ -13,9 +14,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    document.title = 'Login';
-    }, []);
+    useDocumentName('Login');
 
   const handleSubmit = async (event) => {
     event.preventDefault();

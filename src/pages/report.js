@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import useDocumentName from "../hooks/documentname";
 
 function Report(){
     const token = useSelector((state) => state.token.value)
@@ -9,9 +10,7 @@ function Report(){
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
 
-    useEffect(() => {
-        document.title = 'Daily Report';
-        }, []);
+    useDocumentName('Daily Report');
 
     function handleHeaderClick(headerName) {
         if (field === headerName) {

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
+import useDocumentName from "../hooks/documentname";
 
 
 const Dashboard = () => {
@@ -17,9 +18,9 @@ const Dashboard = () => {
             setField(headerName);
         }
     }
+    useDocumentName('Dashboard');
 
     useEffect(() => {
-        document.title = 'Dashboard';
         async function fetchData() {
             const url = `http://127.0.0.1:8000/all-transaction?field=${field}`;
             const response = await fetch(url, {

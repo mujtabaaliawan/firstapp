@@ -2,16 +2,14 @@ import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import useDocumentName from "../hooks/documentname";
 
 function Favourite(){
     const token = useSelector((state) => state.token.value)
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
+    useDocumentName('Favourite List');
 
-
-    useEffect(() => {
-        document.title = 'Favourite List';
-        }, []);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/favourite', {

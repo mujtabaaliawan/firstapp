@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import useDocumentName from "../hooks/documentname";
 
 const Home = () => {
-    useEffect(() => {
-        document.title = 'Home';
-        }, []);
+    useDocumentName('Home');
 
   return (
     <div>
