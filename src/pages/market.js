@@ -35,7 +35,7 @@ const Market = () => {
         }, [field, token]);
 
   return (
-      <>
+      <div className="container-fluid">
     <Table>
       <Thead>
         <Tr className="fs-5 fs-lg-4">
@@ -93,7 +93,7 @@ const Market = () => {
         ))}
       </Tbody>
     </Table>
-</>
+</div>
 );
 };
 

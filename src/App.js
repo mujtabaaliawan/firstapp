@@ -1,5 +1,5 @@
 import './App.css';
-import Navigator from './components/Navbarelements/component';
+import Navigator from './components/Verticalnavbarelements/component';
 import Routing from './components/Routingelements/component';
 import React from "react";
 import { ToastContainer} from 'react-toastify';

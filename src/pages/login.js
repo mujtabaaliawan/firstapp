@@ -4,7 +4,7 @@ import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import {set_manager} from "../features/manager/managerSlice";
 
 
 function Login() {
@@ -38,6 +38,10 @@ function Login() {
     .then(data => {
       dispatch(set_token(data.token));
       dispatch(logged_in());
+      console.log(data);
+      if (data.role === 'manager'){
+        dispatch(set_manager());
+      }
       setStatus(200);
     })
     .catch(error => {
