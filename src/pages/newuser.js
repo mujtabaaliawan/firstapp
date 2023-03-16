@@ -29,6 +29,7 @@ function NewUser() {
         "password": password,
       },
       "mobile_number": mobile,
+      "following":[],
     };
     await fetch('http://127.0.0.1:8000/trader', {
       method: 'POST',

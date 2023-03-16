@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
+import clear_transaction_company from "../features/transaction-company/transactionCompanySlice";
 
 function TransactionCustom() {
 
@@ -44,6 +45,7 @@ function TransactionCustom() {
             .then(response => {
                 if (response.status === 201) {
                     dispatch(increase_transaction);
+                    dispatch(clear_transaction_company);
                     setPageChanger(true);
                 }
             })

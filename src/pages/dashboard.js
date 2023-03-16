@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
+import Button from "react-bootstrap/Button";
 
 
 const Dashboard = () => {
@@ -9,6 +10,36 @@ const Dashboard = () => {
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
+    const [addFollow, setAddFollow] = useState(0);
+
+
+    function handleFollowClick(followID) {
+        let followUrl = 'http://127.0.0.1:8000/follow';
+        fetch(followUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"follow": followID})
+        })
+        setAddFollow(addFollow+1);
+
+    }
+
+    function handleUnfollowClick(unFollowID) {
+        let followUrl = 'http://127.0.0.1:8000/unfollow';
+        fetch(followUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"unfollow": unFollowID})
+        })
+        setAddFollow(addFollow-1);
+    }
+
 
     function handleHeaderClick(headerName) {
         if (field === headerName) {
@@ -21,21 +52,18 @@ const Dashboard = () => {
     useDocumentName('Dashboard');
 
     useEffect(() => {
-        async function fetchData() {
-            const url = `http://127.0.0.1:8000/all-transaction?field=${field}`;
-            const response = await fetch(url, {
+        const url = `http://127.0.0.1:8000/all-transaction?field=${field}`;
+        fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
         })
-            const json = await response.json();
-            console.log(json);
-            setData(json);
-        }
-        fetchData();
-        }, [transaction_state, field, token]);
+            .then(response => response.json())
+            .then(data => setData(data))
+    }, [transaction_state, field, token, addFollow]);
+
 
 
   return (
@@ -102,6 +130,17 @@ const Dashboard = () => {
                             <Td>{item.low}</Td>
                             <Td>{item.change}</Td>
                             <Td>{item.ldcp}</Td>
+                            <div> {
+                                item.follow_status ? (
+                                <Td>
+                                    <Button onClick={() => handleUnfollowClick(item.trader_id)}>Unfollow</Button>
+                                </Td>
+                            ) : (
+                                <Td>
+                                    <Button onClick={() => handleFollowClick(item.trader_id)}>Follow</Button>
+                                </Td>
+                            )}
+                            </div>
                         </Tr>
                     ))}
                 </Tbody>

@@ -15,13 +15,18 @@ import Favourite from "../../pages/favourite";
 import Report from "../../pages/report";
 import FavouriteCustom from "../../pages/customfavourite";
 import TransactionCustom from "../../pages/customtransaction";
-
+import Followers from "../../pages/followers";
+import Following from "../../pages/following";
+import Profile from "../../pages/profile";
 
 function Routing() {
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/explore' element={<Following />} />
+        <Route path='/followers' element={<Followers />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/market' element={<Market />} />
         <Route path='/newtransaction' element={<TransactionNew />} />

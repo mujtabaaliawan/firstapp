@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: "Select Company",
+  value: "",
 }
 
 export const favouriteCompanySlice = createSlice({
@@ -12,7 +12,7 @@ export const favouriteCompanySlice = createSlice({
       state.value = action.payload
     },
     clear_favourite_company: (state = initialState) => {
-      state.value = "Select Company"
+      state.value = ""
     }
   }
   })

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
 import useDocumentName from "../hooks/documentname";
+import clear_favourite_company from "../features/favourite-company/favouriteCompanySlice";
 
 function FavouriteCustom() {
 
@@ -46,6 +47,7 @@ function FavouriteCustom() {
             .then(response => {
                 if (response.status === 201) {
                     dispatch(increase_favourite);
+                    dispatch(clear_favourite_company);
                     setPageChanger(true);
                 }
             })

@@ -12,9 +12,9 @@ function TransactionNew() {
     const [volume, setVolume] = useState('');
     const [page_changer, setPageChanger] = useState(false);
     const [companies, setCompanies] = useState([]);
-
+    const [selectedCompany, setSelectedCompany] = useState('');
     const dispatch = useDispatch()
-    let selectedCompany = '';
+
 
     useDocumentName('New Transaction');
 
@@ -48,6 +48,7 @@ function TransactionNew() {
     }
 
     const handleCompanyChange = (selected_company_name) => {
+        setSelectedCompany(selected_company_name);
         const url = 'http://127.0.0.1:8000/stock-id-search';
         fetch(url, {
             method: 'POST',
@@ -75,7 +76,8 @@ function TransactionNew() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="company_name" className="form-label">Company Name</label>
-                            <select className="form-control" id="company_name" value={selectedCompany} onChange={(event) => handleCompanyChange(event.target.value)}>
+                            <select className="form-control" id="company_name" value={selectedCompany}
+                                     onChange={(event) => handleCompanyChange(event.target.value)}>
                                 <option value="">Select Company</option>
                                 {companies.map((companyName, index) => (
                                     <option key={index} value={companyName}>{companyName}</option>

@@ -13,7 +13,7 @@ function FavouriteNew() {
     const [minimum_limit, setMinimumLimit] = useState('');
     const [page_changer, setPageChanger] = useState(false);
     const [companies, setCompanies] = useState([]);
-    let selectedCompany='';
+    const [selectedCompany, setSelectedCompany] = useState('');
     useDocumentName('New Favourite');
 
 
@@ -48,6 +48,7 @@ function FavouriteNew() {
     }
 
     const handleCompanyChange = (selected_company_name) => {
+        setSelectedCompany(selected_company_name);
         const url = 'http://127.0.0.1:8000/name-id-search';
         fetch(url, {
             method: 'POST',
