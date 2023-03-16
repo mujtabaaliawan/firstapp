@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 const Following = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
-    const [selectedFollowingId, setSelectedFollowingId] = useState('');
+    const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
 
     useDocumentName('Following');
 
@@ -21,12 +21,20 @@ const Following = () => {
             },
         })
             .then(response => response.json())
-            .then(data => setData(data))
+            .then(data => {
+                setData(data);
+            })
     }, [token]);
 
     const handleToggleDetails = (id) => {
-        setSelectedFollowingId((prevId) => (prevId === id ? "" : id));
+        setSelectedFollowingIds((prevState) => {
+            const updatedState = {...prevState};
+            updatedState[id] = !updatedState[id];
+            return updatedState;
+        });
     };
+
+
 
  return (
       <div>
@@ -48,7 +56,9 @@ const Following = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {data.map((item) => (
+                    {data.map((item) => {
+                        const isSelected = selectedFollowingIds[item.id] === true;
+                        return (
                         <React.Fragment key={item.id}>
                             <Tr>
                                 <Td>{item.id}</Td>
@@ -56,51 +66,52 @@ const Following = () => {
                                 <Td>{item.email}</Td>
                                 <Td>{item.mobile_number}</Td>
                                 <Td><Button onClick={() => handleToggleDetails(item.id)}>
-                                    {selectedFollowingId === item.id
+                                    {isSelected
                                         ? "Hide transaction details"
                                         : "Display transaction details"}
                                 </Button></Td>
                             </Tr>
-                            {selectedFollowingId === item.id && (
-                            <tr>
-                                <td colSpan="7">
-                                    <div style={{
-                                        fontSize: "30px",
-                                        fontFamily: 'Times New Roman',
-                                        textAlign: 'center',
-                                        color: "red",
-                                    }}>Transaction Details</div>
-                                    <Table>
-                                        <Thead>
-                                            <Tr>
-                                                <Th>Number</Th>
-                                                <Th>Date Time</Th>
-                                                <Th>Nature</Th>
-                                                <Th>Volume</Th>
-                                                <Th>Company</Th>
-                                                <Th>Category</Th>
-                                                <Th>Current</Th>
-                                            </Tr>
-                                        </Thead>
-                                        <Tbody>
-                                            {item.transactions.map((transaction) => (
-                                                <Tr key={transaction.id}>
-                                                    <Td>{transaction.count}</Td>
-                                                    <Td>{transaction.date_time}</Td>
-                                                    <Td>{transaction.nature}</Td>
-                                                    <Td>{transaction.volume}</Td>
-                                                    <Td>{transaction.company}</Td>
-                                                    <Td>{transaction.category}</Td>
-                                                    <Td>{transaction.current}</Td>
-                          </Tr>
-                        ))}
-                      </Tbody>
-                    </Table>
-                  </td>
-                </tr>
+                            {isSelected && (
+                                <tr className='mt-5'>
+                                    <td colSpan="7">
+                                        <div style={{
+                                            fontSize: "30px",
+                                            fontFamily: 'Times New Roman',
+                                            textAlign: 'center',
+                                            color: "red",
+                                        }}>Transaction Details
+                                        </div>
+                                        <Table className="mb-5 mt-3">
+                                            <Thead>
+                                                <Tr>
+                                                    <Th>Number</Th>
+                                                    <Th>Date Time</Th>
+                                                    <Th>Nature</Th>
+                                                    <Th>Volume</Th>
+                                                    <Th>Company</Th>
+                                                    <Th>Category</Th>
+                                                    <Th>Current</Th>
+                                                </Tr>
+                                            </Thead>
+                                            <Tbody>
+                                                {item.transactions.map((transaction) => (
+                                                    <Tr key={transaction.id}>
+                                                        <Td>{transaction.count}</Td>
+                                                        <Td>{transaction.date_time}</Td>
+                                                        <Td>{transaction.nature}</Td>
+                                                        <Td>{transaction.volume}</Td>
+                                                        <Td>{transaction.company}</Td>
+                                                        <Td>{transaction.category}</Td>
+                                                        <Td>{transaction.current}</Td>
+                                                    </Tr>
+                                                ))}
+                                            </Tbody>
+                                        </Table>
+                                    </td>
+                                </tr>
                             )}
-            </React.Fragment>
-                    ))}
+                        </React.Fragment>
+                    )})}
                 </Tbody>
             </Table>
       </div>

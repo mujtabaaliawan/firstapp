@@ -73,9 +73,12 @@ const Dashboard = () => {
             fontFamily: 'Times New Roman',
             textAlign: 'center',
             color: "white",
+            marginTop: "50px"
         }}>Dashboard</h1>
 
-            <Table>
+            <Table style={{
+                            marginTop: "30px"
+                        }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
                         <Th style={{
@@ -131,15 +134,16 @@ const Dashboard = () => {
                             <Td>{item.change}</Td>
                             <Td>{item.ldcp}</Td>
                             <div> {
-                                item.follow_status ? (
+                                item.follow_status === true ? (
                                 <Td>
                                     <Button onClick={() => handleUnfollowClick(item.trader_id)}>Unfollow</Button>
                                 </Td>
-                            ) : (
+                            ) : item.own_status === true ? <></> : (
                                 <Td>
                                     <Button onClick={() => handleFollowClick(item.trader_id)}>Follow</Button>
                                 </Td>
-                            )}
+                            )
+                            }
                             </div>
                         </Tr>
                     ))}

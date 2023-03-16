@@ -17,6 +17,6 @@ export const favouriteCompanySlice = createSlice({
   }
   })
 
-export const { set_favourite_company } = favouriteCompanySlice.actions
+export const { set_favourite_company, clear_favourite_company} = favouriteCompanySlice.actions
 
 export default favouriteCompanySlice.reducer

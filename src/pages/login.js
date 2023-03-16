@@ -37,7 +37,6 @@ function Login() {
     .then(data => {
       dispatch(set_token(data.token));
       dispatch(logged_in());
-      console.log(data);
       if (data.role === 'manager'){
         dispatch(set_manager());
       }

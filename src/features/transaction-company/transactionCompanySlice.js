@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: "Select Company",
+  value: "",
 }
 
 export const transactionCompanySlice = createSlice({
@@ -12,11 +12,11 @@ export const transactionCompanySlice = createSlice({
       state.value = action.payload
     },
     clear_transaction_company: (state = initialState) => {
-      state.value = "Select Company"
+      state.value = ""
     }
   }
   })
 
-export const { set_transaction_company } = transactionCompanySlice.actions
+export const { set_transaction_company, clear_transaction_company} = transactionCompanySlice.actions
 
 export default transactionCompanySlice.reducer
