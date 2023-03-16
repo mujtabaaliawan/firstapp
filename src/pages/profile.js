@@ -34,7 +34,7 @@ const Profile = () => {
                    roundedCircle style={{ width: '10rem', height: '10rem'}}/>
           </Col>
           <Col className='col-xs-9 col-lg-9'>
-            <h1 style={{color: "red"}}>{data["name"]}</h1>
+            <h1 style={{color: "blue"}}>{data["name"]}</h1>
             <p>Trader</p>
           </Col>
         </Row>

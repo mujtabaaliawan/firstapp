@@ -42,10 +42,13 @@ const Following = () => {
             fontSize: "50px",
             fontFamily: 'Times New Roman',
             textAlign: 'center',
-            color: "red",
+            color: "white",
+            marginTop: "50px"
         }}>Following</h1>
 
-            <Table>
+            <Table style={{
+                            marginTop: "30px"
+                        }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
                         <Th>ID</Th>
@@ -78,7 +81,7 @@ const Following = () => {
                                             fontSize: "30px",
                                             fontFamily: 'Times New Roman',
                                             textAlign: 'center',
-                                            color: "red",
+                                            color: "blue",
                                         }}>Transaction Details
                                         </div>
                                         <Table className="mb-5 mt-3">

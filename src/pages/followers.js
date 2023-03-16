@@ -30,9 +30,12 @@ const Followers = () => {
             fontFamily: 'Times New Roman',
             textAlign: 'center',
             color: "white",
+            marginTop: "50px",
         }}>Followers</h1>
 
-            <Table>
+            <Table style={{
+                            marginTop: "30px"
+                        }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
                         <Th>ID</Th>
