@@ -10,24 +10,25 @@ function TransactionNew() {
     const [stock_id, setStockID] = useState('');
     const [volume, setVolume] = useState('');
     const [page_changer, setPageChanger] = useState(false);
-    const [companies, setCompanies] = useState([]);
-    const [currentPrice, setCurrentPrice] = useState('')
+    const [saleCompanies, setSaleCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
-    const [availableStock, setAvailableStock] = useState('');
+    const [currentPrice, setCurrentPrice] = useState('');
+    const [traderStock, setTraderStock] = useState([]);
+    const [selectedStock, setSelectedStock] = useState('');
     const dispatch = useDispatch();
 
 
     useDocumentName('New Transaction');
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/company-name', {
+        fetch('http://127.0.0.1:8000/sale-company-name', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             }})
             .then(response => response.json())
-            .then(data => setCompanies(data.map(company => company.name)))
+            .then(data => setSaleCompanies(data))
     }, [token]);
 
     const handleSubmit = async (event) => {
@@ -38,11 +39,12 @@ function TransactionNew() {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify({'stock_detail_id':stock_id, 'nature':'purchase', 'volume_transacted':volume})
+            body: JSON.stringify({'stock_detail_id':stock_id, 'nature':'sale', 'volume_transacted':volume,
+                                'sale_stock': selectedStock})
         })
             .then(response => {
                 if (response.status === 201) {
-                    dispatch(increase_transaction());
+                    dispatch(increase_transaction);
                     setPageChanger(true);
                 }
             })
@@ -59,16 +61,44 @@ function TransactionNew() {
             },
             body: JSON.stringify({"company_name": selected_company_name})
         })
-      .then(response => response.json())
-      .then(data => {
-          setStockID(data.id)
-          setCurrentPrice(data.current)
-          setAvailableStock(data.available_stock)
+            .then(response => response.json())
+            .then(data => {
+                setStockID(data.id)
+                setCurrentPrice(data.current)
       })
+
+        const id_url = 'http://127.0.0.1:8000/name-id-search';
+        fetch(id_url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"company_name": selected_company_name})
+        })
+            .then(response => response.json())
+            .then(data => {
+
+        const stock_url = 'http://127.0.0.1:8000/trader-stock';
+        fetch(stock_url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"company_id": data.id})
+        })
+            .then(response => response.json())
+            .then(data => setTraderStock(data));
+    });
     };
 
     if(page_changer===true) {
         return <Navigate to="/transactionlist"/>;
+    }
+
+    const handleTraderStock = (selected_stockName) => {
+        setSelectedStock(selected_stockName);
     }
 
     return (
@@ -84,29 +114,36 @@ function TransactionNew() {
                             <select className="form-control" id="company_name" value={selectedCompany}
                                      onChange={(event) => handleCompanyChange(event.target.value)}>
                                 <option value="">Select Company</option>
-                                {companies.map((companyName, index) => (
+                                {saleCompanies && saleCompanies.map((companyName, index) => (
                                     <option key={index} value={companyName}>{companyName}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nature" className="form-label">Nature</label>
-                            <input type="text" className="form-control mt-2 mb-2" id="field" value="purchase" readOnly/>
+                            <input type="text" className="form-control mt-2 mb-2" id="field" value="sale" readOnly/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="current" className="form-label">Current Value</label>
                             <input type="text" className="form-control" id="current_value" value={currentPrice} readOnly />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="available_stock" className="form-label">Available Stock Volume</label>
-                            <input type="text" className="form-control" id="available_stock" value={availableStock} readOnly />
+                            <label htmlFor="stock_name" className="form-label">Stock</label>
+                            <select className="form-control" id="stock_name" value={selectedStock}
+                                     onChange={(event) => handleTraderStock(event.target.value)}>
+                                <option value="">Select Stock</option>
+                                {traderStock.map((stockName, index) => (
+                                    <option key={index} value={stockName}>{stockName}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="volume" className="form-label">Volume</label>
-                            <input type="number" className="form-control" id="volume" value={volume} onChange={(event) => setVolume(event.target.value)} required />
+                            <input type="number" className="form-control" id="volume" value={volume}
+                                    onChange={(event) => setVolume(event.target.value)} required />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Create</button>
+                            <button type="submit" className="btn btn-primary">Sale</button>
                         </div>
                     </form>
                 </div>

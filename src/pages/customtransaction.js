@@ -3,15 +3,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
-import clear_transaction_company from "../features/transaction-company/transactionCompanySlice";
+import {clear_transaction_company} from "../features/transaction-company/transactionCompanySlice";
 
 function TransactionCustom() {
 
     const token = useSelector((state) => state.token.value);
     const [stock_id, setStockID] = useState('');
-    const [nature, setNature] = useState('');
+    let nature = "purchase";
     const [volume, setVolume] = useState('');
     const [page_changer, setPageChanger] = useState(false);
+    const [currentPrice, setCurrentPrice] = useState('')
+    const [availableStock, setAvailableStock] = useState('');
     const dispatch = useDispatch()
     let markedCompany = useSelector((state) => state.transactionCompany.value);
 
@@ -29,8 +31,12 @@ function TransactionCustom() {
             body: JSON.stringify({"company_name": markedCompany})
         })
             .then(response => response.json())
-            .then(data => setStockID(data.id));
-    })
+            .then(data => {
+                setStockID(data.id)
+                setCurrentPrice(data.current)
+                setAvailableStock(data.available_stock)
+      })
+    }, [markedCompany, token])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -44,8 +50,8 @@ function TransactionCustom() {
         })
             .then(response => {
                 if (response.status === 201) {
-                    dispatch(increase_transaction);
-                    dispatch(clear_transaction_company);
+                    dispatch(increase_transaction());
+                    dispatch(clear_transaction_company());
                     setPageChanger(true);
                 }
             })
@@ -56,6 +62,8 @@ function TransactionCustom() {
     }
 
     return (
+        <div>
+        { stock_id && currentPrice && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">
@@ -69,25 +77,31 @@ function TransactionCustom() {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nature" className="form-label">Nature</label>
-                            <select className="form-control mt-2 mb-2" id="field" value={nature}
-                                    onChange={(event) => setNature(event.target.value)}>
-                                <option value=''>Select Field</option>
-                                <option value='purchase'>purchase</option>>
-                                <option value='sale'>sale</option>>
-                            </select>
+                            <input type="text" className="form-control mt-2 mb-2" id="field" value={nature} readOnly />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="current" className="form-label">Current Value</label>
+                            <input type="text" className="form-control" id="current_value" value={currentPrice} readOnly />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="available_stock" className="form-label">Available Stock Volume</label>
+                            <input type="text" className="form-control" id="available_stock" value={availableStock} readOnly />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="volume" className="form-label">Volume</label>
-                            <input type="number" className="form-control" id="volume" value={volume} onChange={(event) => setVolume(event.target.value)} required />
+                            <input type="number" className="form-control" id="volume" value={volume} onChange={(
+                                event) => setVolume(event.target.value)} required />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Create</button>
+                            <button type="submit" className="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    );
+        )}
+        </div>
+    )
 }
 
 export default TransactionCustom;

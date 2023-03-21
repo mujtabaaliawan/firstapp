@@ -18,6 +18,8 @@ import TransactionCustom from "../../pages/customtransaction";
 import Followers from "../../pages/followers";
 import Following from "../../pages/following";
 import Profile from "../../pages/profile";
+import TransactionSale from "../../pages/transactionsale";
+import PortFolio from "../../pages/portfolio";
 
 function Routing() {
   return (
@@ -25,11 +27,13 @@ function Routing() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/portfolio' element={<PortFolio />} />
         <Route path='/explore' element={<Following />} />
         <Route path='/followers' element={<Followers />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/market' element={<Market />} />
         <Route path='/newtransaction' element={<TransactionNew />} />
+        <Route path='/saletransaction' element={<TransactionSale />} />
         <Route path='/custom-transaction' element={<TransactionCustom />} />
         <Route path='/transactionlist' element={<TransactionList />} />
         <Route path='/newfavourite' element={<FavouriteNew />} />
