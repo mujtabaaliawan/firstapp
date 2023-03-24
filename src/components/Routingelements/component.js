@@ -20,6 +20,8 @@ import Following from "../../pages/following";
 import Profile from "../../pages/profile";
 import TransactionSale from "../../pages/transactionsale";
 import PortFolio from "../../pages/portfolio";
+import Subscriptions from "../../pages/subscriptions";
+
 
 function Routing() {
   return (
@@ -42,6 +44,7 @@ function Routing() {
         <Route path='/favourite' element={<Favourite />} />
         <Route path='/report' element={<Report />} />
         <Route path='/graph' element={<Graph />} />
+        <Route path='/subscribe' element={<Subscriptions />} />
         <Route path='/login' element={<Login />} />
         <Route path='/newuser' element={<Newuser />} />
         <Route path='/logout' element={<Logout />} />

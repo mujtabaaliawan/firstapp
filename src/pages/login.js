@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {set_manager} from "../features/manager/managerSlice";
 import useDocumentName from "../hooks/documentname";
+import {clear_subscription, set_subscription} from "../features/subscription/subscriptionSlice";
 
 
 function Login() {
@@ -13,6 +14,8 @@ function Login() {
   const [status, setStatus] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [page_changer, setPageChanger] = useState(false);
+  const token = useSelector((state) => state.token.value);
 
     useDocumentName('Login');
 
@@ -48,7 +51,30 @@ function Login() {
 }
 
   if (status===200) {
-    return <Navigate to="/" />;
+    let check_subscription_url = "http://127.0.0.1:8000/check-subscription"
+    fetch(check_subscription_url, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+    })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "active") {
+            dispatch(set_subscription());
+            setPageChanger(true);
+            setStatus(0);
+          }
+          else {
+            dispatch(clear_subscription());
+            setPageChanger(true);
+          }
+        })
+   }
+
+  if(page_changer===true) {
+    return <Navigate to="/"/>;
   }
 
   return (

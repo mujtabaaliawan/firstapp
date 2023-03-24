@@ -9,6 +9,7 @@ import managerReducer from '../features/manager/managerSlice';
 import favouriteCompanyReducer from '../features/favourite-company/favouriteCompanySlice';
 import transactionCompanyReducer from '../features/transaction-company/transactionCompanySlice';
 import helpReducer from '../features/help/helpSlice';
+import subscriptionReducer from '../features/subscription/subscriptionSlice';
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   logged: loggedReducer,
@@ -19,6 +20,7 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   favouriteCompany: favouriteCompanyReducer,
   transactionCompany: transactionCompanyReducer,
   help: helpReducer,
+  subscription: subscriptionReducer,
 }));
 
 export const store = configureStore({

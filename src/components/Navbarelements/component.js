@@ -86,6 +86,7 @@ function Navigator() {
                                 <NavDropdown.Item href="/favouritelist">List</NavDropdown.Item>
                               </NavDropdown>
                               <Nav.Link href="/graph">Graph</Nav.Link>
+                              <Nav.Link href="/subscribe">Subscription Plans</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">
                               <Button onClick={toggleHelpMode} style={{

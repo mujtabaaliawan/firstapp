@@ -14,7 +14,7 @@ function TransactionCustom() {
     const [page_changer, setPageChanger] = useState(false);
     const [currentPrice, setCurrentPrice] = useState('')
     const [availableStock, setAvailableStock] = useState('');
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     let markedCompany = useSelector((state) => state.transactionCompany.value);
 
 
