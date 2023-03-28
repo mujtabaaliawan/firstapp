@@ -16,6 +16,8 @@ const Market = () => {
     const token = useSelector((state) => state.token.value)
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
+    const isSubscribed = useSelector((state) => state.subscription.value);
+
 
     useDocumentName('Market');
     function handleHeaderClick(headerName) {
@@ -48,6 +50,8 @@ const Market = () => {
         }, [field, token]);
 
   return (
+      <div>
+          { isSubscribed && (
       <div className="container-fluid">
     <Table>
       <Thead>
@@ -112,8 +116,10 @@ const Market = () => {
         ))}
       </Tbody>
     </Table>
-</div>
-);
-};
+      </div>
+          )}
+      </div>
+  );
+}
 
 export default Market;

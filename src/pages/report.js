@@ -9,6 +9,7 @@ function Report(){
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
+    const isManager = useSelector((state) => state.manager.value);
 
     useDocumentName('Daily Report');
 
@@ -34,6 +35,8 @@ function Report(){
     }, [transaction_state, field, token]);
 
     return (
+        <div>
+            { isManager && (
         <div>
               <Table>
                 <Thead>
@@ -95,6 +98,8 @@ function Report(){
                 </Tbody>
             </Table>
       </div>
+            )}
+        </div>
   );
 }
 

@@ -9,6 +9,7 @@ import useDocumentName from "../hooks/documentname";
 
 const Graph = () => {
 
+  const isSubscribed = useSelector((state) => state.subscription.value);
   const token = useSelector((state) => state.token.value)
   const [xValues, setXValues] = useState([]);
   const [yValues, setYValues] = useState([]);
@@ -187,6 +188,8 @@ const Graph = () => {
 
   return (
       <div>
+        { isSubscribed && (
+      <div>
         <div className="d-flex justify-content-center mb-2 mt-2" style={{
           display: "flex",
           flexShrink: "1",
@@ -264,7 +267,9 @@ const Graph = () => {
       />
     </div>
       </div>
-)
-};
+        )}
+      </div>
+  );
+}
 
 export default Graph;

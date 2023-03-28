@@ -14,6 +14,8 @@ function FavouriteNew() {
     const [page_changer, setPageChanger] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
+    const isSubscribed = useSelector((state) => state.subscription.value);
+
     useDocumentName('New Favourite');
 
 
@@ -68,6 +70,8 @@ function FavouriteNew() {
 
 
     return (
+        <div>
+            { isSubscribed && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">
@@ -112,6 +116,8 @@ function FavouriteNew() {
                     </form>
                 </div>
             </div>
+        </div>
+            )}
         </div>
     );
 }

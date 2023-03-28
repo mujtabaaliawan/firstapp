@@ -7,7 +7,8 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 const Profile = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
-
+    const isSubscribed = useSelector((state) => state.subscription.value);
+    const isManager = useSelector((state) => state.manager.value);
     useDocumentName('Profile');
 
     useEffect(() => {
@@ -26,6 +27,8 @@ const Profile = () => {
     console.log(data);
 
  return (
+     <div>
+         { (isSubscribed || isManager) && (
      <div>
       <Container className="mt-5">
           <Row>
@@ -122,6 +125,8 @@ const Profile = () => {
           <hr />
       </Container>
     </div>
+         )}
+     </div>
   );
-};
+}
 export default Profile;

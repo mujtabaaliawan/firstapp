@@ -7,11 +7,12 @@ import Button from "react-bootstrap/Button";
 
 const Dashboard = () => {
     const token = useSelector((state) => state.token.value)
+    const isSubscribed = useSelector((state) => state.subscription.value);
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const [addFollow, setAddFollow] = useState(0);
-
+    const isManager = useSelector((state) => state.manager.value);
 
     function handleFollowClick(followID) {
         let followUrl = 'http://127.0.0.1:8000/follow';
@@ -24,7 +25,6 @@ const Dashboard = () => {
             body: JSON.stringify({"follow": followID})
         })
         setAddFollow(addFollow+1);
-
     }
 
     function handleUnfollowClick(unFollowID) {
@@ -67,6 +67,8 @@ const Dashboard = () => {
 
 
   return (
+      <div>
+          { (isSubscribed || isManager) && (
       <div>
         <h1 style={{
             fontSize: "50px",
@@ -150,6 +152,8 @@ const Dashboard = () => {
                 </Tbody>
             </Table>
       </div>
+          )}
+      </div>
   );
-};
+}
 export default Dashboard;

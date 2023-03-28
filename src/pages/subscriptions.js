@@ -123,7 +123,7 @@ function Subscriptions() {
 
             <Row className={'mt-5'}>
                 <Col id='plan'>
-                    <h1>Free Trial for <span color={'red'}>2 days</span></h1>
+                    <h1>Free Trial for <span color={'red'}>5 days</span></h1>
                     <Row>
                         <Button className='mt-5 mb-3' style={{
                             width: "25%",

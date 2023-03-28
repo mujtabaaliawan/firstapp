@@ -7,6 +7,7 @@ import useDocumentName from "../hooks/documentname";
 const Followers = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
+    const isSubscribed = useSelector((state) => state.subscription.value);
 
     useDocumentName('Followers');
 
@@ -24,6 +25,8 @@ const Followers = () => {
     }, [token]);
 
  return (
+     <div>
+         { isSubscribed && (
       <div>
         <h1 style={{
             fontSize: "50px",
@@ -56,6 +59,8 @@ const Followers = () => {
                 </Tbody>
             </Table>
       </div>
+         )}
+     </div>
   );
-};
+}
 export default Followers;

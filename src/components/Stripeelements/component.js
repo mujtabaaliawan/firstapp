@@ -24,6 +24,21 @@ const CheckoutForm = (subscriptionPlan) => {
     // Handle form submission.
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        let checkOut_url = "http://127.0.0.1:8000/checkout";
+        fetch(checkOut_url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({"subscription": subscriptionPlan})
+        })
+            .then(r => r.json())
+            .then (data => {
+                window.open(data, "Checkout", "width=800,height=800");
+            });
+
         const card = elements.getElement(CardElement);
 
         const {paymentMethod, error} = await stripe.createPaymentMethod({

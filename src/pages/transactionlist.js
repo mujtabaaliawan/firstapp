@@ -8,6 +8,7 @@ function Transaction(){
     const token = useSelector((state) => state.token.value)
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
+    const isSubscribed = useSelector((state) => state.subscription.value);
 
     useDocumentName('Transaction List');
 
@@ -24,7 +25,8 @@ function Transaction(){
     }, [transaction_state, token]);
 
     return (
-        <>
+        <div>
+            { isSubscribed && (
             <Table>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
@@ -63,8 +65,9 @@ function Transaction(){
                     ))}
                 </Tbody>
             </Table>
-        </>
+            )}
+        </div>
     );
-};
+}
 
 export default Transaction;

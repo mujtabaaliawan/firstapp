@@ -8,6 +8,7 @@ import clear_favourite_company from "../features/favourite-company/favouriteComp
 function FavouriteCustom() {
 
     const token = useSelector((state) => state.token.value);
+    const isSubscribed = useSelector((state) => state.subscription.value);
     const dispatch = useDispatch()
     const [company_id, setCompanyID] = useState('');
     const [monitor_field, setMonitorField] = useState('');
@@ -58,6 +59,8 @@ function FavouriteCustom() {
     }
 
     return (
+        <div>
+            { isSubscribed && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">
@@ -97,6 +100,8 @@ function FavouriteCustom() {
                     </form>
                 </div>
             </div>
+        </div>
+            )}
         </div>
     );
 }

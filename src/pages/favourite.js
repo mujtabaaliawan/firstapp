@@ -8,6 +8,7 @@ function AllFavourite(){
     const token = useSelector((state) => state.token.value)
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
+    const isSubscribed = useSelector((state) => state.subscription.value);
 
 
     useDocumentName('Favourite List');
@@ -25,7 +26,8 @@ function AllFavourite(){
     }, [favourite_state, token]);
 
     return (
-        <>
+        <div>
+            { isSubscribed && (
             <Table>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
@@ -50,8 +52,9 @@ function AllFavourite(){
                     ))}
                 </Tbody>
             </Table>
-        </>
+            )}
+        </div>
     );
-};
+}
 
 export default AllFavourite;

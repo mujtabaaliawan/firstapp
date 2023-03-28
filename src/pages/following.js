@@ -8,6 +8,8 @@ const Following = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
+    const isSubscribed = useSelector((state) => state.subscription.value);
+    const isManager = useSelector((state) => state.manager.value);
 
     useDocumentName('Following');
 
@@ -35,8 +37,9 @@ const Following = () => {
     };
 
 
-
- return (
+    return (
+     <div>
+         { (isSubscribed || isManager) && (
       <div>
         <h1 style={{
             fontSize: "50px",
@@ -118,6 +121,8 @@ const Following = () => {
                 </Tbody>
             </Table>
       </div>
+         )}
+     </div>
   );
-};
+}
 export default Following;

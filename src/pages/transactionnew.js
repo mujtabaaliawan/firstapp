@@ -15,6 +15,7 @@ function TransactionNew() {
     const [selectedCompany, setSelectedCompany] = useState('');
     const [availableStock, setAvailableStock] = useState('');
     const dispatch = useDispatch();
+    const isSubscribed = useSelector((state) => state.subscription.value);
 
 
     useDocumentName('New Transaction');
@@ -72,6 +73,8 @@ function TransactionNew() {
     }
 
     return (
+        <div>
+            { isSubscribed && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">
@@ -111,6 +114,8 @@ function TransactionNew() {
                     </form>
                 </div>
             </div>
+        </div>
+            )}
         </div>
     );
 }
