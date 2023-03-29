@@ -22,6 +22,8 @@ import TransactionSale from "../../pages/transactionsale";
 import PortFolio from "../../pages/portfolio";
 import Subscriptions from "../../pages/subscriptions";
 import SubscriptionDetails from "../../pages/subscriptionsdetails";
+import PaymentCancel from "../../pages/paymentCancel";
+import PaymentSuccess from "../../pages/paymentSuccess";
 
 function Routing() {
   return (
@@ -45,6 +47,8 @@ function Routing() {
         <Route path='/report' element={<Report />} />
         <Route path='/graph' element={<Graph />} />
         <Route path='/subscribe' element={<Subscriptions />} />
+        <Route path='/cancel' element={<PaymentCancel />} />
+        <Route path='/success' element={<PaymentSuccess />} />
         <Route path='/subscriptions' element={<SubscriptionDetails />} />
         <Route path='/login' element={<Login />} />
         <Route path='/newuser' element={<Newuser />} />

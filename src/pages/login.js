@@ -10,7 +10,7 @@ import { set_subscription } from "../features/subscription/subscriptionSlice";
 
 
 function Login() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [status, setStatus] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

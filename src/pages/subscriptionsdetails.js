@@ -34,6 +34,18 @@ function SubscriptionDetails() {
         setTableData(displayData);
     }
 
+    function displayDate(stamp) {
+        const date = new Date(stamp * 1000);
+        const formattedDate = date.toLocaleString('en-US', {
+            timeZone: 'UTC',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit' });
+        return formattedDate;
+    }
     return (
         <div>
             { isManager && (
@@ -128,8 +140,10 @@ function SubscriptionDetails() {
                                     <Tr key={item.id}>
                                         <Td>{item.id}</Td>
                                         <Td>{item.metadata.subscription_name}</Td>
-                                        <Td>{item.metadata.creation_time}</Td>
-                                        <Td>{item.metadata.end_time}</Td>
+                                        <Td>{item.current_period_start ? displayDate(item.current_period_start) :
+                                            ''}</Td>
+                                        <Td>{item.current_period_end ? displayDate(item.current_period_end) :
+                                            ''}</Td>
                                         <Td>{item.metadata.customer_name}</Td>
                                         <Td>{item.metadata.customer_email}</Td>
                                     </Tr>
