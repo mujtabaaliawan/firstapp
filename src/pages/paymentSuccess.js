@@ -8,8 +8,8 @@ function Success() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            navigate('/');
-            }, 5000);
+            navigate('/logout');
+            }, 2000);
 
         return () => {
             clearTimeout(timeout);
@@ -24,7 +24,8 @@ function Success() {
             <Row className="mt-8">
                 <Col>
                     <h1 className="text-center">
-                        Congratulations, you have successfully subscribed. Welcome. </h1>
+                        Congratulations, you have successfully subscribed.
+                        Please Login again to enjoy full features</h1>
                 </Col>
             </Row>
         </Container>

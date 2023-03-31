@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { set_manager } from "../features/manager/managerSlice";
 import useDocumentName from "../hooks/documentname";
 import { set_subscription } from "../features/subscription/subscriptionSlice";
-
+import { set_trial } from "../features/user-trial/trialSlice";
 
 function Login() {
   const dispatch = useDispatch();
@@ -63,6 +63,9 @@ function Login() {
     })
         .then(response => response.json())
         .then(data => {
+          if (data.trial === true){
+              dispatch(set_trial());
+            }
           if (data.status === "active") {
             dispatch(set_subscription());
             setPageChanger(true);

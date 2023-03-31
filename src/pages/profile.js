@@ -2,13 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col, Image } from 'react-bootstrap';
+import Button from "react-bootstrap/Button";
 
 
 const Profile = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
+    const [traderPictureURL, setTraderPictureURL] = useState('');
     const isSubscribed = useSelector((state) => state.subscription.value);
     const isManager = useSelector((state) => state.manager.value);
+
     useDocumentName('Profile');
 
     useEffect(() => {
@@ -21,19 +24,37 @@ const Profile = () => {
             },
         })
             .then(response => response.json())
-            .then(data => setData(data))
+            .then(data => {
+                setData(data);
+                setTraderPictureURL(`http://127.0.0.1:8000/${data["picture"]}`);
+            })
     }, [token]);
 
-    console.log(data);
+    function handleImageChange(imageFile) {
+        const formData = new FormData();
+        formData.append('picture', imageFile);
+        const url = `http://127.0.0.1:8000/trader-update`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            body: formData,
+        });
+    }
+
+    function handleButtonClick() {
+        document.getElementById('image-field').click();
+    }
 
  return (
      <div>
-         { (isSubscribed || isManager) && (
+         { (isSubscribed || isManager) && data && (
      <div>
       <Container className="mt-5">
           <Row>
           <Col className='col-xs-3 col-lg-3 d-flex justify-content-center'>
-            <Image src="https://scontent.flhe5-1.fna.fbcdn.net/v/t1.6435-9/88984111_10163258651025207_4808062153812606976_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFvZ1UcQs6oQhhJiAieAIGDEGaBrm0hYOMQZoGubSFg4ywW5bLdjnUE2pnHoEQqZFI&_nc_ohc=ydsW_H52VUAAX-v2x-O&_nc_ht=scontent.flhe5-1.fna&oh=00_AfBDUkEGLGOK_CzjWPtg_BlTGVQHeoZOIf1dQkJTGawjOA&oe=643A4BC1"
+            <Image src= {traderPictureURL}
                    roundedCircle style={{ width: '10rem', height: '10rem'}}/>
           </Col>
           <Col className='col-xs-9 col-lg-9'>
@@ -42,7 +63,11 @@ const Profile = () => {
           </Col>
         </Row>
           <Row>
-              <Col>&nbsp;</Col>
+              <Col className='col-xs-3 col-lg-3 d-flex justify-content-center'>
+                  <Button className={"mt-3"} onClick={handleButtonClick}>Upload New Picture</Button>
+                  <input id="image-field" type="file"
+                         onChange={(event) => handleImageChange(event.target.value)} hidden />
+              </Col>
           </Row>
         <Row className="mb-3">
           <Col md={2}>

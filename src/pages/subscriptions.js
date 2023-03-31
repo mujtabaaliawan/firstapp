@@ -5,19 +5,14 @@ import CheckoutForm from "../components/Stripeelements/component";
 import "../styles/subscriptions.css";
 import { Container, Row, Col} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
-import {useDispatch, useSelector} from "react-redux";
-import { Modal, ModalHeader, ModalBody, ModalTitle, ModalFooter } from 'react-bootstrap';
-import {clear_subscription} from "../features/subscription/subscriptionSlice";
-import {toast} from "react-toastify";
-
+import {useSelector} from "react-redux";
 
 function Subscriptions() {
-    const dispatch = useDispatch();
-    const token = useSelector((state) => state.token.value);
+    const trial_permission = useSelector((state) => state.trial.value);
     const [planName, setPlanName] = useState ('');
     const [buttonState, setButtonState] = useState(false);
-    const [cancelButton, setCancelButton] = useState(false)
     const isSubscribed = useSelector((state) => state.subscription.value);
+
 
     const stripePromise = loadStripe(
         'pk_test_51Mo2FQLtjJIe7dr6ADTNPsTD3l6jXbtypH4bjDsjSiLzfEeAAiSyKRhR4KTfndiRZmM5jExK49PcS3Eh6s58zQfa009uaYV3ZI');
@@ -28,76 +23,10 @@ function Subscriptions() {
         setButtonState(true);
     }
 
-    function cancelSubscription() {
-        setCancelButton(false)
-        let cancel_url = 'http://127.0.0.1:8000/unsubscribe';
-        fetch(cancel_url, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.canceled === true) {
-                    dispatch(clear_subscription());
-                }
-            })
-            .catch(error => {
-                toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
-            })
-    }
-
-    function getInvoice() {
-        let invoice_url = 'http://127.0.0.1:8000/invoice';
-        fetch(invoice_url, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-        })
-            .then(response => response.json())
-            .then(data => console.log(data)
-                // if (data.canceled === "True") {
-                //     dispatch(clear_subscription());
-            )
-            .catch(error => {
-                toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
-            })
-    }
 
     return (
         <div>
-            { isSubscribed && (
-                <Container>
-                <Row className="d-flex justify-content-center">
-                    <Button onClick={() => getInvoice()} className='mt-5 mb-3' style={{
-                            width: "25%",
-                            margin: "auto",
-                        }}>
-                    Show Invoice</Button>
-                    <Button onClick={() => setCancelButton(true)} className='mt-5 mb-3' style={{
-                            width: "25%",
-                            margin: "auto",
-                        }}>
-                    Cancel Subscription</Button>
-                </Row>
-                </Container>
-            )}
-              <Modal show={cancelButton} onHide={() => setCancelButton(false)}>
-                <ModalHeader closeButton>
-                    <ModalTitle>Enter Card Details</ModalTitle>
-                </ModalHeader>
-                <ModalBody>
-                    <h4>Please confirm do you want to cancel subscription ?</h4>
-                </ModalBody>
-                <ModalFooter>
-                    <Button onClick={() => cancelSubscription()}>Confirm</Button>
-                    <Button onClick={() => setCancelButton(false)}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+            { !isSubscribed && (
         <Container className={'mt-5'}>
             <Row className="mt-8 d-flex justify-content-center">
                 <Col id="plan">
@@ -185,7 +114,8 @@ function Subscriptions() {
                     </Row>
                 </Col>
             </Row>
-
+            <div>
+                { trial_permission && (
             <Row className={'mt-5'}>
                 <Col id='plan'>
                     <h1>Free Trial for <span color={'red'}>5 days</span></h1>
@@ -197,6 +127,8 @@ function Subscriptions() {
                     </Row>
                 </Col>
             </Row>
+                )}
+            </div>
             <div>
                 { buttonState && (
                     <Elements stripe={stripePromise}>
@@ -205,6 +137,7 @@ function Subscriptions() {
     ) }
             </div>
         </Container>
+            )}
         </div>
     );
 }

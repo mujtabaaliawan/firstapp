@@ -59,7 +59,7 @@ function Navigator() {
                               <Nav.Link href="/">Home</Nav.Link>
                               <Nav.Link href="/profile">Profile</Nav.Link>
                               <Nav.Link href="/portfolio">Portfolio</Nav.Link>
-                              <Nav.Link href="/explore">Explore Following</Nav.Link>
+                              <Nav.Link href="/explore">Explore</Nav.Link>
                               <Nav.Link href="/followers">Followers</Nav.Link>
                               <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                               <Nav.Link href="/market">Market</Nav.Link>
@@ -73,12 +73,18 @@ function Navigator() {
                                 <NavDropdown.Item href="/favouritelist">List</NavDropdown.Item>
                               </NavDropdown>
                               <Nav.Link href="/graph">Graph</Nav.Link>
-                              <Nav.Link href="/subscribe">Subscription Plans</Nav.Link>
+                              <Nav.Link href="/portal">Customer Portal</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">
-                              <Button onClick={toggleHelpMode}>Help</Button>
+                              { help_mode ? (
+                              <Button onClick={toggleHelpMode} style={{color: "lawngreen"}}>Help</Button>
+                                  ) : (
+                              <Button onClick={toggleHelpMode} style={{color: "orange"}}>Help Off</Button>
+                              )}
                               <a href='http://localhost:3000/logout'>
-                                <Button>Logout</Button></a>
+                                <Button style={{
+                                  margin: "auto",
+                              }}>Logout</Button></a>
                             </Nav>
                           </Navbar.Collapse>
                         </Container>
@@ -96,7 +102,11 @@ function Navigator() {
                               <Nav.Link href="/subscribe">Subscription Plans</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">
-                              <Button onClick={toggleHelpMode}>Help</Button>
+                              { help_mode ? (
+                              <Button onClick={toggleHelpMode} style={{color: "darkgreen"}}>Help On</Button>
+                                  ) : (
+                              <Button onClick={toggleHelpMode} style={{color: "lawngreen"}}>Help Off</Button>
+                              )}
                               <a href='http://localhost:3000/logout'>
                                 <Button>Logout</Button></a>
                             </Nav>

@@ -24,7 +24,7 @@ import Subscriptions from "../../pages/subscriptions";
 import SubscriptionDetails from "../../pages/subscriptionsdetails";
 import PaymentCancel from "../../pages/paymentCancel";
 import PaymentSuccess from "../../pages/paymentSuccess";
-
+import CustomerPortal from "../../pages/customerPortal";
 function Routing() {
   return (
     <Router>
@@ -47,6 +47,7 @@ function Routing() {
         <Route path='/report' element={<Report />} />
         <Route path='/graph' element={<Graph />} />
         <Route path='/subscribe' element={<Subscriptions />} />
+        <Route path='/portal' element={<CustomerPortal />} />
         <Route path='/cancel' element={<PaymentCancel />} />
         <Route path='/success' element={<PaymentSuccess />} />
         <Route path='/subscriptions' element={<SubscriptionDetails />} />

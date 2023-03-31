@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 import {clear_transaction_company} from "../features/transaction-company/transactionCompanySlice";
 import {clear_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
 import {clear_subscription} from "../features/subscription/subscriptionSlice";
-
+import {clear_trial} from "../features/user-trial/trialSlice";
 
 function Logout() {
   const dispatch = useDispatch()
@@ -16,9 +16,10 @@ function Logout() {
     dispatch(clear_favourite_company());
     dispatch(clear_transaction_company());
     dispatch(clear_subscription());
+    dispatch(clear_trial());
 
   return (
-      <Navigate to='/' />
+      <Navigate to='/login' />
   );
 }
 
