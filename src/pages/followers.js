@@ -2,14 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 
 const Followers = () => {
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-    useDocumentName('Followers');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Followers', setTourReady);
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/follower';

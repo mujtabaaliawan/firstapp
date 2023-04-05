@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 function TransactionNew() {
 
@@ -17,9 +18,16 @@ function TransactionNew() {
     const [selectedStock, setSelectedStock] = useState('');
     const dispatch = useDispatch();
     const isSubscribed = useSelector((state) => state.subscription.value);
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
 
-
-    useDocumentName('New Transaction');
+    useDocumentName('New Transaction', setTourReady);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/sale-company-name', {

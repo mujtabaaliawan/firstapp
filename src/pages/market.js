@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import {set_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
 import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice"
 import Button from "react-bootstrap/Button";
+import Shepherd from "shepherd.js";
 
 const Market = () => {
     const dispatch = useDispatch();
@@ -17,9 +18,16 @@ const Market = () => {
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const isSubscribed = useSelector((state) => state.subscription.value);
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
 
-
-    useDocumentName('Market');
+    useDocumentName('Market', setTourReady);
     function handleHeaderClick(headerName) {
         setField(headerName);
     }

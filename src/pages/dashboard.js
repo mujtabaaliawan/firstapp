@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
 import Button from "react-bootstrap/Button";
+import Shepherd from "shepherd.js";
 
 
 const Dashboard = () => {
@@ -13,7 +14,14 @@ const Dashboard = () => {
     const [field, setField] = useState(['id']);
     const [addFollow, setAddFollow] = useState(0);
     const isManager = useSelector((state) => state.manager.value);
-
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
     function handleFollowClick(followID) {
         let followUrl = 'http://127.0.0.1:8000/follow';
         fetch(followUrl, {
@@ -49,7 +57,7 @@ const Dashboard = () => {
             setField(headerName);
         }
     }
-    useDocumentName('Dashboard');
+    useDocumentName('Dashboard', setTourReady);
 
     useEffect(() => {
         const url = `http://127.0.0.1:8000/all-transaction?field=${field}`;

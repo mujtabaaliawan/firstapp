@@ -26,7 +26,7 @@ function Navigator() {
         isLoggedIn ? ( <div> {
                   isManager ? (<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Container>
-                      <Navbar.Brand href="#home">Stock Market</Navbar.Brand>
+                      <Navbar.Brand href="/">Stock Market</Navbar.Brand>
                       <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                       <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -52,12 +52,12 @@ function Navigator() {
                             <div>
                               <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                         <Container>
-                          <Navbar.Brand href="#home">Stock Market</Navbar.Brand>
+                          <Navbar.Brand href="/">Stock Market</Navbar.Brand>
                           <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                           <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
                               <Nav.Link href="/">Home</Nav.Link>
-                              <Nav.Link href="/profile">Profile</Nav.Link>
+                              <Nav.Link href="/profile" id='profile-loggedin'>Profile</Nav.Link>
                               <Nav.Link href="/portfolio">Portfolio</Nav.Link>
                               <Nav.Link href="/explore">Explore</Nav.Link>
                               <Nav.Link href="/followers">Followers</Nav.Link>
@@ -94,12 +94,12 @@ function Navigator() {
                       <div>
                         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                         <Container>
-                          <Navbar.Brand href="#home">Stock Market</Navbar.Brand>
+                          <Navbar.Brand href="/">Stock Market</Navbar.Brand>
                           <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                           <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
                               <Nav.Link href="/">Home</Nav.Link>
-                              <Nav.Link href="/subscribe">Subscription Plans</Nav.Link>
+                              <Nav.Link href="/subscribe" id='subscription-unsubscribed'>Subscription Plans</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">
                               { help_mode ? (
@@ -121,7 +121,7 @@ function Navigator() {
                         <div>
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Container>
-                      <Navbar.Brand href="#home">Stock Market</Navbar.Brand>
+                      <Navbar.Brand href="/" >Stock Market</Navbar.Brand>
                       <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                       <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
@@ -129,10 +129,10 @@ function Navigator() {
                         </Nav>
                           <Nav className="ms-auto">
                               <div>
-                              <a href='http://localhost:3000/login'><Button style={{
+                              <a href='http://localhost:3000/login'><Button id='login-loggedout' style={{
                                   marginRight: '10px',
                               }}>Login</Button></a>
-                              <a href='http://localhost:3000/newuser'><Button>Signup</Button></a>
+                              <a href='http://localhost:3000/newuser'><Button id='signup-loggedout'>Signup</Button></a>
                               </div>
                           </Nav>
                       </Navbar.Collapse>

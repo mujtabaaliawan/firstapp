@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
 import Button from "react-bootstrap/Button";
+import Shepherd from "shepherd.js";
 
 const Following = () => {
     const token = useSelector((state) => state.token.value);
@@ -10,8 +11,15 @@ const Following = () => {
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
     const isSubscribed = useSelector((state) => state.subscription.value);
     const isManager = useSelector((state) => state.manager.value);
-
-    useDocumentName('Following');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Following', setTourReady);
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/following';

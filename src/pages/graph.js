@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import '../styles/graph.css';
 import Chart from "react-apexcharts";
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 
 const Graph = () => {
@@ -28,8 +29,15 @@ const Graph = () => {
   const fromDateTimeOneDay = fromDate.toLocaleString('en-US', dateTimeOptions).replace(
       /[/]/g, '-');
   const [ fromDateTime, setFromDateTime] = useState(fromDateTimeOneDay);
-
-  useDocumentName('Graph');
+  const [tourReady, setTourReady]  = useState(false)
+  const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+  });
+  useDocumentName('Graph', setTourReady);
 
 
   useEffect(() => {

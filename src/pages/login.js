@@ -8,6 +8,7 @@ import { set_manager } from "../features/manager/managerSlice";
 import useDocumentName from "../hooks/documentname";
 import { set_subscription } from "../features/subscription/subscriptionSlice";
 import { set_trial } from "../features/user-trial/trialSlice";
+import { set_tourMode} from "../features/tour/tourSlice";
 
 function Login() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function Login() {
     })
     .then(data => {
       dispatch(set_token(data.token));
+      dispatch(set_tourMode(data.tour_mode));
       dispatch(logged_in());
       if (data.role === 'manager'){
         dispatch(set_manager())

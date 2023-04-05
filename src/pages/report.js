@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 function Report(){
     const token = useSelector((state) => state.token.value)
@@ -10,8 +11,15 @@ function Report(){
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const isManager = useSelector((state) => state.manager.value);
-
-    useDocumentName('Daily Report');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Daily Report', setTourReady);
 
     function handleHeaderClick(headerName) {
         if (field === headerName) {

@@ -4,6 +4,7 @@ import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col} from 'react-bootstrap';
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import Button from "react-bootstrap/Button";
+import Shepherd from "shepherd.js";
 
 
 const PortFolio = () => {
@@ -12,8 +13,15 @@ const PortFolio = () => {
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
     const transaction_state = useSelector((state) => state.transaction.value);
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-    useDocumentName('PortFolio');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('PortFolio', setTourReady);
 
         useEffect(() => {
         const url = 'http://127.0.0.1:8000/trader-profit';

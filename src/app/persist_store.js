@@ -11,6 +11,7 @@ import transactionCompanyReducer from '../features/transaction-company/transacti
 import helpReducer from '../features/help/helpSlice';
 import subscriptionReducer from '../features/subscription/subscriptionSlice';
 import trialReducer from '../features/user-trial/trialSlice';
+import tourReducer from '../features/tour/tourSlice';
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   logged: loggedReducer,
@@ -23,6 +24,7 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   help: helpReducer,
   subscription: subscriptionReducer,
   trial: trialReducer,
+  tourMode: tourReducer,
 }));
 
 export const store = configureStore({

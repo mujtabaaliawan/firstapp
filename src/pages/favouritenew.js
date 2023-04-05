@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 function FavouriteNew() {
     const token = useSelector((state) => state.token.value);
@@ -15,8 +16,15 @@ function FavouriteNew() {
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-    useDocumentName('New Favourite');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('New Favourite', setTourReady);
 
 
     useEffect(() => {

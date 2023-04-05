@@ -6,23 +6,47 @@ import "../styles/subscriptions.css";
 import { Container, Row, Col} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import {useSelector} from "react-redux";
+import Shepherd from "shepherd.js";
+import SubscriptionSteps from "../tour/subscriptions";
+import useDocumentName from "../hooks/documentname";
 
 function Subscriptions() {
+    const [tourReady, setTourReady]  = useState(false);
+    const token = useSelector((state) => state.token.value);
     const trial_permission = useSelector((state) => state.trial.value);
     const [planName, setPlanName] = useState ('');
     const [buttonState, setButtonState] = useState(false);
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourStarted, setTourStarted] = useState(false);
     const stripePromise = loadStripe(
         'pk_test_51Mo2FQLtjJIe7dr6ADTNPsTD3l6jXbtypH4bjDsjSiLzfEeAAiSyKRhR4KTfndiRZmM5jExK49PcS3Eh6s58zQfa009uaYV3ZI');
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
+            scrollTo: true
+        }
+    });
 
+    useDocumentName('Subscription Plans', setTourReady);
+
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
+    if (tourPermission && tourReady) {
+        SubscriptionSteps(tour, token);
+        handleTourStart(tour);
+    }
 
     const handlePlanClick = (plan_name) => {
         setPlanName(plan_name);
         setButtonState(true);
     }
-
 
     return (
         <div>
@@ -51,7 +75,7 @@ function Subscriptions() {
                     </h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' style={{
+                        <Button className='mt-5 mb-3' id='yearly-button' style={{
                             width: "50%",
                             margin: "auto",
                         }} onClick={() => handlePlanClick("yearly")}>Purchase Plan</Button>
@@ -79,7 +103,7 @@ function Subscriptions() {
                     </h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' style={{
+                        <Button className='mt-5 mb-3' id='monthly-button' style={{
                             width: "50%",
                             margin: "auto",
                         }} onClick={() => handlePlanClick("monthly")}>Purchase Plan</Button>
@@ -107,7 +131,7 @@ function Subscriptions() {
                     </h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' style={{
+                        <Button className='mt-5 mb-3' id='weekly-button' style={{
                             width: "50%",
                             margin: "auto",
                         }} onClick={() => handlePlanClick("weekly")}>Purchase Plan</Button>
@@ -120,7 +144,7 @@ function Subscriptions() {
                 <Col id='plan'>
                     <h1>Free Trial for <span color={'red'}>5 days</span></h1>
                     <Row>
-                        <Button className='mt-5 mb-3' style={{
+                        <Button className='mt-5 mb-3' id='trial-button' style={{
                             width: "25%",
                             margin: "auto",
                         }} onClick={() => handlePlanClick("trial")}>Get Free Trial</Button>
@@ -134,7 +158,7 @@ function Subscriptions() {
                     <Elements stripe={stripePromise}>
                         <CheckoutForm subscriptionPlan={planName} />
                     </Elements>
-    ) }
+                )}
             </div>
         </Container>
             )}

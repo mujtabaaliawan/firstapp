@@ -1,10 +1,11 @@
 import {useEffect} from "react";
 
-const useDocumentName = (name) => {
+const useDocumentName = (name, setTourReady) => {
 
     useEffect(() => {
         document.title = name;
-        }, [name]);
+        setTourReady(true);
+        }, [name, setTourReady]);
 };
 
 export default useDocumentName;

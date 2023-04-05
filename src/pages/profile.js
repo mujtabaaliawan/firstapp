@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
+import Shepherd from "shepherd.js";
 
 
 const Profile = () => {
@@ -11,8 +12,15 @@ const Profile = () => {
     const [traderPictureURL, setTraderPictureURL] = useState('');
     const isSubscribed = useSelector((state) => state.subscription.value);
     const isManager = useSelector((state) => state.manager.value);
-
-    useDocumentName('Profile');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Profile', setTourReady);
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/trader-profile';
@@ -54,7 +62,7 @@ const Profile = () => {
       <Container className="mt-5">
           <Row>
           <Col className='col-xs-3 col-lg-3 d-flex justify-content-center'>
-            <Image src= {traderPictureURL}
+            <Image src= {traderPictureURL} id='profile-picture'
                    roundedCircle style={{ width: '10rem', height: '10rem'}}/>
           </Col>
           <Col className='col-xs-9 col-lg-9'>
@@ -64,7 +72,7 @@ const Profile = () => {
         </Row>
           <Row>
               <Col className='col-xs-3 col-lg-3 d-flex justify-content-center'>
-                  <Button className={"mt-3"} onClick={handleButtonClick}>Upload New Picture</Button>
+                  <Button className={"mt-3"} id='new-picture-button' onClick={handleButtonClick}>Upload New Picture</Button>
                   <input id="image-field" type="file"
                          onChange={(event) => handleImageChange(event.target.value)} hidden />
               </Col>
@@ -86,13 +94,13 @@ const Profile = () => {
             <Col md={2}>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["transactions"]}</h4>
+            <h4 className="d-flex justify-content-center" id='transaction-data' style={{color: "blue"}}>{data["transactions"]}</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["followers"]}</h4>
+            <h4 className="d-flex justify-content-center" id='followers-data' style={{color: "blue"}}>{data["followers"]}</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["following"]}</h4>
+            <h4 className="d-flex justify-content-center" id='following-data' style={{color: "blue"}}>{data["following"]}</h4>
           </Col>
         </Row>
           <hr />
@@ -111,7 +119,7 @@ const Profile = () => {
                       <h4>Mobile Number</h4>
                   </Col>
                   <Col md={4}>
-                      <h4 style={{color: "brown"}}>{data["mobile_number"]}</h4>
+                      <h4 style={{color: "brown"}} id='mobile-number'>{data["mobile_number"]}</h4>
                   </Col>
               </Row>
               <Row>

@@ -3,14 +3,22 @@ import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 function Transaction(){
     const token = useSelector((state) => state.token.value)
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-    useDocumentName('Transaction List');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Transaction List', setTourReady);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/transaction', {

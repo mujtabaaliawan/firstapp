@@ -3,14 +3,22 @@ import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
+import Shepherd from "shepherd.js";
 
 function Favourite(){
-    const token = useSelector((state) => state.token.value)
+    const token = useSelector((state) => state.token.value);
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
     const isSubscribed = useSelector((state) => state.subscription.value);
-
-    useDocumentName('Favourite List');
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
+    useDocumentName('Favourite List', setTourReady);
 
 
     useEffect(() => {

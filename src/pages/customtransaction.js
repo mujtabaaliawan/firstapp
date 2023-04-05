@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
 import {clear_transaction_company} from "../features/transaction-company/transactionCompanySlice";
+import Shepherd from "shepherd.js";
 
 function TransactionCustom() {
 
@@ -17,9 +18,16 @@ function TransactionCustom() {
     const [availableStock, setAvailableStock] = useState('');
     const dispatch = useDispatch();
     let markedCompany = useSelector((state) => state.transactionCompany.value);
+    const [tourReady, setTourReady]  = useState(false)
+    const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shadow-md bg-purple-dark',
+            scrollTo: true
+        }
+    });
 
-
-    useDocumentName('Perform Transaction');
+    useDocumentName('Perform Transaction', setTourReady);
 
     useEffect( () => {
         const url = 'http://127.0.0.1:8000/stock-id-search';
