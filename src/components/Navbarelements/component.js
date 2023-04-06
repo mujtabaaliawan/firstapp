@@ -74,7 +74,6 @@ function Navigator() {
                               <Nav.Link href="/explore" id='following-loggedin'>Explore</Nav.Link>
                               <Nav.Link href="/followers" id='followers-loggedin'>Followers</Nav.Link>
 
-
                               <Nav.Link href="/portal" id='customer-portal-loggedin'>Customer Portal</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">

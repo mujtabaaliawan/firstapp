@@ -1,17 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
 import Button from "react-bootstrap/Button";
 import Shepherd from "shepherd.js";
+import FollowingSteps from "../tour/following";
 
 const Following = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
     const isSubscribed = useSelector((state) => state.subscription.value);
     const isManager = useSelector((state) => state.manager.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
@@ -19,7 +23,20 @@ const Following = () => {
             scrollTo: true
         }
     });
+
     useDocumentName('Following', setTourReady);
+
+    if (tourPermission && tourReady) {
+        FollowingSteps(tour, token, dispatch)
+        handleTourStart(tour)
+    }
+
+    function handleTourStart(tour){
+        if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+        }
+    }
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/following';
@@ -62,11 +79,11 @@ const Following = () => {
                         }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
-                        <Th>ID</Th>
-                        <Th>Name</Th>
-                        <Th>Email</Th>
-                        <Th>Mobile Number</Th>
-                        <Th>Transactions</Th>
+                        <Th id={'following-id'} >ID</Th>
+                        <Th id={'following-name'} >Name</Th>
+                        <Th id={'following-email'} >Email</Th>
+                        <Th id={'following-mobile'} >Mobile Number</Th>
+                        <Th id={'following-transaction'} >Transactions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>

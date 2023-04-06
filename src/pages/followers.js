@@ -1,15 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import FollowerSteps from "../tour/follower";
 
 
 const Followers = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
@@ -17,7 +21,20 @@ const Followers = () => {
             scrollTo: true
         }
     });
+
     useDocumentName('Followers', setTourReady);
+
+    if (tourPermission && tourReady) {
+        FollowerSteps(tour, token, dispatch)
+        handleTourStart(tour)
+    }
+
+    function handleTourStart(tour){
+        if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+        }
+    }
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/follower';
@@ -49,10 +66,10 @@ const Followers = () => {
                         }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
-                        <Th>ID</Th>
-                        <Th>Name</Th>
-                        <Th>Email</Th>
-                        <Th>Mobile Number</Th>
+                        <Th id={'follower-id'}>ID</Th>
+                        <Th id={'follower-name'}>Name</Th>
+                        <Th id={'follower-email'}>Email</Th>
+                        <Th id={'follower-mobile'}>Mobile Number</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
