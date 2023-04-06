@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import TransactionNewSteps from "../tour/transactionNew";
 
 function TransactionNew() {
 
@@ -17,16 +18,30 @@ function TransactionNew() {
     const [availableStock, setAvailableStock] = useState('');
     const dispatch = useDispatch();
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
 
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
     useDocumentName('New Transaction', setTourReady);
+
+    if (tourPermission && tourReady) {
+        TransactionNewSteps(tour, token, dispatch);
+        handleTourStart(tour);
+    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/company-name', {
@@ -117,7 +132,7 @@ function TransactionNew() {
                             <input type="number" className="form-control" id="volume" value={volume} onChange={(event) => setVolume(event.target.value)} required />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Create</button>
+                            <button type="submit" id='submit-button' className="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>

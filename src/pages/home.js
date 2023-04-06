@@ -1,5 +1,4 @@
 import {useSelector} from "react-redux";
-import 'shepherd.js/dist/css/shepherd.css';
 import Shepherd from 'shepherd.js';
 import {useState} from "react";
 import useDocumentName from "../hooks/documentname";
@@ -29,14 +28,11 @@ const Home = () => {
 
     if (tourPermission && tourReady) {
         HomeSteps(isLoggedIn, isSubscribed, tour, token);
+        handleTourStart(tour);
     }
 
     return (
       <div>
-          { tourPermission && tourReady && (
-              handleTourStart(tour)
-              )
-          }
       </div>
 
   )

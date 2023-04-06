@@ -4,6 +4,7 @@ import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import FavouriteNewSteps from "../tour/favouriteNew";
 
 function FavouriteNew() {
     const token = useSelector((state) => state.token.value);
@@ -16,16 +17,30 @@ function FavouriteNew() {
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
+
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
     useDocumentName('New Favourite', setTourReady);
 
+    if (tourPermission && tourReady) {
+        FavouriteNewSteps(tour, token, dispatch);
+        handleTourStart(tour);
+    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/company-name', {
@@ -89,7 +104,8 @@ function FavouriteNew() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="company_name" className="form-label">Company Name</label>
-                            <select className="form-control" id="company_name" value={selectedCompany} onChange={(event) => handleCompanyChange(event.target.value)}>
+                            <select className="form-control" id="company_name" value={selectedCompany}
+                                    onChange={(event) => handleCompanyChange(event.target.value)}>
                                 <option value="">Select Company</option>
                                 {companies.map((companyName, index) => (
                                     <option key={index} value={companyName}>{companyName}</option>
@@ -112,14 +128,16 @@ function FavouriteNew() {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="maximum_limit" className="form-label">Maximum Limit</label>
-                            <input type="number" className="form-control" id="maximum_limit" value={maximum_limit} onChange={(event) => setMaximumLimit(event.target.value)} required />
+                            <input type="number" className="form-control" id="maximum_limit" value={maximum_limit}
+                                   onChange={(event) => setMaximumLimit(event.target.value)} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="minimum_limit" className="form-label">Minimum Limit</label>
-                            <input type="number" className="form-control" id="minimum_limit" value={minimum_limit} onChange={(event) => setMinimumLimit(event.target.value)} required />
+                            <input type="number" className="form-control" id="minimum_limit" value={minimum_limit}
+                                   onChange={(event) => setMinimumLimit(event.target.value)} required />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Create</button>
+                            <button type="submit" id='button-submit' className="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>

@@ -58,22 +58,24 @@ function Navigator() {
                             <Nav className="me-auto">
                               <Nav.Link href="/">Home</Nav.Link>
                               <Nav.Link href="/profile" id='profile-loggedin'>Profile</Nav.Link>
-                              <Nav.Link href="/portfolio">Portfolio</Nav.Link>
-                              <Nav.Link href="/explore">Explore</Nav.Link>
-                              <Nav.Link href="/followers">Followers</Nav.Link>
-                              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                              <Nav.Link href="/market">Market</Nav.Link>
-                              <NavDropdown title="Transaction" id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/saletransaction">Sell Stocks</NavDropdown.Item>
-                                <NavDropdown.Item href="/newtransaction">Create New</NavDropdown.Item>
-                                <NavDropdown.Item href="/transactionlist">List</NavDropdown.Item>
+                              <Nav.Link href="/market" id='market-loggedin'>Market</Nav.Link>
+                              <Nav.Link href="/graph" id='graph-loggedin'>Graph</Nav.Link>
+                              <NavDropdown title="Transaction" id="trans-nav-dropdown">
+                                <NavDropdown.Item href="/newtransaction" id='new-trans-loggedin'>Create New</NavDropdown.Item>
+                                <NavDropdown.Item href="/saletransaction" id='sale-trans-loggedin'>Sell Stocks</NavDropdown.Item>
+                                <NavDropdown.Item href="/transactionlist" id='list-trans-loggedin'>List</NavDropdown.Item>
                               </NavDropdown>
-                              <NavDropdown title="Favourite" id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/newfavourite">Create New</NavDropdown.Item>
-                                <NavDropdown.Item href="/favouritelist">List</NavDropdown.Item>
+                              <Nav.Link href="/portfolio" id='portfolio-loggedin'>Portfolio</Nav.Link>
+                              <NavDropdown title="Favourite" id="fav-nav-dropdown">
+                                <NavDropdown.Item href="/newfavourite" id='new-fav-loggedin'>Create New</NavDropdown.Item>
+                                <NavDropdown.Item href="/favouritelist" id='list-fav-loggedin'>List</NavDropdown.Item>
                               </NavDropdown>
-                              <Nav.Link href="/graph">Graph</Nav.Link>
-                              <Nav.Link href="/portal">Customer Portal</Nav.Link>
+                              <Nav.Link href="/dashboard" id='dashboard-loggedin'>Dashboard</Nav.Link>
+                              <Nav.Link href="/explore" id='following-loggedin'>Explore</Nav.Link>
+                              <Nav.Link href="/followers" id='followers-loggedin'>Followers</Nav.Link>
+
+
+                              <Nav.Link href="/portal" id='customer-portal-loggedin'>Customer Portal</Nav.Link>
                             </Nav>
                             <Nav className="ms-auto">
                               { help_mode ? (

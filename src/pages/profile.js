@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import Shepherd from "shepherd.js";
+import ProfileSteps from "../tour/profile";
 
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value);
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourStarted, setTourStarted] = useState(false);
     const [data, setData] = useState([]);
     const [traderPictureURL, setTraderPictureURL] = useState('');
     const isSubscribed = useSelector((state) => state.subscription.value);
@@ -16,11 +20,24 @@ const Profile = () => {
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
+
     useDocumentName('Profile', setTourReady);
+
+    if (tourPermission && tourReady) {
+        ProfileSteps(tour, token, dispatch)
+        handleTourStart(tour)
+    }
+
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/trader-profile';
@@ -115,11 +132,11 @@ const Profile = () => {
               <Row>
                   <Col md={3}>
                   </Col>
-                  <Col md={4}>
+                  <Col md={4} id='personal-data'>
                       <h4>Mobile Number</h4>
                   </Col>
                   <Col md={4}>
-                      <h4 style={{color: "brown"}} id='mobile-number'>{data["mobile_number"]}</h4>
+                      <h4 style={{color: "brown"}}>{data["mobile_number"]}</h4>
                   </Col>
               </Row>
               <Row>

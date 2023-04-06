@@ -1,5 +1,21 @@
 
+
 function SubscriptionSteps(tour) {
+
+    const buttons = [
+            {
+                text: 'Cancel',
+                action: tour.cancel
+            },
+            {
+                text: 'Back',
+                action: tour.back
+            },
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ];
 
     tour.addStep({
         id: 'trial-tour',
@@ -31,20 +47,7 @@ function SubscriptionSteps(tour) {
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     })
     tour.addStep({
         id: 'monthly-tour',
@@ -55,20 +58,7 @@ function SubscriptionSteps(tour) {
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     })
     tour.addStep({
         id: 'weekly-tour',
@@ -90,10 +80,6 @@ function SubscriptionSteps(tour) {
             }
         ]
     })
-    return (
-        <div>
-        </div>
-    )
 }
 
 export default SubscriptionSteps;

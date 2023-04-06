@@ -1,25 +1,9 @@
-import skipTour from "./Fetchers/endTour";
+import skipTour from "./Components/endTour";
+import navbarCollapsed from "./Components/collapsedNavbar";
 
 function HomeSteps(isLoggedIn, isSubscribed, tour, token) {
 
-    if (window.innerWidth < 992) {
-        tour.addStep({
-            id: 'navbar-menu-click',
-            text: 'Click here to open Menu',
-            attachTo: {
-                element: 'button.navbar-toggler.collapsed',
-                on: 'bottom'
-            },
-            classes: 'example-step-extra-class',
-            highlightClass: 'highlight',
-            buttons: [
-                {
-                    text: 'Next',
-                    action: tour.next
-                },
-            ]
-        });
-    }
+    navbarCollapsed(tour);
 
     if (isLoggedIn && isSubscribed) {
             tour.addStep({

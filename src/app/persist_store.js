@@ -12,6 +12,7 @@ import helpReducer from '../features/help/helpSlice';
 import subscriptionReducer from '../features/subscription/subscriptionSlice';
 import trialReducer from '../features/user-trial/trialSlice';
 import tourReducer from '../features/tour/tourSlice';
+import tourTwoReducer from '../features/tour-two/tourTwoSlice';
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   logged: loggedReducer,
@@ -25,6 +26,7 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   subscription: subscriptionReducer,
   trial: trialReducer,
   tourMode: tourReducer,
+  tourTwo: tourTwoReducer,
 }));
 
 export const store = configureStore({

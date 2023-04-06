@@ -4,6 +4,8 @@ import { Navigate } from 'react-router-dom';
 import {increase_transaction} from "../features/transaction/transactionSlice";
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import TransactionSaleSteps from "../tour/transactionSale";
+import {set_tourTwo} from "../features/tour-two/tourTwoSlice";
 
 function TransactionNew() {
 
@@ -18,16 +20,31 @@ function TransactionNew() {
     const [selectedStock, setSelectedStock] = useState('');
     const dispatch = useDispatch();
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
 
-    useDocumentName('New Transaction', setTourReady);
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
+    useDocumentName('Transaction Sale', setTourReady);
+
+    if (tourPermission && tourReady) {
+        TransactionSaleSteps(tour, token, dispatch);
+        dispatch(set_tourTwo());
+        handleTourStart(tour);
+    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/sale-company-name', {
@@ -154,7 +171,7 @@ function TransactionNew() {
                                     onChange={(event) => setVolume(event.target.value)} required />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Sale</button>
+                            <button type="submit" id={'sale-submit'} className="btn btn-primary">Sale</button>
                         </div>
                     </form>
                 </div>

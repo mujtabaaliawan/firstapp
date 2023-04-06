@@ -1,15 +1,17 @@
 import React from 'react';
 import {useState} from "react";
 import {useEffect} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import '../styles/graph.css';
 import Chart from "react-apexcharts";
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import GraphSteps from "../tour/graph";
 
 
 const Graph = () => {
 
+  const dispatch = useDispatch();
   const isSubscribed = useSelector((state) => state.subscription.value);
   const token = useSelector((state) => state.token.value)
   const [xValues, setXValues] = useState([]);
@@ -30,14 +32,29 @@ const Graph = () => {
       /[/]/g, '-');
   const [ fromDateTime, setFromDateTime] = useState(fromDateTimeOneDay);
   const [tourReady, setTourReady]  = useState(false)
+  const tourPermission = useSelector((state) => state.tourMode.value);
+  const [tourStarted, setTourStarted] = useState(false);
   const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
   });
+
   useDocumentName('Graph', setTourReady);
+
+  if (tourPermission && tourReady) {
+        GraphSteps(tour, token, dispatch)
+        handleTourStart(tour)
+  }
+
+  function handleTourStart(tour){
+    if (!tourStarted){
+      setTourStarted(true);
+      tour.start();
+    }
+  }
 
 
   useEffect(() => {
@@ -243,19 +260,23 @@ const Graph = () => {
           whiteSpace: "nowrap",
         }}>
         <div>
-          <button type="button" className="btn btn-primary mt-2 mb-2" style={{order: "1", marginLeft:"5rem"}} onClick={handleClick}>
+          <button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-year'}
+                  style={{order: "1", marginLeft:"5rem"}} onClick={handleClick}>
               1 year</button>
         </div>
         <div>
-          <button type="button" className="btn btn-primary mt-2 mb-2" style={{order: "2", marginLeft:"5rem"}} onClick={handleClick}>
+          <button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-6-months'}
+                  style={{order: "2", marginLeft:"5rem"}} onClick={handleClick}>
               6 months</button>
         </div>
         <div>
-          <button type="button" className="btn btn-primary mt-2 mb-2" style={{order: "3", marginLeft:"5rem"}} onClick={handleClick}
+          <button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-month'}
+                  style={{order: "3", marginLeft:"5rem"}} onClick={handleClick}
           >1 month</button>
         </div>
         <div>
-          <button type="button" className="btn btn-primary mt-2 mb-2" style={{order: "4", marginLeft:"5rem"}} onClick={handleClick}
+          <button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-week'}
+                  style={{order: "4", marginLeft:"5rem"}} onClick={handleClick}
           >1 week</button>
         </div>
          </div>

@@ -1,27 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col} from 'react-bootstrap';
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import Button from "react-bootstrap/Button";
 import Shepherd from "shepherd.js";
-
+import PortFolioSteps from "../tour/portFolio";
 
 const PortFolio = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
     const transaction_state = useSelector((state) => state.transaction.value);
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
-    useDocumentName('PortFolio', setTourReady);
+        function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
+    useDocumentName('New Transaction', setTourReady);
+
+    if (tourPermission && tourReady) {
+        PortFolioSteps(tour, token, dispatch);
+        handleTourStart(tour);
+    }
 
         useEffect(() => {
         const url = 'http://127.0.0.1:8000/trader-profit';
@@ -69,13 +84,16 @@ const PortFolio = () => {
             <Col md={2}>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["total_stocks"]}</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-total-stocks'}
+                style={{color: "blue"}}>{data["total_stocks"]}</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["total_expected_profit"]}</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-expected-profit'}
+                style={{color: "blue"}}>{data["total_expected_profit"]}</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["total_expected_loss"]}</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-expected-loss'}
+                style={{color: "blue"}}>{data["total_expected_loss"]}</h4>
           </Col>
         </Row>
         <Row className="mb-3">
@@ -92,25 +110,26 @@ const PortFolio = () => {
             <Col md={2}>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["current_investment"]}</h4>
+            <h4 className="d-flex justify-content-center" id={'current-investment'}
+                style={{color: "blue"}}>{data["current_investment"]}</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>{data["total_investment"]}</h4>
+            <h4 className="d-flex justify-content-center" id={'total-investment'}
+                style={{color: "blue"}}>{data["total_investment"]}</h4>
           </Col>
         </Row>
-
                 <Table style={{
                             marginTop: "30px"
                         }}>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
-                        <Th>Company Name</Th>
-                        <Th>Company Stocks</Th>
-                        <Th>Current Investment</Th>
-                        <Th>Expected Earning</Th>
-                        <Th>Lifetime Investment</Th>
-                        <Th>Lifetime Earning</Th>
-                        <Th>Stock Details</Th>
+                        <Th id={'company-name'}>Company Name</Th>
+                        <Th id={'company-stocks'}>Company Stocks</Th>
+                        <Th id={'company-current-investment'}>Current Investment</Th>
+                        <Th id={'company-expected-earning'}>Expected Earning</Th>
+                        <Th id={'company-lifetime-investment'}>Lifetime Investment</Th>
+                        <Th id={'company-lifetime-earning'}>Lifetime Earning</Th>
+                        <Th id={'company-stock-details'}>Stock Details</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -125,7 +144,8 @@ const PortFolio = () => {
                                 <Td>{company.company_total_expected_profit_loss}</Td>
                                 <Td>{company.lifetime_investment_in_company}</Td>
                                 <Td>{company.company_lifetime_net_earning}</Td>
-                                <Td><Button onClick={() => handleToggleDetails(id)}>
+                                <Td><Button id={'button-company-stock-detail'}
+                                            onClick={() => handleToggleDetails(id)}>
                                     {isSelected
                                         ? "Hide Stocks"
                                         : "Show Stocks"}
@@ -144,11 +164,11 @@ const PortFolio = () => {
                                         <Table className="mb-5 mt-3">
                                             <Thead>
                                                 <Tr>
-                                                    <Th>Stocks</Th>
-                                                    <Th>Purchase Price</Th>
-                                                    <Th>Purchase Data</Th>
-                                                    <Th>Expected Sale Price</Th>
-                                                    <Th>Expected Earning</Th>
+                                                    <Th id={'stock'}>Stocks</Th>
+                                                    <Th id={'purchase-price'}>Purchase Price</Th>
+                                                    <Th id={'purchase-date'}>Date of Purchase</Th>
+                                                    <Th id={'expected-sale-price'}>Expected Sale Price</Th>
+                                                    <Th id={'expected-earning'}>Expected Earning</Th>
                                                 </Tr>
                                             </Thead>
                                             <Tbody>

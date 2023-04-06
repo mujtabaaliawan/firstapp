@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import useDocumentName from "../hooks/documentname";
 import Button from "react-bootstrap/Button";
 import Shepherd from "shepherd.js";
+import DashboardSteps from "../tour/dashboard";
 
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value)
     const isSubscribed = useSelector((state) => state.subscription.value);
     const transaction_state = useSelector((state) => state.transaction.value);
@@ -14,7 +16,9 @@ const Dashboard = () => {
     const [field, setField] = useState(['id']);
     const [addFollow, setAddFollow] = useState(0);
     const isManager = useSelector((state) => state.manager.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
@@ -22,6 +26,21 @@ const Dashboard = () => {
             scrollTo: true
         }
     });
+
+    useDocumentName('Dashboard', setTourReady);
+
+    if (tourPermission && tourReady) {
+        DashboardSteps(tour, token, dispatch)
+        handleTourStart(tour)
+    }
+
+    function handleTourStart(tour){
+        if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+        }
+    }
+
     function handleFollowClick(followID) {
         let followUrl = 'http://127.0.0.1:8000/follow';
         fetch(followUrl, {
@@ -57,7 +76,6 @@ const Dashboard = () => {
             setField(headerName);
         }
     }
-    useDocumentName('Dashboard', setTourReady);
 
     useEffect(() => {
         const url = `http://127.0.0.1:8000/all-transaction?field=${field}`;
@@ -94,37 +112,46 @@ const Dashboard = () => {
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('id')}>ID</Th>
+                        }} id={'dashboard-id'} onClick={() => handleHeaderClick('id')}>ID</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('trader__user__first_name')}>Trader Name</Th>
+                        }} id={'dashboard-name'}
+                            onClick={() => handleHeaderClick('trader__user__first_name')}
+                        >Trader Name</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('nature')}>Nature</Th>
+                        }} id={'dashboard-nature'}
+                            onClick={() => handleHeaderClick('nature')}>Nature</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('volume_transacted')}>Volume</Th>
+                        }} id={'dashboard-volume'}
+                            onClick={() => handleHeaderClick('volume_transacted')}>Volume</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('date_time')}>Date Time</Th>
+                        }} id={'dashboard-datetime'}
+                            onClick={() => handleHeaderClick('date_time')}>Date Time</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('stock_detail__company__category__name')}>Category</Th>
+                        }} id={'dashboard-category'}
+                            onClick={() => handleHeaderClick('stock_detail__company__category__name')}>
+                            Category</Th>
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
-                        }} onClick={() => handleHeaderClick('stock_detail__company__name')}>Company</Th>
-                        <Th>Current</Th>
-                        <Th>Open</Th>
-                        <Th>High</Th>
-                        <Th>Low</Th>
-                        <Th>Change</Th>
-                        <Th>LDCP</Th>
+                        }} id={'dashboard-company'}
+                            onClick={() => handleHeaderClick('stock_detail__company__name')}
+                        >Company</Th>
+                        <Th id={'current'}>Current</Th>
+                        <Th id={'open'}>Open</Th>
+                        <Th id={'high'}>High</Th>
+                        <Th id={'low'}>Low</Th>
+                        <Th id={'change'}>Change</Th>
+                        <Th id={'ldcp'}>LDCP</Th>
                     </Tr>
                 </Thead>
                 <Tbody>

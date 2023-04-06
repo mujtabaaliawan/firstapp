@@ -1,5 +1,23 @@
+import skipTour from "./Components/endTour";
 
 function SignUpSteps(tour) {
+
+    const buttons = [
+            {
+                text: 'Cancel',
+                action: tour.cancel
+            },
+            {
+                text: 'Back',
+                action: tour.back
+            },
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ];
+
+
     tour.addStep({
         id: 'user-email',
         text: 'Please enter your email address here',
@@ -38,20 +56,7 @@ function SignUpSteps(tour) {
             selector: '#image',
             event: 'change'
         },
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -67,20 +72,7 @@ function SignUpSteps(tour) {
             selector: '#first',
             event: 'change'
         },
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -96,20 +88,7 @@ function SignUpSteps(tour) {
             selector: '#last',
             event: 'change'
         },
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -125,20 +104,7 @@ function SignUpSteps(tour) {
             selector: '#password',
             event: 'change'
         },
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -154,21 +120,9 @@ function SignUpSteps(tour) {
             selector: '#mobile',
             event: 'change'
         },
-        buttons: [
-            {
-                text: 'Cancel',
-                action: tour.cancel
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
+
     tour.addStep({
         id: 'user-submit',
         text: 'Now please press the submit button.',
@@ -189,10 +143,6 @@ function SignUpSteps(tour) {
             },
         ]
     });
-    return (
-        <div>
-        </div>
-    )
 }
 
 export default SignUpSteps;

@@ -10,6 +10,7 @@ import {set_favourite_company} from "../features/favourite-company/favouriteComp
 import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice"
 import Button from "react-bootstrap/Button";
 import Shepherd from "shepherd.js";
+import MarketSteps from "../tour/market";
 
 const Market = () => {
     const dispatch = useDispatch();
@@ -18,16 +19,31 @@ const Market = () => {
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
 
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
     useDocumentName('Market', setTourReady);
+
+    if (tourPermission && tourReady) {
+        MarketSteps(tour, token, dispatch);
+        handleTourStart(tour);
+    }
+
     function handleHeaderClick(headerName) {
         setField(headerName);
     }
@@ -67,43 +83,44 @@ const Market = () => {
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('id')}>Stock ID</Th>
+            }} onClick={() => handleHeaderClick('id')} id={'market-stock-id'}>Stock ID</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('company__category__name')}>Category</Th>
+            }} onClick={() => handleHeaderClick('company__category__name')} id={'market-category'}
+          >Category</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('company__name')}>Company</Th>
+            }} onClick={() => handleHeaderClick('company__name')} id={'market-company'}>Company</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('current')}>Current</Th>
+            }} onClick={() => handleHeaderClick('current')} id={'market-current'}>Current</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('open')}>Open</Th>
+            }} onClick={() => handleHeaderClick('open')} id={'market-open'}>Open</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('high')}>High</Th>
+            }} onClick={() => handleHeaderClick('high')} id={'market-high'}>High</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('low')}>Low</Th>
+            }} onClick={() => handleHeaderClick('low')} id={'market-low'}>Low</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('ldcp')}>LDCP</Th>
+            }} onClick={() => handleHeaderClick('ldcp')} id={'market-ldcp'}>LDCP</Th>
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('volume')}>Volume</Th>
+            }} onClick={() => handleHeaderClick('volume')} id={'market-volume'}>Volume</Th>
             <Th colSpan = "2" style={{
                 textAlign: 'center',
                 color: 'red',
-            }}>Actions</Th>
+            }} id={'market-actions'}>Actions</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -118,8 +135,10 @@ const Market = () => {
                 <Td>{item.low}</Td>
                 <Td>{item.ldcp}</Td>
                 <Td>{item.volume}</Td>
-                <Td><Button onClick={() => handleFavouriteClick(item.company_name)}>Mark Favourite</Button></Td>
-                <Td><Button onClick={() => handleTransactionClick(item.company_name)}>Perform Transaction</Button></Td>
+                <Td><Button onClick={() => handleFavouriteClick(item.company_name)}
+                >Mark Favourite</Button></Td>
+                <Td><Button onClick={() => handleTransactionClick(item.company_name)}
+                >Purchase Stocks</Button></Td>
           </Tr>
         ))}
       </Tbody>

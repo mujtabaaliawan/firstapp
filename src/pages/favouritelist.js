@@ -1,25 +1,41 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
+import FavouriteListSteps from "../tour/favouriteList";
 
 function Favourite(){
     const token = useSelector((state) => state.token.value);
+    const dispatch = useDispatch();
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
     const isSubscribed = useSelector((state) => state.subscription.value);
-    const [tourReady, setTourReady]  = useState(false)
+    const tourPermission = useSelector((state) => state.tourMode.value);
+    const [tourReady, setTourReady]  = useState(false);
+    const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
         useModalOverlay: true,
         defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
+            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
         }
     });
+
+    function handleTourStart(tour){
+      if (!tourStarted){
+        setTourStarted(true);
+        tour.start();
+      }
+    }
+
     useDocumentName('Favourite List', setTourReady);
 
+    if (tourPermission && tourReady) {
+        FavouriteListSteps(tour, token, dispatch);
+        handleTourStart(tour);
+    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/favourite', {
@@ -39,12 +55,12 @@ function Favourite(){
             <Table>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">
-                        <Th>ID</Th>
-                        <Th>Category</Th>
-                        <Th>Company</Th>
-                        <Th>Monitor Field</Th>
-                        <Th>Minimum Limit</Th>
-                        <Th>Maximum Limit</Th>
+                        <Th id={'favourite-id'}>ID</Th>
+                        <Th id={'favourite-category'}>Category</Th>
+                        <Th id={'favourite-company'}>Company</Th>
+                        <Th id={'favourite-monitor-field'}>Monitor Field</Th>
+                        <Th id={'favourite-minimum-limit'}>Minimum Limit</Th>
+                        <Th id={'favourite-maximum-limit'}>Maximum Limit</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
