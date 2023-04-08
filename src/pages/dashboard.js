@@ -20,7 +20,7 @@ const Dashboard = () => {
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark',
             scrollTo: true
@@ -100,7 +100,7 @@ const Dashboard = () => {
             fontSize: "50px",
             fontFamily: 'Times New Roman',
             textAlign: 'center',
-            color: "white",
+            color: "red",
             marginTop: "50px"
         }}>Dashboard</h1>
 
@@ -108,7 +108,7 @@ const Dashboard = () => {
                             marginTop: "30px"
                         }}>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
@@ -156,7 +156,7 @@ const Dashboard = () => {
                 </Thead>
                 <Tbody>
                     {data.map(item => (
-                        <Tr key={item.id}>
+                        <Tr key={item.id} className={'text-center'}>
                             <Td>{item.id}</Td>
                             <Td>{item.trader_name}</Td>
                             <Td>{item.nature}</Td>

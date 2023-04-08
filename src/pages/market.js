@@ -23,10 +23,10 @@ const Market = () => {
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
+            scrollTo: true,
         }
     });
 
@@ -79,7 +79,7 @@ const Market = () => {
       <div className="container-fluid">
     <Table>
       <Thead>
-        <Tr className="fs-5 fs-lg-4">
+        <Tr className="fs-5 fs-lg-4 text-center">
           <Th  style={{
             cursor: 'pointer',
             color: '#0d6efd',
@@ -125,7 +125,7 @@ const Market = () => {
       </Thead>
       <Tbody>
         {data.map(item => (
-            <Tr key={item.id}>
+            <Tr key={item.id} className={'text-center'}>
                 <Td>{item.id}</Td>
                 <Td>{item.category_name}</Td>
                 <Td>{item.company_name}</Td>

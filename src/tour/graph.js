@@ -1,25 +1,23 @@
 import navbarCollapsed from "./Components/collapsedNavbar";
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function GraphSteps(tour, token, dispatch) {
 
-    let buttons = [
-        {
-            text: 'Skip Tour',
-            action: (() => {
-                skipTour(token, dispatch);
-                tour.cancel();
-            })
-        },
-        {
-            text: 'Back',
-            action: tour.back
-        },
-        {
-            text: 'Next',
-            action: tour.next
-        },
-    ];
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-graph',
+        text: 'Welcome to Graph Page. Here you can plot relevant ' +
+            'company stock price graphs for certain time durations.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ]
+        });
 
     tour.addStep({
         id: 'tour-graph-company-name',
@@ -29,20 +27,7 @@ function GraphSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
         });
 
     tour.addStep({
@@ -53,7 +38,6 @@ function GraphSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -65,7 +49,6 @@ function GraphSteps(tour, token, dispatch) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -77,7 +60,6 @@ function GraphSteps(tour, token, dispatch) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -89,7 +71,6 @@ function GraphSteps(tour, token, dispatch) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -101,22 +82,55 @@ function GraphSteps(tour, token, dispatch) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
         });
 
     navbarCollapsed(tour);
 
     tour.addStep({
-        id: 'tour-new-page',
-        text: 'Click here to go to the Dashboard Page',
+        id: 'tour-transaction-menu',
+        text: 'Click here to open Transaction Dropdown Menu',
         attachTo: {
-            element: '#dashboard-loggedin',
-            on: 'top'
+            element: '#trans-nav-dropdown',
+            on: 'right-end'
+        },
+            advanceOn: {
+            selector: '#trans-nav-dropdown',
+                event: 'click'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
+        buttons: buttons
         });
+
+    tour.addStep({
+        id: 'tour-new-transaction',
+        text: 'Click here to enter a new stock purchase transaction',
+        attachTo: {
+            element: '#new-trans-loggedin',
+            on: 'right-end'
+        },
+        beforeShowPromise: function() {
+            return new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve();
+                    }, 300);
+            });
+            },
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
+            {
+                text: 'Back',
+                action: tour.back
+            },
+            {
+                text: 'End',
+                action: tour.complete
+            },
+        ]
+        });
+
+
 
 }
 

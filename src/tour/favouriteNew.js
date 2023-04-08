@@ -1,24 +1,22 @@
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function FavouriteNewSteps(tour, token, dispatch) {
 
-        const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-favourite-new',
+        text: 'Welcome to Create Favourite Page. Here you can mark a company as your favourite and receive ' +
+            'alerts for its price limits',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
             {
                 text: 'Next',
                 action: tour.next
             },
-        ];
+        ]
+        });
 
     tour.addStep({
         id: 'tour-favourite-company-name',
@@ -28,20 +26,7 @@ function FavouriteNewSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -86,19 +71,11 @@ function FavouriteNewSteps(tour, token, dispatch) {
         id: 'tour-favourite-submit',
         text: 'Press this button to submit and create your favourite. You will be redirected to Favourite List Page.',
         attachTo: {
-            element: '#minimum_limit',
+            element: '#button-submit',
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

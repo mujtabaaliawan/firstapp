@@ -1,4 +1,3 @@
-import skipTour from "./Components/endTour";
 
 function SignUpSteps(tour) {
 
@@ -16,6 +15,19 @@ function SignUpSteps(tour) {
                 action: tour.next
             },
         ];
+
+    tour.addStep({
+        id: 'tour-signup',
+        text: 'Welcome to Signup Page. Here you can create a new user profile to use the app.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ]
+        });
 
 
     tour.addStep({
@@ -45,7 +57,8 @@ function SignUpSteps(tour) {
 
     tour.addStep({
         id: 'user-image',
-        text: 'Please upload your profile picture here. You may skip this part and upload picture later, click Next.',
+        text: 'Please upload your profile picture here. ' +
+            'You may skip this part and upload picture later, click Next.',
         attachTo: {
             element: '#image',
             on: 'right'
@@ -130,8 +143,10 @@ function SignUpSteps(tour) {
             element: '#submit-button',
             on: 'right'
         },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
+        advanceOn: {
+            selector: '#submit-button',
+            event: 'click'
+        },
         buttons: [
             {
                 text: 'Back',

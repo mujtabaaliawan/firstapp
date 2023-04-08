@@ -18,15 +18,27 @@ function SubscriptionSteps(tour) {
         ];
 
     tour.addStep({
+        id: 'tour-subscription',
+        text: 'Welcome to Subscriptions Page. ' +
+            'This page shows all the available subscription options to use the app.',
+        classes: 'example-step-extra-class',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ]
+        });
+
+    tour.addStep({
         id: 'trial-tour',
         text: 'Click here for Free Trial Subscription using the email id provided for login, or click Next' +
-            'to view paid subscriptions',
+            ' to view paid subscriptions',
         attachTo: {
             element: '#trial-button',
             on: 'right'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
             {
                 text: 'Cancel',
@@ -46,7 +58,6 @@ function SubscriptionSteps(tour) {
             on: 'left'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
     })
     tour.addStep({
@@ -57,7 +68,6 @@ function SubscriptionSteps(tour) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
     })
     tour.addStep({
@@ -68,7 +78,6 @@ function SubscriptionSteps(tour) {
             on: 'right'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
             {
                 text: 'Back',

@@ -24,6 +24,7 @@ function NewUser() {
   const [tourReady, setTourReady]  = useState(false)
   const [tourStarted, setTourStarted] = useState(false);
   const tour = new Shepherd.Tour({
+    useModalOverlay: false,
     defaultStepOptions: {
       classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
       scrollTo: true
@@ -44,8 +45,12 @@ function NewUser() {
       }
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
+    if (tourStarted){
+        tour.cancel();
+    }
+
     const formData = new FormData();
       formData.append('user_email', email);
       formData.append('user_first_name', firstName);
@@ -55,7 +60,7 @@ function NewUser() {
       formData.append('mobile_number', mobile);
       formData.append('picture', traderImage);
 
-    await fetch('http://127.0.0.1:8000/trader-new', {
+    fetch('http://127.0.0.1:8000/trader-new', {
       method: 'POST',
       body: formData,
     })

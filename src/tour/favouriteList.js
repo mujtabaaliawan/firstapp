@@ -1,25 +1,21 @@
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 import navbarCollapsed from "./Components/collapsedNavbar";
 
 function FavouriteListSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-favourite',
+        text: 'Welcome to Favourites List Page. This page shows all the favourite companies you have marked.',
+        classes: 'example-step-extra-class',
+        buttons: [
             {
                 text: 'Next',
                 action: tour.next
             },
-        ];
+        ]
+        });
 
     tour.addStep({
         id: 'tour-favourite-id',
@@ -30,19 +26,7 @@ function FavouriteListSteps(tour, token, dispatch) {
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -114,15 +98,7 @@ function FavouriteListSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

@@ -18,7 +18,7 @@ function Transaction(){
     const [tourStarted, setTourStarted] = useState(false);
     const tourTwo = useSelector((state) => state.tourTwo.value)
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
@@ -62,7 +62,7 @@ function Transaction(){
             { isSubscribed && (
             <Table>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th id={'transaction-id'}>ID</Th>
                         <Th id={'transaction-nature'}>Nature</Th>
                         <Th id={'transaction-volume'}>Volume</Th>
@@ -80,7 +80,7 @@ function Transaction(){
                 </Thead>
                 <Tbody>
                     {data.map(item => (
-                        <Tr key={item.id}>
+                        <Tr key={item.id} className={'text-center'}>
                             <Td>{item.id}</Td>
                             <Td>{item.nature}</Td>
                             <Td>{item.volume_transacted}</Td>

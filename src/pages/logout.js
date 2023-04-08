@@ -7,6 +7,7 @@ import {clear_transaction_company} from "../features/transaction-company/transac
 import {clear_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
 import {clear_subscription} from "../features/subscription/subscriptionSlice";
 import {clear_trial} from "../features/user-trial/trialSlice";
+import {loading_off} from "../features/loading/loadingSlice";
 
 function Logout() {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ function Logout() {
     dispatch(clear_transaction_company());
     dispatch(clear_subscription());
     dispatch(clear_trial());
-
+    dispatch(loading_off());
   return (
       <Navigate to='/login' />
   );

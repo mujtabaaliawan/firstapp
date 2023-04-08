@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import useDocumentName from "../hooks/documentname";
-import Shepherd from "shepherd.js";
+
 
 function Report(){
     const token = useSelector((state) => state.token.value)
@@ -11,15 +10,10 @@ function Report(){
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const isManager = useSelector((state) => state.manager.value);
-    const [tourReady, setTourReady]  = useState(false)
-    const tour = new Shepherd.Tour({
-        useModalOverlay: true,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-    });
-    useDocumentName('Daily Report', setTourReady);
+
+    useEffect(() => {
+        document.title = 'Report';
+        },);
 
     function handleHeaderClick(headerName) {
         if (field === headerName) {
@@ -48,7 +42,7 @@ function Report(){
         <div>
               <Table>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th style={{
                             cursor: 'pointer',
                             color: '#0d6efd',
@@ -87,7 +81,7 @@ function Report(){
                 </Thead>
                 <Tbody>
                     {data.map(item => (
-                        <Tr key={item.id}>
+                        <Tr key={item.id} className={'text-center'}>
                             <Td>{item.id}</Td>
                             <Td>{item.trader_name}</Td>
                             <Td>{item.nature}</Td>

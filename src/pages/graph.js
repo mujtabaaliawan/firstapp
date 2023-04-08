@@ -35,7 +35,7 @@ const Graph = () => {
   const tourPermission = useSelector((state) => state.tourMode.value);
   const [tourStarted, setTourStarted] = useState(false);
   const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true

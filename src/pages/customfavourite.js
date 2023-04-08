@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
-import useDocumentName from "../hooks/documentname";
-import clear_favourite_company from "../features/favourite-company/favouriteCompanySlice";
-import Shepherd from "shepherd.js";
+import {clear_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
+
 
 function FavouriteCustom() {
 
@@ -17,15 +16,10 @@ function FavouriteCustom() {
     const [minimum_limit, setMinimumLimit] = useState('');
     const [page_changer, setPageChanger] = useState(false);
     const markedCompany = useSelector((state) => state.favouriteCompany.value);
-    const [tourReady, setTourReady]  = useState(false)
-    const tour = new Shepherd.Tour({
-        useModalOverlay: true,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
-            scrollTo: true
-        }
+
+    useEffect(() => {
+        document.title = 'Mark Favourite';
     });
-    useDocumentName('Mark Favourite', setTourReady);
 
     useEffect(() => {
         const url = 'http://127.0.0.1:8000/name-id-search';

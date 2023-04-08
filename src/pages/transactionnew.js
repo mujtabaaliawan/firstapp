@@ -22,7 +22,7 @@ function TransactionNew() {
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true

@@ -1,21 +1,22 @@
-import React, { useRef, useEffect } from "react";
-import lottie from "lottie-web";
-import animationData from "https://assets7.lottiefiles.com/packages/lf20_Wl9UsgfZqZ.json";
+import React from 'react';
+import Lottie from 'lottie-react';
+import animationData from '../../animations/196-material-wave-loading.json';
 
-const LoadingAnimation = () => {
-  const container = useRef(null);
+function LoadingAnimation() {
 
-  useEffect(() => {
-    lottie.loadAnimation({
-      container: container.current,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      animationData: animationData,
-    });
-  }, []);
-
-  return <div ref={container} />;
-};
+  return (
+    <Lottie
+      animationData={animationData}
+      autoplay
+      loop
+      style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+      }}
+    />
+  );
+}
 
 export default LoadingAnimation;

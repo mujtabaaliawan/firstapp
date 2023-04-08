@@ -1,24 +1,22 @@
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function TransactionSaleSteps(tour, token, dispatch) {
 
-    const buttons = [
-        {
-            text: 'Skip Tour',
-            action: (() => {
-                skipTour(token, dispatch);
-                tour.cancel();
-            })
-        },
-        {
-            text: 'Back',
-            action: tour.back
-        },
-        {
-            text: 'Next',
-            action: tour.next
-        },
-    ];
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-transactionSale',
+        text: 'Welcome to Sale Transaction Page. ' +
+            'Here you can create new transaction record for stock sale.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
+            {
+                text: 'Next',
+                action: tour.next
+            },
+        ]
+        });
 
     tour.addStep({
         id: 'tour-transaction-company-name',
@@ -29,19 +27,7 @@ function TransactionSaleSteps(tour, token, dispatch) {
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
         });
 
     tour.addStep({
@@ -90,13 +76,6 @@ function TransactionSaleSteps(tour, token, dispatch) {
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

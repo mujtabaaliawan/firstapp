@@ -1,40 +1,17 @@
 import navbarCollapsed from "./Components/collapsedNavbar";
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
+
 
 function DashboardSteps(tour, token, dispatch) {
 
-    let buttons = [
-        {
-            text: 'Skip Tour',
-            action: (() => {
-                skipTour(token, dispatch);
-                tour.cancel();
-            })
-        },
-        {
-            text: 'Back',
-            action: tour.back
-        },
-        {
-            text: 'Next',
-            action: tour.next
-        },
-    ];
+    const buttons = GetButtons(token, dispatch, tour);
 
     tour.addStep({
         id: 'tour-dashboard',
         text: 'Welcome to Dashboard. This page shows all the transactions of all the traders, ' +
             'you can follow any trader, to get his specific details.',
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Next',
                 action: tour.next
@@ -217,15 +194,7 @@ function DashboardSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

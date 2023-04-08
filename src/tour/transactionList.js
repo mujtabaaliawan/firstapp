@@ -1,48 +1,33 @@
-import skipTour from "./Components/endTour";
 import navbarCollapsed from "./Components/collapsedNavbar";
+import GetButtons from "./Components/buttons";
 
 function TransactionListSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-transactionList',
+        text: 'Welcome to Transactions Page. This page shows all the transactions you have made.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
             {
                 text: 'Next',
                 action: tour.next
             },
-        ];
+        ]
+        });
 
     tour.addStep({
         id: 'tour-transaction-id',
-        text: 'This page shows the list of your transactions. This shows the id of your transaction.',
+        text: 'This shows the id of your transaction.',
         attachTo: {
             element: '#transaction-id',
             on: 'top'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -191,36 +176,15 @@ function TransactionListSteps(tour, token, dispatch) {
 
     navbarCollapsed(tour);
 
-    //work from here
     tour.addStep({
-        id: 'tour-favourite-menu',
-        text: 'Click here to open Favourite Dropdown Menu',
+        id: 'tour-portfolio',
+        text: 'Click here to visit the Portfolio section',
         attachTo: {
-            element: '#fav-nav-dropdown',
-            on: 'top'
+            element: '#portfolio-loggedin',
+            on: 'right-end'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        buttons: buttons
-    });
-
-    tour.addStep({
-        id: 'tour-new-transaction',
-        text: 'Click here to mark a company as your favourite.',
-        attachTo: {
-            element: '#new-fav-loggedin',
-            on: 'top'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

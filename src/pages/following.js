@@ -17,7 +17,7 @@ const Following = () => {
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
@@ -70,7 +70,7 @@ const Following = () => {
             fontSize: "50px",
             fontFamily: 'Times New Roman',
             textAlign: 'center',
-            color: "white",
+            color: "red",
             marginTop: "50px"
         }}>Following</h1>
 
@@ -78,7 +78,7 @@ const Following = () => {
                             marginTop: "30px"
                         }}>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th id={'following-id'} >ID</Th>
                         <Th id={'following-name'} >Name</Th>
                         <Th id={'following-email'} >Email</Th>
@@ -91,7 +91,7 @@ const Following = () => {
                         const isSelected = selectedFollowingIds[item.id] === true;
                         return (
                         <React.Fragment key={item.id}>
-                            <Tr>
+                            <Tr className={'text-center'}>
                                 <Td>{item.id}</Td>
                                 <Td>{item.name}</Td>
                                 <Td>{item.email}</Td>
@@ -114,7 +114,7 @@ const Following = () => {
                                         </div>
                                         <Table className="mb-5 mt-3">
                                             <Thead>
-                                                <Tr>
+                                                <Tr className={'text-center'}>
                                                     <Th>Number</Th>
                                                     <Th>Date Time</Th>
                                                     <Th>Nature</Th>
@@ -126,7 +126,7 @@ const Following = () => {
                                             </Thead>
                                             <Tbody>
                                                 {item.transactions.map((transaction) => (
-                                                    <Tr key={transaction.id}>
+                                                    <Tr key={transaction.id} className={'text-center'}>
                                                         <Td>{transaction.count}</Td>
                                                         <Td>{transaction.date_time}</Td>
                                                         <Td>{transaction.nature}</Td>

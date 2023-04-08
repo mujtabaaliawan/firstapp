@@ -14,7 +14,6 @@ function HomeSteps(isLoggedIn, isSubscribed, tour, token) {
                     on: 'bottom'
                 },
                 classes: 'example-step-extra-class',
-                highlightClass: 'highlight',
                 buttons: [
                     {
                         text: 'Next',
@@ -48,7 +47,6 @@ function HomeSteps(isLoggedIn, isSubscribed, tour, token) {
                         on: 'bottom'
                     },
                     classes: 'example-step-extra-class',
-                    highlightClass: 'highlight',
                     advanceOn: {
                         selector: '#signup-loggedout',
                         event: 'click'
@@ -88,9 +86,6 @@ function HomeSteps(isLoggedIn, isSubscribed, tour, token) {
                 });
             }
         }
-        return (
-            <div></div>
-        )
 }
 
 export default HomeSteps;

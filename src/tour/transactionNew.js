@@ -1,42 +1,16 @@
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function TransactionNewSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ];
+    const buttons = GetButtons(token, dispatch, tour);
 
     tour.addStep({
-        id: 'tour-transaction-company-name',
-        text: 'Please click and select the company you have purchased the stocks of',
-        attachTo: {
-            element: '#company_name',
-            on: 'top'
-        },
+        id: 'tour-follower',
+        text: 'Welcome to New Transaction Page. ' +
+            'Here you can create new transaction record for stock purchase.',
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Next',
                 action: tour.next
@@ -44,12 +18,23 @@ function TransactionNewSteps(tour, token, dispatch) {
         ]
         });
 
+    tour.addStep({
+        id: 'tour-transaction-company-name',
+        text: 'Please click and select the company you have purchased the stocks of',
+        attachTo: {
+            element: '#company_name',
+            on: 'bottom'
+        },
+        classes: 'example-step-extra-class',
+        buttons: buttons
+        });
+
         tour.addStep({
         id: 'tour-transaction-field',
         text: 'This shows the nature of your transaction.',
         attachTo: {
             element: '#field',
-            on: 'top'
+            on: 'bottom'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -73,7 +58,7 @@ function TransactionNewSteps(tour, token, dispatch) {
         text: 'Enter the volume of the stocks that you have purchased',
         attachTo: {
             element: '#volume',
-            on: 'top'
+            on: 'bottom'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -85,18 +70,10 @@ function TransactionNewSteps(tour, token, dispatch) {
         text: 'Press the button to Enter Transaction Record, you will be redirected to Transaction List Page',
         attachTo: {
             element: '#submit-button',
-            on: 'top'
+            on: 'top-start'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

@@ -1,24 +1,22 @@
 import navbarCollapsed from "./Components/collapsedNavbar";
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
+
 function ProfileSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-profile',
+        text: 'Welcome to Profile Page. This page shows your profile and your personal data.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
             {
                 text: 'Next',
                 action: tour.next
             },
-        ];
+        ]
+        });
 
     tour.addStep({
         id: 'user-picture',
@@ -28,20 +26,7 @@ function ProfileSteps(tour, token, dispatch) {
             on: 'right'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -49,7 +34,7 @@ function ProfileSteps(tour, token, dispatch) {
         text: 'This shows your total number of transactions',
         attachTo: {
             element: '#transaction-data',
-            on: 'bottom'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -61,7 +46,7 @@ function ProfileSteps(tour, token, dispatch) {
         text: 'This shows your total number of followers',
         attachTo: {
             element: '#followers-data',
-            on: 'bottom'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -73,7 +58,7 @@ function ProfileSteps(tour, token, dispatch) {
         text: 'This shows your total number of people you are following',
         attachTo: {
             element: '#following-data',
-            on: 'bottom'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -85,10 +70,9 @@ function ProfileSteps(tour, token, dispatch) {
         text: 'This shows your personal details such as mobile number, address etc.',
         attachTo: {
             element: '#personal-data',
-            on: 'bottom'
+            on: 'top-start'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
     });
 
@@ -102,15 +86,7 @@ function ProfileSteps(tour, token, dispatch) {
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

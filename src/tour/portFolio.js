@@ -1,48 +1,34 @@
-import skipTour from "./Components/endTour";
 import navbarCollapsed from "./Components/collapsedNavbar";
+import GetButtons from "./Components/buttons";
 
 function PortFolioSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
+    const buttons = GetButtons(token, dispatch, tour);
+
+    tour.addStep({
+        id: 'tour-portfolio',
+        text: 'Welcome to PortFolio Page. Here you can see your stocks data,' +
+            ' investments, earnings and calculated profits and losses based on current market.',
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: [
             {
                 text: 'Next',
                 action: tour.next
             },
-        ];
+        ]
+        });
 
     tour.addStep({
         id: 'tour-portfolio-total-stocks',
-        text: 'This page shows your PortFolio. This shows the total number of stocks you have purchased.',
+        text: 'This shows the total number of stocks you have purchased.',
         attachTo: {
             element: '#portfolio-total-stocks',
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ]
+        buttons: buttons
     });
 
     tour.addStep({
@@ -62,6 +48,30 @@ function PortFolioSteps(tour, token, dispatch) {
         text: 'This shows your expected loss, if you want to sell all your stocks now at existing market price.',
         attachTo: {
             element: '#portfolio-expected-loss',
+            on: 'bottom'
+        },
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: buttons
+    });
+
+    tour.addStep({
+        id: 'tour-portfolio-loss',
+        text: 'This shows your current investment in the market',
+        attachTo: {
+            element: '#current-investment',
+            on: 'bottom'
+        },
+        classes: 'example-step-extra-class',
+        highlightClass: 'highlight',
+        buttons: buttons
+    });
+
+    tour.addStep({
+        id: 'tour-portfolio-loss',
+        text: 'This shows your lifetime investment in the market',
+        attachTo: {
+            element: '#total-investment',
             on: 'bottom'
         },
         classes: 'example-step-extra-class',
@@ -234,10 +244,9 @@ function PortFolioSteps(tour, token, dispatch) {
         text: 'Now lets sell the stocks. Please click here to open the transaction dropdown menu',
         attachTo: {
             element: '#trans-nav-dropdown',
-            on: 'bottom'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: buttons
     });
 
@@ -247,11 +256,27 @@ function PortFolioSteps(tour, token, dispatch) {
         text: 'Now please click here to open the Transaction Page to record sale of stocks',
         attachTo: {
             element: '#sale-trans-loggedin',
-            on: 'bottom'
+            on: 'right'
         },
+        beforeShowPromise: function() {
+            return new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve();
+                    }, 300);
+            });
+            },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
-        buttons: buttons
+        buttons: [
+            {
+                text: 'Back',
+                action: tour.back
+            },
+            {
+                text: 'End',
+                action: tour.complete
+            },
+        ]
     });
 
 }

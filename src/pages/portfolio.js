@@ -122,7 +122,7 @@ const PortFolio = () => {
                             marginTop: "30px"
                         }}>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th id={'company-name'}>Company Name</Th>
                         <Th id={'company-stocks'}>Company Stocks</Th>
                         <Th id={'company-current-investment'}>Current Investment</Th>
@@ -137,7 +137,7 @@ const PortFolio = () => {
                         const isSelected = selectedFollowingIds[id] === true;
                         return (
                         <React.Fragment key={id}>
-                            <Tr>
+                            <Tr className={'text-center'}>
                                 <Td>{company.company_name}</Td>
                                 <Td>{company.total_company_stocks}</Td>
                                 <Td>{company.current_investment_in_company}</Td>
@@ -163,7 +163,7 @@ const PortFolio = () => {
                                         </div>
                                         <Table className="mb-5 mt-3">
                                             <Thead>
-                                                <Tr>
+                                                <Tr className={'text-center'}>
                                                     <Th id={'stock'}>Stocks</Th>
                                                     <Th id={'purchase-price'}>Purchase Price</Th>
                                                     <Th id={'purchase-date'}>Date of Purchase</Th>
@@ -173,7 +173,7 @@ const PortFolio = () => {
                                             </Thead>
                                             <Tbody>
                                                 {company.stocks_data.map((stock, id) => (
-                                                    <Tr key={id}>
+                                                    <Tr key={id} className={'text-center'}>
                                                         <Td>{stock.stocks}</Td>
                                                         <Td>{stock.current_price}</Td>
                                                         <Td>{stock.date_time}</Td>
@@ -209,23 +209,26 @@ const PortFolio = () => {
             <Col md={2}>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>0</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-total-stocks'}
+                style={{color: "blue"}}>0</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>0</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-expected-profit'}
+                style={{color: "blue"}}>0</h4>
           </Col>
           <Col>
-            <h4 className="d-flex justify-content-center" style={{color: "blue"}}>0</h4>
+            <h4 className="d-flex justify-content-center" id={'portfolio-expected-loss'}
+                style={{color: "blue"}}>0</h4>
           </Col>
         </Row>
         <Row className="mb-3">
           <Col md={2}>
           </Col>
           <Col>
-            <h3 className="d-flex justify-content-center">Current Investment</h3>
+            <h3 className="d-flex justify-content-center" id={'current-investment'}>Current Investment</h3>
           </Col>
           <Col>
-            <h3 className="d-flex justify-content-center">Lifetime Investment</h3>
+            <h3 className="d-flex justify-content-center" id={'total-investment'}>Lifetime Investment</h3>
           </Col>
         </Row>
                 <Row className="mb-3">

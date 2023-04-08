@@ -1,25 +1,10 @@
 import navbarCollapsed from "./Components/collapsedNavbar";
 import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function FollowerSteps(tour, token, dispatch) {
 
-    let buttons = [
-        {
-            text: 'Skip Tour',
-            action: (() => {
-                skipTour(token, dispatch);
-                tour.cancel();
-            })
-        },
-        {
-            text: 'Back',
-            action: tour.back
-        },
-        {
-            text: 'Next',
-            action: tour.next
-        },
-    ];
+    const buttons = GetButtons(token, dispatch, tour);
 
     tour.addStep({
         id: 'tour-follower',
@@ -27,13 +12,6 @@ function FollowerSteps(tour, token, dispatch) {
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Next',
                 action: tour.next
@@ -93,9 +71,13 @@ function FollowerSteps(tour, token, dispatch) {
 
     tour.addStep({
         id: 'tour-complete',
-        text: 'Thanks. The tour is now complete. Please enjoy the app',
+        text: 'You can check your subscription status by clicking here.' +
+            ' The tour is now complete. Enjoy the app.',
+        attachTo: {
+            element: '#customer-portal-loggedin',
+            on: 'top'
+        },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
             {
                 text: 'Back',

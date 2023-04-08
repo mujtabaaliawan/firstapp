@@ -15,7 +15,7 @@ const Followers = () => {
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
@@ -57,7 +57,7 @@ const Followers = () => {
             fontSize: "50px",
             fontFamily: 'Times New Roman',
             textAlign: 'center',
-            color: "white",
+            color: "red",
             marginTop: "50px",
         }}>Followers</h1>
 
@@ -65,7 +65,7 @@ const Followers = () => {
                             marginTop: "30px"
                         }}>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th id={'follower-id'}>ID</Th>
                         <Th id={'follower-name'}>Name</Th>
                         <Th id={'follower-email'}>Email</Th>
@@ -74,7 +74,7 @@ const Followers = () => {
                 </Thead>
                 <Tbody>
                     {data.map(item => (
-                        <Tr key={item.id}>
+                        <Tr key={item.id} className={'text-center'}>
                             <Td>{item.id}</Td>
                             <Td>{item.name}</Td>
                             <Td>{item.email}</Td>

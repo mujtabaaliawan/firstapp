@@ -1,43 +1,16 @@
-import skipTour from "./Components/endTour";
 import navbarCollapsed from "./Components/collapsedNavbar";
+import GetButtons from "./Components/buttons";
 
 function MarketSteps(tour, token, dispatch) {
 
-    const buttons = [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
-            {
-                text: 'Back',
-                action: tour.back
-            },
-            {
-                text: 'Next',
-                action: tour.next
-            },
-        ];
+    const buttons = GetButtons(token, dispatch, tour);
 
-        tour.addStep({
-        id: 'tour-market-id',
-        text: 'This page shows the latest stock market data. This shows the id number of the Market Company Stock',
-        attachTo: {
-            element: '#market-stock-id',
-            on: 'top'
-        },
+    tour.addStep({
+        id: 'tour-market',
+        text: 'Welcome to the Market Page. Here you can see the latest stock market data.',
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Next',
                 action: tour.next
@@ -45,15 +18,25 @@ function MarketSteps(tour, token, dispatch) {
         ]
         });
 
+    tour.addStep({
+        id: 'tour-market-id',
+        text: 'This shows the id number of the Market Company Stock',
+        attachTo: {
+            element: '#market-stock-id',
+            on: 'right',
+        },
+            highlightClass: 'highlight',
+        buttons: buttons
+        });
+
         tour.addStep({
         id: 'tour-market-category',
         text: 'This shows the name of the category. You can click on it to sort the market according to category name',
         attachTo: {
             element: '#market-category',
-            on: 'top'
+            on: 'right',
         },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
+            highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -62,10 +45,9 @@ function MarketSteps(tour, token, dispatch) {
         text: 'This shows the name of the company. You can click on it to sort the market according to company name',
         attachTo: {
             element: '#market-company',
-            on: 'top'
+            on: 'right',
         },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
+            highlightClass: 'highlight',
         buttons: buttons
         });
 
@@ -75,7 +57,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to current price',
         attachTo: {
             element: '#market-current',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -88,7 +70,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to open price',
         attachTo: {
             element: '#market-open',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -101,7 +83,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to high price',
         attachTo: {
             element: '#market-high',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -114,7 +96,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to low price',
         attachTo: {
             element: '#market-low',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -127,7 +109,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to last day closing price',
         attachTo: {
             element: '#market-ldcp',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -140,7 +122,7 @@ function MarketSteps(tour, token, dispatch) {
             ' according to stock volume',
         attachTo: {
             element: '#market-volume',
-            on: 'top'
+            on: 'right'
         },
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
@@ -154,44 +136,23 @@ function MarketSteps(tour, token, dispatch) {
             'that company stocks',
         attachTo: {
             element: '#market-actions',
-            on: 'top'
+            on: 'right'
         },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
+            arrow: true,
         buttons: buttons
         });
 
         navbarCollapsed(tour);
 
         tour.addStep({
-        id: 'tour-transaction-menu',
-        text: 'Click here to open Transaction Dropdown Menu',
+        id: 'tour-graph',
+        text: 'Click here to visit the stocks graph section',
         attachTo: {
-            element: '#trans-nav-dropdown',
-            on: 'top'
+            element: '#graph-loggedin',
+            on: 'right-end'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        buttons: buttons
-        });
-
-        tour.addStep({
-        id: 'tour-new-transaction',
-        text: 'Click here to enter a new stock purchase transaction',
-        attachTo: {
-            element: '#new-trans-loggedin',
-            on: 'top'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

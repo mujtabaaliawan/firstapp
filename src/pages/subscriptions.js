@@ -22,7 +22,7 @@ function Subscriptions() {
     const stripePromise = loadStripe(
         'pk_test_51Mo2FQLtjJIe7dr6ADTNPsTD3l6jXbtypH4bjDsjSiLzfEeAAiSyKRhR4KTfndiRZmM5jExK49PcS3Eh6s58zQfa009uaYV3ZI');
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
@@ -33,8 +33,8 @@ function Subscriptions() {
 
     function handleTourStart(tour){
       if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
+          setTourStarted(true);
+          tour.start();
       }
     }
 

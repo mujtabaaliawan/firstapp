@@ -5,6 +5,7 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
 import Shepherd from "shepherd.js";
 import FavouriteListSteps from "../tour/favouriteList";
+import {clear_tourTwo} from "../features/tour-two/tourTwoSlice";
 
 function Favourite(){
     const token = useSelector((state) => state.token.value);
@@ -16,7 +17,7 @@ function Favourite(){
     const [tourReady, setTourReady]  = useState(false);
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true
@@ -34,6 +35,7 @@ function Favourite(){
 
     if (tourPermission && tourReady) {
         FavouriteListSteps(tour, token, dispatch);
+        dispatch(clear_tourTwo());
         handleTourStart(tour);
     }
 
@@ -54,7 +56,7 @@ function Favourite(){
             { isSubscribed && (
             <Table>
                 <Thead>
-                    <Tr className="fs-5 fs-lg-4">
+                    <Tr className="fs-5 fs-lg-4 text-center">
                         <Th id={'favourite-id'}>ID</Th>
                         <Th id={'favourite-category'}>Category</Th>
                         <Th id={'favourite-company'}>Company</Th>
@@ -65,7 +67,7 @@ function Favourite(){
                 </Thead>
                 <Tbody>
                     {data.map(item => (
-                        <Tr key={item.id}>
+                        <Tr key={item.id} className={'text-center'}>
                             <Td>{item.id}</Td>
                             <Td>{item.category_name}</Td>
                             <Td>{item.company_name}</Td>

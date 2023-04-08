@@ -4,6 +4,7 @@ import {useState} from "react";
 import useDocumentName from "../hooks/documentname";
 import HomeSteps from "../tour/home";
 
+
 const Home = () => {
     const token = useSelector((state) => state.token.value);
     const isLoggedIn = useSelector((state) => state.logged.value);
@@ -12,7 +13,7 @@ const Home = () => {
     const [tourReady, setTourReady]  = useState(false)
     const [tourStarted, setTourStarted] = useState(false);
     const tour = new Shepherd.Tour({
-        useModalOverlay: true,
+        useModalOverlay: false,
         defaultStepOptions: {
             classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
             scrollTo: true

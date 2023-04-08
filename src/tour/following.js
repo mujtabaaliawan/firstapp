@@ -1,25 +1,9 @@
 import navbarCollapsed from "./Components/collapsedNavbar";
-import skipTour from "./Components/endTour";
+import GetButtons from "./Components/buttons";
 
 function FollowingSteps(tour, token, dispatch) {
 
-    let buttons = [
-        {
-            text: 'Skip Tour',
-            action: (() => {
-                skipTour(token, dispatch);
-                tour.cancel();
-            })
-        },
-        {
-            text: 'Back',
-            action: tour.back
-        },
-        {
-            text: 'Next',
-            action: tour.next
-        },
-    ];
+    const buttons = GetButtons(token, dispatch, tour);
 
     tour.addStep({
         id: 'tour-following',
@@ -27,13 +11,6 @@ function FollowingSteps(tour, token, dispatch) {
         classes: 'example-step-extra-class',
         highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Next',
                 action: tour.next
@@ -111,15 +88,7 @@ function FollowingSteps(tour, token, dispatch) {
             on: 'top'
         },
         classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
         buttons: [
-            {
-                text: 'Skip Tour',
-                action: (() => {
-                    skipTour(token, dispatch);
-                    tour.cancel();
-                })
-            },
             {
                 text: 'Back',
                 action: tour.back

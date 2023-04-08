@@ -126,7 +126,7 @@ function SubscriptionDetails() {
                             marginTop: "30px"
                         }}>
                             <Thead>
-                                <Tr className="fs-5 fs-lg-4">
+                                <Tr className="fs-5 fs-lg-4 text-center">
                                     <Th>Subscription ID</Th>
                                     <Th>Subscription Type</Th>
                                     <Th>Start Date</Th>
@@ -137,7 +137,7 @@ function SubscriptionDetails() {
                             </Thead>
                             <Tbody>
                                 {tableData.map(item => (
-                                    <Tr key={item.id}>
+                                    <Tr key={item.id} className={'text-center'}>
                                         <Td>{item.id}</Td>
                                         <Td>{item.metadata.subscription_name}</Td>
                                         <Td>{item.current_period_start ? displayDate(item.current_period_start) :
