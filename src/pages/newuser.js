@@ -1,161 +1,115 @@
-import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
-import { Navigate } from 'react-router-dom';
-import {set_trial} from "../features/user-trial/trialSlice";
+import {useNavigate} from 'react-router-dom';
 import Container from "react-bootstrap/Container";
-import {Col, Row, Button} from "react-bootstrap";
-import Shepherd from "shepherd.js";
-import useDocumentName from "../hooks/documentname";
-import SignUpSteps from "../tour/signup";
-
+import {Col, Row} from "react-bootstrap";
+import {loading_on, loading_off} from "../features/loading/loadingSlice";
+import "../styles/signup.css";
+import {toast} from "react-toastify";
+import {set_trialSub} from "../features/subscription/trialSlice";
 
 function NewUser() {
   const dispatch = useDispatch()
-  const tourPermission = useSelector((state) => state.tourMode.value);
-  const [status, setStatus] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [traderImage, setTraderImage] = useState('');
-  const [tourReady, setTourReady]  = useState(false)
-  const [tourStarted, setTourStarted] = useState(false);
-  const tour = new Shepherd.Tour({
-    useModalOverlay: false,
-    defaultStepOptions: {
-      classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-      scrollTo: true
-    }
-  });
+  const navigate = useNavigate();
+  const [navigationURL, setNavigationURL] = useState('/');
 
-    useDocumentName('Home', setTourReady);
-
-    if (tourPermission && tourReady) {
-        SignUpSteps(tour)
-        handleTourStart(tour)
-    }
-
-  function handleTourStart(tour){
-      if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-      }
-  }
+  useEffect(() => {
+    navigate(navigationURL);
+  }, [navigationURL, navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (tourStarted){
-        tour.cancel();
-    }
+    dispatch(loading_on());
 
     const formData = new FormData();
       formData.append('user_email', email);
-      formData.append('user_first_name', firstName);
-      formData.append('user_last_name', lastName);
-      formData.append('user_role', 'trader');
       formData.append('user_password', password);
-      formData.append('mobile_number', mobile);
-      formData.append('picture', traderImage);
+
 
     fetch('http://127.0.0.1:8000/trader-new', {
       method: 'POST',
       body: formData,
     })
-    .then(async response => {
-      if (response.status === 201) {
-        await fetch('http://127.0.0.1:8000/credentials', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({email, password})
-        })
-            .then(response => {
-              if (response.status === 200) {
-                return response.json();
-              } else {
-                throw new Error('Invalid credentials');
-              }
-            })
-            .then(data => {
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network Error: Could not connect to server. Please try again.");
+        }
+        return response.json();
+    })
+    .then(data => {
+              dispatch(loading_off());
               dispatch(set_token(data.token));
               dispatch(logged_in());
-              dispatch(set_trial());
-              setStatus(200);
+              dispatch(set_trialSub());
+              setNavigationURL('/main');
             })
-      }
-      else {
-        throw new Error('Invalid credentials');
-      }
-    })
-  }
-
-  if (status === 200) {
-    return <Navigate to="/subscribe"/>;
-  }
-
-  function handleImageChange(imageFile){
-    setTraderImage(imageFile);
+        .catch(error => {
+              toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
+              dispatch(loading_off());
+            })
     }
 
+
   return (
-      <div>
-          <Container className="mt-5">
+      <div id={'main'}>
+          <Container className="mt-5" id={'content'}>
             <Row className="justify-content-center">
-              <Col>
-                <div className="text-center">
-                  <h1>Welcome, Please Sign up</h1>
+            <Col>
+                <Row className={'mb-4'}>
+                <Row>
+                <div>
+                  <h1 id={'greeting'}>Because Who</h1>
                 </div>
-              </Col>
-            </Row>
-            <form onSubmit={handleSubmit}>
-              <Row className="justify-content-center mt-5" >
-                <Col className="col-sm-12 col-md-6 col-lg-3">
-                <Col>
-                  <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input type="email" className="form-control" id="email" value={email}
-                           onChange={(event) => setEmail(event.target.value)} required/>
-                  </div>
-                  </Col>
-                  <Col>
-                    <label className="form-label">Image</label>
-                    <input type="file" className="form-control" id="image"
-                           onChange={(event) => handleImageChange(event.target.files[0])}/>
-                  </Col>
-                  </Col>
                 </Row>
-              <Row className="justify-content-center">
-                <Col className="col-sm-12 col-md-6 col-lg-3">
-                  <div className="mb-3 mt-3">
-                    <label className="form-label">First Name</label>
-                    <input type="text" className="form-control" id="first" value={firstName}
-                           onChange={(event) => setFirstName(event.target.value)} required/>
+                    <Row>
+                <div>
+                  <h1 id={'greeting'}>Doesn't Love to</h1>
+                </div>
+                </Row>
+                <Row>
+                <div>
+                  <h1 id={'greeting'}>Maximize Stock Profits</h1>
+                </div>
+                </Row>
+                </Row>
+                <Row id={'box'}>
+            <form onSubmit={handleSubmit}>
+                <Row>
+                  <div className="mb-3 mt-5">
+                    <input type="email" className="form-control" id="email" value={email}
+                           onChange={(event) => setEmail(event.target.value)}
+                           placeholder={"Email"} required/>
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Last Name</label>
-                    <input type="text" className="form-control" id="last" value={lastName}
-                           onChange={(event) => setLastName(event.target.value)} required/>
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Password</label>
+                </Row>
+              <Row>
+                  <div className="mb-4">
                     <input type="password" className="form-control" id="password" value={password}
-                           onChange={(event) => setPassword(event.target.value)} required/>
+                           onChange={(event) => setPassword(event.target.value)}
+                           placeholder={"Password"} required/>
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Mobile Number</label>
-                    <input type="numeric" className="form-control" id="mobile" value={mobile}
-                           onChange={(event) => setMobile(event.target.value)} required/>
+                  <div>
+                    <button type="submit" id='submit-button' className="btn btn-primary">Register</button>
                   </div>
-                  <div className="text-center">
-                    <Button type="submit" id='submit-button' className="btn btn-primary">Submit</Button>
-                  </div>
+                  </Row>
+                <Row id={'footer'}>
+                <p>Free All Features for 14 days on</p>
+                <p> registration or <a href={'/login'}>press here for login</a></p>
+                </Row>
+            </form>
+                </Row>
+            </Col>
+                <Col id={'picture'}>
+                    <div>
+                        <img src='https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ix
+                        id=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVzaW5lc3MlMjBtYW4lMjBhbmQlMjB3b21hbnxlbnwwfHwwfHw%3D&w
+                        =1000&q=80' alt={"Happy Business"}/>
+                    </div>
               </Col>
             </Row>
-            </form>
           </Container>
       </div>
       );

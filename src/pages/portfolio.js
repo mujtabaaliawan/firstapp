@@ -1,44 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import useDocumentName from "../hooks/documentname";
 import { Container, Row, Col} from 'react-bootstrap';
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
 import Button from "react-bootstrap/Button";
-import Shepherd from "shepherd.js";
-import PortFolioSteps from "../tour/portFolio";
+
 
 const PortFolio = () => {
-    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const [selectedFollowingIds, setSelectedFollowingIds] = useState({});
     const transaction_state = useSelector((state) => state.transaction.value);
-    const isSubscribed = useSelector((state) => state.subscription.value);
-    const tourPermission = useSelector((state) => state.tourMode.value);
-    const [tourReady, setTourReady]  = useState(false);
-    const [tourStarted, setTourStarted] = useState(false);
-    const tour = new Shepherd.Tour({
-        useModalOverlay: true,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-    });
-        function handleTourStart(tour){
-      if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-      }
-    }
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
 
-    useDocumentName('New Transaction', setTourReady);
+    useDocumentName('New Transaction');
 
-    if (tourPermission && tourReady) {
-        PortFolioSteps(tour, token, dispatch);
-        handleTourStart(tour);
-    }
 
-        useEffect(() => {
+    useEffect(() => {
         const url = 'http://127.0.0.1:8000/trader-profit';
         fetch(url, {
             method: 'GET',
@@ -51,7 +30,6 @@ const PortFolio = () => {
             .then(data => setData(data))
     }, [token, transaction_state]);
 
-    console.log(data);
 
     const handleToggleDetails = (id) => {
         setSelectedFollowingIds((prevState) => {
@@ -63,7 +41,7 @@ const PortFolio = () => {
 
     return (
         <div>
-            { isSubscribed && (
+            { (isActiveSub || isTrialSub) && (
         <div>
             { data && data.companies ? (
             <Container className="mt-5">

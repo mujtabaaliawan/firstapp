@@ -8,7 +8,8 @@ import {clear_transaction_company} from "../features/transaction-company/transac
 function TransactionCustom() {
 
     const token = useSelector((state) => state.token.value);
-    const isSubscribed = useSelector((state) => state.subscription.value);
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
     const [stock_id, setStockID] = useState('');
     let nature = "purchase";
     const [volume, setVolume] = useState('');
@@ -65,7 +66,7 @@ function TransactionCustom() {
 
     return (
         <div>
-            { isSubscribed && (
+            { (isActiveSub || isTrialSub) && (
         <div>
         { stock_id && currentPrice && (
         <div className="container mt-5">

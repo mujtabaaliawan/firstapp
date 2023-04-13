@@ -8,7 +8,8 @@ import {clear_favourite_company} from "../features/favourite-company/favouriteCo
 function FavouriteCustom() {
 
     const token = useSelector((state) => state.token.value);
-    const isSubscribed = useSelector((state) => state.subscription.value);
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
     const dispatch = useDispatch()
     const [company_id, setCompanyID] = useState('');
     const [monitor_field, setMonitorField] = useState('');
@@ -62,7 +63,7 @@ function FavouriteCustom() {
 
     return (
         <div>
-            { isSubscribed && (
+            { (isActiveSub || isTrialSub) && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">

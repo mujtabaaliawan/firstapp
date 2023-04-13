@@ -8,11 +8,9 @@ import transactionReducer from '../features/transaction/transactionSlice';
 import managerReducer from '../features/manager/managerSlice';
 import favouriteCompanyReducer from '../features/favourite-company/favouriteCompanySlice';
 import transactionCompanyReducer from '../features/transaction-company/transactionCompanySlice';
-import helpReducer from '../features/help/helpSlice';
-import subscriptionReducer from '../features/subscription/subscriptionSlice';
-import trialReducer from '../features/user-trial/trialSlice';
+import activeSubReducer from '../features/subscription/activeSlice';
+import trialSubReducer from '../features/subscription/trialSlice';
 import tourReducer from '../features/tour/tourSlice';
-import tourTwoReducer from '../features/tour-two/tourTwoSlice';
 import loadingReducer from '../features/loading/loadingSlice';
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
@@ -23,11 +21,9 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   manager: managerReducer,
   favouriteCompany: favouriteCompanyReducer,
   transactionCompany: transactionCompanyReducer,
-  help: helpReducer,
-  subscription: subscriptionReducer,
-  trial: trialReducer,
+  activeSub: activeSubReducer,
+  trialSub: trialSubReducer,
   tourMode: tourReducer,
-  tourTwo: tourTwoReducer,
   loading: loadingReducer,
 }));
 

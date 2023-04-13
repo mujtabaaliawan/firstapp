@@ -1,45 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Table, Tbody, Td, Th, Thead, Tr} from "react-super-responsive-table";
-import useDocumentName from "../hooks/documentname";
 import Button from "react-bootstrap/Button";
-import Shepherd from "shepherd.js";
-import DashboardSteps from "../tour/dashboard";
 
 
 const Dashboard = () => {
-    const dispatch = useDispatch();
     const token = useSelector((state) => state.token.value)
-    const isSubscribed = useSelector((state) => state.subscription.value);
     const transaction_state = useSelector((state) => state.transaction.value);
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
     const [addFollow, setAddFollow] = useState(0);
     const isManager = useSelector((state) => state.manager.value);
-    const tourPermission = useSelector((state) => state.tourMode.value);
-    const [tourReady, setTourReady]  = useState(false);
-    const [tourStarted, setTourStarted] = useState(false);
-    const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark',
-            scrollTo: true
-        }
-    });
-
-    useDocumentName('Dashboard', setTourReady);
-
-    if (tourPermission && tourReady) {
-        DashboardSteps(tour, token, dispatch)
-        handleTourStart(tour)
-    }
-
-    function handleTourStart(tour){
-        if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-        }
-    }
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
 
     function handleFollowClick(followID) {
         let followUrl = 'http://127.0.0.1:8000/follow';
@@ -94,7 +67,7 @@ const Dashboard = () => {
 
   return (
       <div>
-          { (isSubscribed || isManager) && (
+          { (isActiveSub || isTrialSub || isManager) && (
       <div>
         <h1 style={{
             fontSize: "50px",

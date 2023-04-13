@@ -56,55 +56,6 @@ function SignUpSteps(tour) {
     });
 
     tour.addStep({
-        id: 'user-image',
-        text: 'Please upload your profile picture here. ' +
-            'You may skip this part and upload picture later, click Next.',
-        attachTo: {
-            element: '#image',
-            on: 'right'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        advanceOn: {
-            selector: '#image',
-            event: 'change'
-        },
-        buttons: buttons
-    });
-
-    tour.addStep({
-        id: 'user-firstname',
-        text: 'Please enter your first name.',
-        attachTo: {
-            element: '#first',
-            on: 'right'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        advanceOn: {
-            selector: '#first',
-            event: 'change'
-        },
-        buttons: buttons
-    });
-
-    tour.addStep({
-        id: 'user-lastname',
-        text: 'Please enter your last name.',
-        attachTo: {
-            element: '#last',
-            on: 'right'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        advanceOn: {
-            selector: '#last',
-            event: 'change'
-        },
-        buttons: buttons
-    });
-
-    tour.addStep({
         id: 'user-password',
         text: 'Please enter your password.',
         attachTo: {
@@ -120,21 +71,6 @@ function SignUpSteps(tour) {
         buttons: buttons
     });
 
-    tour.addStep({
-        id: 'user-mobile',
-        text: 'Please enter your mobile number',
-        attachTo: {
-            element: '#mobile',
-            on: 'right'
-        },
-        classes: 'example-step-extra-class',
-        highlightClass: 'highlight',
-        advanceOn: {
-            selector: '#mobile',
-            event: 'change'
-        },
-        buttons: buttons
-    });
 
     tour.addStep({
         id: 'user-submit',

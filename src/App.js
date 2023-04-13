@@ -5,6 +5,7 @@ import React from "react";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'shepherd.js/dist/css/shepherd.css';
+import 'react-tooltip/dist/react-tooltip.css'
 import './styles/tour.css'
 import {useSelector} from "react-redux";
 import LoadingAnimation from "./components/LoadingComponent/component";
@@ -17,7 +18,6 @@ function App() {
           <Routing />
           <ToastContainer />
           {isLoading && <LoadingAnimation />}
-
       </>
           );
 }

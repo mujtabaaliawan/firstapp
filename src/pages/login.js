@@ -1,50 +1,25 @@
-import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import { set_token } from '../features/token/tokenSlice';
 import { logged_in } from '../features/user/userSlice';
-import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { set_manager } from "../features/manager/managerSlice";
-import { set_subscription } from "../features/subscription/subscriptionSlice";
-import { set_trial } from "../features/user-trial/trialSlice";
 import { set_tourMode} from "../features/tour/tourSlice";
-import Shepherd from "shepherd.js";
-import useDocumentName from "../hooks/documentname";
-import LoginSteps from "../tour/login";
 import { loading_on, loading_off } from "../features/loading/loadingSlice";
+import {useNavigate} from "react-router-dom";
+import {set_trialSub} from "../features/subscription/trialSlice";
+import {set_activeSub} from "../features/subscription/activeSlice";
 
 function Login() {
   const dispatch = useDispatch();
-  const [status, setStatus] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [page_changer, setPageChanger] = useState(false);
-  const token = useSelector((state) => state.token.value);
-  const isManager = useSelector((state) => state.manager.value);
-  const [tourReady, setTourReady]  = useState(false)
-  const tourPermission = useSelector((state) => state.tourMode.value);
-  const [tourStarted, setTourStarted] = useState(false);
-  const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-  });
+  const navigate = useNavigate();
+  const [navigationURL, setNavigationURL] = useState('');
 
-  useDocumentName('Login', setTourReady);
-
-  if (tourPermission && tourReady) {
-        LoginSteps(tour);
-        handleTourStart(tour);
-  }
-
-  function handleTourStart(tour){
-    if (!tourStarted){
-      setTourStarted(true);
-      tour.start();
-    }
-  }
+  useEffect(() => {
+    navigate(navigationURL);
+  }, [navigationURL, navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -70,52 +45,49 @@ function Login() {
       dispatch(set_tourMode(data.tour_mode));
       dispatch(logged_in());
       if (data.role === 'manager'){
-        dispatch(set_manager())
+        dispatch(set_manager());
         dispatch(loading_off());
-        setPageChanger(true);
+        setNavigationURL("/main");
       }
-      setStatus(200);
+      else {
+        let check_subscription_url = "http://127.0.0.1:8000/check-subscription";
+        fetch(check_subscription_url, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + data.token
+          },
+        })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network Error: Could not connect to server. Please try again.");
+              }
+              return response.json();
+            })
+            .then(data => {
+              dispatch(loading_off());
+              if (data.subscription_status === "active") {
+                dispatch(set_activeSub());
+                setNavigationURL("/main");
+              }
+              else if(data.subscription_status === "trialing") {
+                dispatch(set_trialSub());
+                setNavigationURL("/subscribe");
+              }
+            })
+            .catch(error => {
+              toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
+              dispatch(loading_off());
+            })
+      }
     })
     .catch(error => {
           toast.error(error.message, {position: toast.POSITION.TOP_CENTER, autoClose: false});
+          dispatch(loading_off());
   })
 }
 
-  if (status===200 && !isManager) {
-    let check_subscription_url = "http://127.0.0.1:8000/check-subscription";
-    fetch(check_subscription_url, {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-    })
-        .then(response => response.json())
-        .then(data => {
-          dispatch(loading_off());
-          if (data.trial === true){
-              dispatch(set_trial());
-            }
-          if (data.status === "active") {
-            dispatch(set_subscription());
-            setPageChanger(true);
-            setStatus(0);
-          }
-          else {
-            setStatus(401)
-            setPageChanger(true);
-          }
-        })
-   }
-
-  if(page_changer===true) {
-    return <Navigate to="/"/>;
-  }
-
-  if(status===401) {
-    return <Navigate to="/subscribe"/>;
-  }
-
+  console.log(email);
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">

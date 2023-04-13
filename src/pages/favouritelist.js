@@ -1,43 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
-import Shepherd from "shepherd.js";
-import FavouriteListSteps from "../tour/favouriteList";
-import {clear_tourTwo} from "../features/tour-two/tourTwoSlice";
 
 function Favourite(){
     const token = useSelector((state) => state.token.value);
-    const dispatch = useDispatch();
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
-    const isSubscribed = useSelector((state) => state.subscription.value);
-    const tourPermission = useSelector((state) => state.tourMode.value);
-    const [tourReady, setTourReady]  = useState(false);
-    const [tourStarted, setTourStarted] = useState(false);
-    const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-    });
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
 
-    function handleTourStart(tour){
-      if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-      }
-    }
 
-    useDocumentName('Favourite List', setTourReady);
+    useDocumentName('Favourite List');
 
-    if (tourPermission && tourReady) {
-        FavouriteListSteps(tour, token, dispatch);
-        dispatch(clear_tourTwo());
-        handleTourStart(tour);
-    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/favourite', {
@@ -53,7 +29,7 @@ function Favourite(){
 
     return (
         <div>
-            { isSubscribed && (
+            { (isActiveSub || isTrialSub) && (
             <Table>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4 text-center">

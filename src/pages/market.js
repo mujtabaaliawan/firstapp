@@ -6,56 +6,29 @@ import useDocumentName from "../hooks/documentname";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import {set_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
-import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice"
 import Button from "react-bootstrap/Button";
-import Shepherd from "shepherd.js";
-import MarketSteps from "../tour/market";
+import { FaSearch } from 'react-icons/fa';
+import {Col, Row} from "react-bootstrap";
+import '../styles/market-search.css';
+import Container from "react-bootstrap/Container";
+import LoadMarketData from "../components/marketData/marketTable";
+import {set_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
+import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice";
 
 const Market = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const token = useSelector((state) => state.token.value)
+    const token = useSelector((state) => state.token.value);
     const [data, setData] = useState([]);
     const [field, setField] = useState(['id']);
-    const isSubscribed = useSelector((state) => state.subscription.value);
-    const tourPermission = useSelector((state) => state.tourMode.value);
-    const [tourReady, setTourReady]  = useState(false);
-    const [tourStarted, setTourStarted] = useState(false);
-    const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true,
-        }
-    });
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchData, setSearchData] = useState([]);
+    const [isDataFetched, setIsDataFetched] = useState(false);
+    const [checkDataLoad, setCheckDataLoad] = useState(true);
 
-    function handleTourStart(tour){
-      if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-      }
-    }
-
-    useDocumentName('Market', setTourReady);
-
-    if (tourPermission && tourReady) {
-        MarketSteps(tour, token, dispatch);
-        handleTourStart(tour);
-    }
-
-    function handleHeaderClick(headerName) {
-        setField(headerName);
-    }
-    function handleFavouriteClick(company_name) {
-        dispatch(set_favourite_company(company_name));
-        navigate("/custom-favourite");
-    }
-
-    function handleTransactionClick(company_name) {
-        dispatch(set_transaction_company(company_name));
-        navigate("/custom-transaction");
-    }
+    useDocumentName('Market');
 
     useEffect(() => {
         async function fetchData() {
@@ -73,80 +46,157 @@ const Market = () => {
         fetchData();
         }, [field, token]);
 
-  return (
+
+    if (checkDataLoad) {
+        if (data.length > 0) {
+            setIsDataFetched(true);
+            setCheckDataLoad(false);
+        }
+    }
+    // function filterSearchResults(searchQuery) {
+    //     async function fetchSearchData() {
+    //         const searchUrl = `http://127.0.0.1:8000/market-search?name=${searchQuery}`;
+    //         const response = await fetch(searchUrl, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': 'Bearer ' + token
+    //         },
+    //     })
+    //         const json = await response.json();
+    //         setSearchData(json);
+    //     }
+    //     fetchSearchData();
+    //     }
+    //
+
+    // function handleFavouriteClick(company_name) {
+    //     dispatch(set_favourite_company(company_name));
+    //     navigate("/custom-favourite");
+    // }
+
+    // function handleTransactionClick(company_name) {
+    //     dispatch(set_transaction_company(company_name));
+    //     navigate("/custom-transaction");
+    // }
+    //
+    // function handleFieldChange(field){
+    //     setField(field);
+    // }
+
+
+    return (
       <div>
-          { isSubscribed && (
+          { (isActiveSub || isTrialSub) && (
       <div className="container-fluid">
-    <Table>
-      <Thead>
-        <Tr className="fs-5 fs-lg-4 text-center">
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('id')} id={'market-stock-id'}>Stock ID</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('company__category__name')} id={'market-category'}
-          >Category</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('company__name')} id={'market-company'}>Company</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('current')} id={'market-current'}>Current</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('open')} id={'market-open'}>Open</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('high')} id={'market-high'}>High</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('low')} id={'market-low'}>Low</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('ldcp')} id={'market-ldcp'}>LDCP</Th>
-          <Th  style={{
-            cursor: 'pointer',
-            color: '#0d6efd',
-            }} onClick={() => handleHeaderClick('volume')} id={'market-volume'}>Volume</Th>
-            <Th colSpan = "2" style={{
-                textAlign: 'center',
-                color: 'red',
-            }} id={'market-actions'}>Actions</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data.map(item => (
-            <Tr key={item.id} className={'text-center'}>
-                <Td>{item.id}</Td>
-                <Td>{item.category_name}</Td>
-                <Td>{item.company_name}</Td>
-                <Td>{item.current}</Td>
-                <Td>{item.open}</Td>
-                <Td>{item.high}</Td>
-                <Td>{item.low}</Td>
-                <Td>{item.ldcp}</Td>
-                <Td>{item.volume}</Td>
-                <Td><Button onClick={() => handleFavouriteClick(item.company_name)}
-                >Mark Favourite</Button></Td>
-                <Td><Button onClick={() => handleTransactionClick(item.company_name)}
-                >Purchase Stocks</Button></Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
+          <Row>
+              <Col id={'date-container'}>
+                  <h4>Market Updated on</h4>
+              </Col>
+          </Row>
+          <div>
+              {isDataFetched && (
+                  <LoadMarketData data={data} field={field}
+                                  setField={setField} dispatch={dispatch} navigate={navigate}
+                  />
+              )}
+          </div>
+
+
+          {/*    <Col id={'search-container'} className={'container-fluid'}>*/}
+          {/*        <div className="search-box">*/}
+          {/*            <input type="text" placeholder="Search" value={searchQuery}*/}
+          {/*                   onBlur={(e) => setSearchQuery(e.target.value)}*/}
+          {/*                       onKeyDown={(e) => {*/}
+          {/*                           if (e.key === 'Enter') {*/}
+          {/*                               filterSearchResults(searchQuery);*/}
+          {/*                           }*/}
+          {/*                }}*/}
+          {/*            />*/}
+          {/*            <FaSearch className="search-icon" onClick={() => filterSearchResults(searchQuery)} />*/}
+          {/*        </div>*/}
+          {/*    </Col>*/}
+          {/*</Row>*/}
+    {/*      {(searchData.length > 0) ? (*/}
+    {/*          <div>*/}
+    {/*          {searchData && (*/}
+    {/*              <Container>*/}
+    {/*              <Row>*/}
+    {/*                  <h4>Search Results</h4>*/}
+    {/*              </Row>*/}
+    {/*              <Table>*/}
+    {/*  <Thead>*/}
+    {/*    <Tr className="fs-5 fs-lg-4 text-center">*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('id')} id={'market-stock-id'}>Stock ID</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('company__category__name')} id={'market-category'}*/}
+    {/*      >Category</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('company__name')} id={'market-company'}>Company</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('current')} id={'market-current'}>Current</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('open')} id={'market-open'}>Open</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('high')} id={'market-high'}>High</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('low')} id={'market-low'}>Low</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('ldcp')} id={'market-ldcp'}>LDCP</Th>*/}
+    {/*      <Th  style={{*/}
+    {/*        cursor: 'pointer',*/}
+    {/*        color: '#0d6efd',*/}
+    {/*        }} onClick={() => handleFieldChange('volume')} id={'market-volume'}>Volume</Th>*/}
+    {/*        <Th colSpan = "2" style={{*/}
+    {/*            textAlign: 'center',*/}
+    {/*            color: 'red',*/}
+    {/*        }} id={'market-actions'}>Actions</Th>*/}
+    {/*    </Tr>*/}
+    {/*  </Thead>*/}
+    {/*    <Tbody>*/}
+    {/*        {searchData.map( item => (*/}
+    {/*            <Tr key={`table2_${item.id}`} className={'text-center'}>*/}
+    {/*                <Td>{item.id}</Td>*/}
+    {/*                <Td>{item.category_name}</Td>*/}
+    {/*                <Td>{item.company_name}</Td>*/}
+    {/*                <Td>{item.current}</Td>*/}
+    {/*                <Td>{item.open}</Td>*/}
+    {/*                <Td>{item.high}</Td>*/}
+    {/*                <Td>{item.low}</Td>*/}
+    {/*                <Td>{item.ldcp}</Td>*/}
+    {/*                <Td>{item.volume}</Td>*/}
+    {/*                <Td><Button onClick={() => handleFavouriteClick(item.company_name)}*/}
+    {/*                >Mark Favourite</Button></Td>*/}
+    {/*                <Td><Button onClick={() => handleTransactionClick(item.company_name)}*/}
+    {/*                >Purchase Stocks</Button></Td>*/}
+    {/*        </Tr>*/}
+    {/*    ))}*/}
+    {/*          </Tbody>*/}
+    {/*</Table>*/}
+    {/*              </Container>*/}
+    {/*      )}*/}
+              </div>
+              )
+          }
       </div>
-          )}
-      </div>
-  );
+    )
 }
 
 export default Market;

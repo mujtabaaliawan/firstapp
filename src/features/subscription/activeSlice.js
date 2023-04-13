@@ -4,20 +4,20 @@ const initialState = {
   value: false,
 }
 
-export const trialSlice = createSlice({
-  name: 'trial',
+export const activeSlice = createSlice({
+  name: 'activeSub',
   initialState,
   reducers: {
-    set_trial: (state) => {
+    set_activeSub: (state) => {
       state.value = true
     },
-    clear_trial: (state) => {
+    clear_activeSub: (state) => {
       state.value = false
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { set_trial, clear_trial } = trialSlice.actions
+export const { set_activeSub, clear_activeSub } = activeSlice.actions
 
-export default trialSlice.reducer
+export default activeSlice.reducer

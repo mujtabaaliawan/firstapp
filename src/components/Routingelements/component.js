@@ -29,7 +29,8 @@ function Routing() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Newuser />} />
+        <Route path='/main' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/portfolio' element={<PortFolio />} />
         <Route path='/explore' element={<Following />} />
@@ -52,7 +53,6 @@ function Routing() {
         <Route path='/success' element={<PaymentSuccess />} />
         <Route path='/subscriptions' element={<SubscriptionDetails />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/newuser' element={<Newuser />} />
         <Route path='/logout' element={<Logout />} />
       </Routes>
     </Router>

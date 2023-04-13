@@ -7,7 +7,7 @@ function AllFavourite(){
     const token = useSelector((state) => state.token.value)
     const favourite_state = useSelector((state) => state.favourite.value);
     const [data, setData] = useState([]);
-    const isSubscribed = useSelector((state) => state.subscription.value);
+    const isManager = useSelector((state) => state.manager.value);
 
     useEffect(() => {
         document.title = 'Favourite List';
@@ -27,7 +27,7 @@ function AllFavourite(){
 
     return (
         <div>
-            { isSubscribed && (
+            { (isManager) && (
             <Table>
                 <Thead>
                     <Tr className="fs-5 fs-lg-4">

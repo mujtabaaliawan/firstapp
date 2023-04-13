@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { increase_favourite} from "../features/favourite/favouriteSlice";
 import { Navigate } from 'react-router-dom';
 import useDocumentName from "../hooks/documentname";
-import Shepherd from "shepherd.js";
-import FavouriteNewSteps from "../tour/favouriteNew";
+
 
 function FavouriteNew() {
     const token = useSelector((state) => state.token.value);
@@ -16,31 +15,12 @@ function FavouriteNew() {
     const [page_changer, setPageChanger] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
-    const isSubscribed = useSelector((state) => state.subscription.value);
-    const tourPermission = useSelector((state) => state.tourMode.value);
-    const [tourReady, setTourReady]  = useState(false);
-    const [tourStarted, setTourStarted] = useState(false);
-    const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-    });
+    const isActiveSub = useSelector((state) => state.activeSub.value);
+    const isTrialSub = useSelector((state) => state.trialSub.value);
 
-    function handleTourStart(tour){
-      if (!tourStarted){
-        setTourStarted(true);
-        tour.start();
-      }
-    }
 
-    useDocumentName('New Favourite', setTourReady);
+    useDocumentName('New Favourite');
 
-    if (tourPermission && tourReady) {
-        FavouriteNewSteps(tour, token, dispatch);
-        handleTourStart(tour);
-    }
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/company-name', {
@@ -94,7 +74,7 @@ function FavouriteNew() {
 
     return (
         <div>
-            { isSubscribed && (
+            { (isActiveSub || isTrialSub) && (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-5">

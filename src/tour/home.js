@@ -1,91 +1,87 @@
-import skipTour from "./Components/endTour";
 import navbarCollapsed from "./Components/collapsedNavbar";
+import GetButtons from "./Components/buttons";
+import skipTour from "./Components/endTour";
 
-function HomeSteps(isLoggedIn, isSubscribed, tour, token) {
+function HomeSteps(isLoggedIn, tour, dispatch, token) {
 
+    const buttons = GetButtons(token, dispatch, tour);
     navbarCollapsed(tour);
 
-    if (isLoggedIn && isSubscribed) {
-            tour.addStep({
-                id: 'user-profile',
-                text: 'Click here to view your Profile',
-                attachTo: {
-                    element: '#profile-loggedin',
-                    on: 'bottom'
-                },
-                classes: 'example-step-extra-class',
-                buttons: [
-                    {
-                        text: 'Next',
-                        action: tour.next
-                    },
-                ]
-            });
-        } else {
-            if (isLoggedIn) {
-                tour.addStep({
-                    id: 'user-subscription',
-                    text: 'Click here to view subscription plans',
-                    attachTo: {
-                        element: '#subscription-unsubscribed',
-                        on: 'bottom'
-                    },
-                    classes: 'example-step-extra-class',
-                    buttons: [
-                        {
-                            text: 'Next',
-                            action: tour.next
-                        },
-                    ]
-                });
-            } else {
-                tour.addStep({
-                    id: 'user-signup',
-                    text: 'Start by clicking on this button to take you to Signup Page',
-                    attachTo: {
-                        element: '#signup-loggedout',
-                        on: 'bottom'
-                    },
-                    classes: 'example-step-extra-class',
-                    advanceOn: {
-                        selector: '#signup-loggedout',
-                        event: 'click'
-                    },
-                    buttons: [
-                        {
-                            text: 'Skip Tour',
-                            action: (() => {
-                                skipTour(token);
-                                tour.cancel();
-                            })
-                        },
-                        {
-                            text: 'Next',
-                            action: tour.next
-                        },
-                    ]
-                });
-                tour.addStep({
-                    id: 'user-login',
-                    text: 'Click here if you have already signed up for this app',
-                    attachTo: {
-                        element: '#login-loggedout',
-                        on: 'bottom'
-                    },
-                    classes: 'example-step-extra-class',
-                    buttons: [
-                        {
-                            text: 'Back',
-                            action: tour.back
-                        },
-                        {
-                            text: 'Complete',
-                            action: tour.complete
-                        }
-                    ]
-                });
-            }
-        }
+
+    tour.addStep({
+        id: 'tour-market',
+        text: 'Click here to view the latest stock market prices',
+        attachTo: {
+            element: '#market-loggedin',
+            on: 'bottom'
+        },
+        buttons: [
+            {
+                text: 'Skip Tour',
+                action: (() => {
+                    skipTour(token, dispatch);
+                    tour.cancel();
+                })
+            },
+            {
+                text: 'Next',
+                action: tour.next
+            },
+            ]
+    });
+
+    tour.addStep({
+        id: 'tour-transaction',
+        text: 'Click here to open menu and record your stock purchase and sale transactions',
+        attachTo: {
+            element: '#trans-nav-dropdown',
+            on: 'bottom'
+        },
+        buttons: buttons
+    });
+
+    tour.addStep({
+        id: 'tour-portfolio',
+        text: 'Click here to see your calculated stock profits and loses based on latest market stock prices',
+        attachTo: {
+            element: '#portfolio-loggedin',
+            on: 'bottom'
+        },
+        buttons: buttons
+    });
+
+    tour.addStep({
+        id: 'tour-favourite',
+        text: 'Click here to open menu and select a stock company as your favourite, and enter stock price limits.' +
+            ' You will receive alerts when the current stock price crosses the marked limits.',
+        attachTo: {
+            element: '#fav-nav-dropdown',
+            on: 'bottom'
+        },
+        buttons: buttons
+    });
+
+    tour.addStep({
+        id: 'tour-dashboard',
+        text: 'Click here to view all transactions of all traders and follow any trader you want.',
+        attachTo: {
+            element: '#dashboard-loggedin',
+            on: 'bottom'
+        },
+        buttons: [
+            {
+                text: 'Back',
+                action: tour.back
+            },
+            {
+                text: 'End Tour',
+                action: (() => {
+                    skipTour(token, dispatch);
+                    tour.complete();
+                })
+            },
+            ]
+    });
 }
 
 export default HomeSteps;

@@ -1,23 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: true,
+  value: false,
 }
 
-export const helpSlice = createSlice({
-  name: 'help',
+export const trialSlice = createSlice({
+  name: 'trialSub',
   initialState,
   reducers: {
-    help_on: (state) => {
+    set_trialSub: (state) => {
       state.value = true
     },
-    help_off: (state) => {
+    clear_trialSub: (state) => {
       state.value = false
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { help_on, help_off } = helpSlice.actions
+export const { set_trialSub, clear_trialSub } = trialSlice.actions
 
-export default helpSlice.reducer
+export default trialSlice.reducer

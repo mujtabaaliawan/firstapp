@@ -28,7 +28,6 @@ function SubscriptionDetails() {
             .then(data => setSubscriptionData(data))
     }, [token]);
 
-    console.log(subscriptionData);
 
     function handleClick(displayData) {
         setTableData(displayData);

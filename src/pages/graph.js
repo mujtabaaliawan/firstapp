@@ -1,18 +1,16 @@
 import React from 'react';
 import {useState} from "react";
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import '../styles/graph.css';
 import Chart from "react-apexcharts";
 import useDocumentName from "../hooks/documentname";
-import Shepherd from "shepherd.js";
-import GraphSteps from "../tour/graph";
 
 
 const Graph = () => {
 
-  const dispatch = useDispatch();
-  const isSubscribed = useSelector((state) => state.subscription.value);
+  const isActiveSub = useSelector((state) => state.activeSub.value);
+  const isTrialSub = useSelector((state) => state.trialSub.value);
   const token = useSelector((state) => state.token.value)
   const [xValues, setXValues] = useState([]);
   const [yValues, setYValues] = useState([]);
@@ -31,30 +29,9 @@ const Graph = () => {
   const fromDateTimeOneDay = fromDate.toLocaleString('en-US', dateTimeOptions).replace(
       /[/]/g, '-');
   const [ fromDateTime, setFromDateTime] = useState(fromDateTimeOneDay);
-  const [tourReady, setTourReady]  = useState(false)
-  const tourPermission = useSelector((state) => state.tourMode.value);
-  const [tourStarted, setTourStarted] = useState(false);
-  const tour = new Shepherd.Tour({
-        useModalOverlay: false,
-        defaultStepOptions: {
-            classes: 'shadow-md bg-purple-dark shepherd-theme-arrows',
-            scrollTo: true
-        }
-  });
 
-  useDocumentName('Graph', setTourReady);
 
-  if (tourPermission && tourReady) {
-        GraphSteps(tour, token, dispatch)
-        handleTourStart(tour)
-  }
-
-  function handleTourStart(tour){
-    if (!tourStarted){
-      setTourStarted(true);
-      tour.start();
-    }
-  }
+  useDocumentName('Graph');
 
 
   useEffect(() => {
@@ -213,7 +190,7 @@ const Graph = () => {
 
   return (
       <div>
-        { isSubscribed && (
+        { (isActiveSub || isTrialSub) && (
       <div>
         <div className="d-flex justify-content-center mb-2 mt-2" style={{
           display: "flex",
