@@ -9,7 +9,6 @@ import Button from "react-bootstrap/Button";
 import { FaSearch } from 'react-icons/fa';
 import {Col, Row} from "react-bootstrap";
 import '../styles/market-search.css';
-import Container from "react-bootstrap/Container";
 import LoadMarketData from "../components/marketData/marketTable";
 import axios from 'axios';
 
@@ -69,8 +68,10 @@ const Market = () => {
       <div className="container-fluid">
           <Row>
               <Col id={'date-container'}>
-                  <h4>Market Updated on:</h4><h4>{marketDate}</h4>
+                  <h4>Market Updated on: <span id={'date-value'}>{marketDate}</span></h4>
               </Col>
+          </Row>
+          <Row>
               <Col id={'search-container'} className={'container-fluid'}>
                   <div className="search-box">
                       <input type="text" placeholder="Search" value={searchQuery}
@@ -85,7 +86,7 @@ const Market = () => {
                   </div>
               </Col>
           </Row>
-          <Container>
+          <div>
               { !displaySearchResults ? ( <div>
               {marketData && (
                   <LoadMarketData data={marketData} field={field}
@@ -107,7 +108,7 @@ const Market = () => {
                   />
                   }
                   </div>) }
-          </Container>
+          </div>
               </div>
               )
           }

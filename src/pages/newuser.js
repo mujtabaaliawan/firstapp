@@ -58,7 +58,7 @@ function NewUser() {
       <div id={'main'}>
           <Container className="mt-5" id={'content'}>
             <Row className="justify-content-center">
-            <Col>
+            <Col id={'data-column'}>
                 <Row className={'mb-4'}>
                 <Row>
                 <div>

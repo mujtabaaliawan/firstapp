@@ -62,31 +62,39 @@ body {
     color: #007bff;
 }
 
-/* For devices with a screen width of 768px or less */
+
 @media (max-width: 768px) {
 
   #picture img {
-    max-width: 40vw;
-    margin-left: 5px;
-      margin-top: 50%;
+    width: 40vw;
+    height: 60vw;
+    margin-left: 1px;
+      margin-top: 20%;
   }
 
   #submit-button {
       font-size: 1rem;
-    width: 40%;
+      width: 60%;
   }
+
+    #email {
+        width: 180px;
+    }
+
+    #password {
+        width: 180px;
+    }
+    #box {
+        margin-left: 1px;
+    }
+
   #footer {
       font-size: 11px;
   }
 }
 
-/* For devices with a screen width of 576px or less */
 @media (max-width: 576px) {
-    body {
-        background-image: url("https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVzaW5lc3MlMjBtYW4lMjBhbmQlMjB3b21hbnxlbnwwfHwwfHw%3D&w=1000&q=80");
-        background-size: cover;
-        background-position: center center;
-    }
+
   #box {
     max-width: 80vw;
     border-radius: 20px;
