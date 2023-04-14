@@ -12,8 +12,6 @@ import {Col, Row} from "react-bootstrap";
 import '../styles/market-search.css';
 import Container from "react-bootstrap/Container";
 import LoadMarketData from "../components/marketData/marketTable";
-import {set_favourite_company} from "../features/favourite-company/favouriteCompanySlice";
-import {set_transaction_company} from "../features/transaction-company/transactionCompanySlice";
 import axios from 'axios';
 
 
@@ -72,7 +70,10 @@ const Market = () => {
         setDisplaySearchResults(true);
         }
 
-
+    function SearchCancel(){
+        setDisplaySearchResults(false);
+        setSearchQuery('');
+    }
     return (
       <div>
           { (isActiveSub || isTrialSub) && (
@@ -95,7 +96,7 @@ const Market = () => {
                   </div>
               </Col>
           </Row>
-          <div>
+          <Container>
               { !displaySearchResults ? ( <div>
               {marketData && (
                   <LoadMarketData data={marketData} field={field}
@@ -103,13 +104,21 @@ const Market = () => {
                   />
               )} </div>
                   ) : ( <div>
+                  <Row>
+                      <Col>
+                          <h4> Search Results</h4>
+                      </Col>
+                      <Col>
+                          <Button onClick={SearchCancel}>Cancel Search</Button>
+                      </Col>
+                  </Row>
                   {
                       <LoadMarketData data={searchData} field={searchField}
                                       setField={setSearchField} dispatch={dispatch} navigate={navigate}
                   />
                   }
                   </div>) }
-          </div>
+          </Container>
               </div>
               )
           }
