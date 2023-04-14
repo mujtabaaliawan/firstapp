@@ -1,6 +1,5 @@
 import React from 'react';
 import {useState, useEffect} from "react";
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../hooks/documentname";
 import {useSelector} from "react-redux";
@@ -20,19 +19,20 @@ const Market = () => {
     const navigate = useNavigate();
     const token = useSelector((state) => state.token.value);
     const [marketData, setMarketData] = useState([]);
-    const [field, setField] = useState(['id']);
+    const [field, setField] = useState('id');
     const isActiveSub = useSelector((state) => state.activeSub.value);
     const isTrialSub = useSelector((state) => state.trialSub.value);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchData, setSearchData] = useState([]);
     const [marketDate, setMarketDate] = useState('');
-    const [searchField, setSearchField] = useState('');
+    const [searchField, setSearchField] = useState('id');
     const [displaySearchResults, setDisplaySearchResults] = useState(false);
 
     useDocumentName('Market');
 
     useEffect(() => {
         let marketUrl = `http://127.0.0.1:8000/latest_stock?field=${field}`;
+        let marketDateUrl = 'http://127.0.0.1:8000/stock_date';
         let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
@@ -41,23 +41,13 @@ const Market = () => {
             .then(response => {
                 setMarketData(response.data);
             })
+        axios.get(marketDateUrl, { headers: headers})
+            .then (response => {setMarketDate(response.data['latest_time'].replace('T',' '))});
+                    console.log("getting new date");
     }, [field, token])
 
 
-    useEffect(() => {
-        let marketDateUrl = 'http://127.0.0.1:8000/stock_date';
-        let headers = {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-        };
-        axios.get(marketDateUrl, { headers: headers})
-            .then(response => {
-                setMarketDate(response.data['latest_time'].replace('T',' '));
-            })
-    })
-
-
-    function filterSearchResults(searchQuery) {
+    function filterSearchResults(searchQuery, searchField) {
         let searchUrl = `http://127.0.0.1:8000/market-search?name=${searchQuery}`;
         let headers = {
             'Content-Type': 'application/json',
