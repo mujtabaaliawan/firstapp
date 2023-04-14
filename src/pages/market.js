@@ -43,7 +43,6 @@ const Market = () => {
             })
         axios.get(marketDateUrl, { headers: headers})
             .then (response => {setMarketDate(response.data['latest_time'].replace('T',' '))});
-                    console.log("getting new date");
     }, [field, token])
 
 
