@@ -1,4 +1,4 @@
-import {set_tourMode} from "../../features/tour/tourSlice";
+import {set_tourMode} from "../../reducers/tour/tourSlice";
 
 const skipTour = (token, dispatch) => {
     let updateUrl = 'http://127.0.0.1:8000/trader-update';

@@ -1,30 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from "../../pages/home";
-import Market from '../../pages/market';
-import TransactionNew from '../../pages/transactionnew';
-import TransactionList from '../../pages/transactionlist';
-import FavouriteNew from '../../pages/favouritenew';
-import FavouriteList from '../../pages/favouritelist';
-import Graph from '../../pages/graph';
-import Login from '../../pages/login';
-import Newuser from '../../pages/newuser';
-import Logout from '../../pages/logout';
-import Dashboard from "../../pages/dashboard";
-import Favourite from "../../pages/favourite";
-import Report from "../../pages/report";
-import FavouriteCustom from "../../pages/customfavourite";
-import TransactionCustom from "../../pages/customtransaction";
-import Followers from "../../pages/followers";
-import Following from "../../pages/following";
-import Profile from "../../pages/profile";
-import TransactionSale from "../../pages/transactionsale";
-import PortFolio from "../../pages/portfolio";
-import Subscriptions from "../../pages/subscriptions";
-import SubscriptionDetails from "../../pages/subscriptionsdetails";
-import PaymentCancel from "../../pages/paymentCancel";
-import PaymentSuccess from "../../pages/paymentSuccess";
-import CustomerPortal from "../../pages/customerPortal";
+import Home from "../../pages/home/home";
+import Market from '../../pages/market/market';
+import TransactionNew from '../../pages/transaction/purchase/transactionnew';
+import TransactionList from '../../pages/transaction/list/transactionlist';
+import FavouriteNew from '../../pages/favourite/new/favouritenew';
+import FavouriteList from '../../pages/favourite/list/favouritelist';
+import Graph from '../../pages/graph/graph';
+import Login from '../../pages/login/login';
+import Newuser from '../../pages/main/newuser';
+import Logout from '../../pages/logout/logout';
+import Dashboard from "../../pages/dashboard/dashboard";
+import Favourite from "../../pages/favourite/manager/favourite";
+import Report from "../../pages/report/report";
+import Followers from "../../pages/followers/followers";
+import Following from "../../pages/following/following";
+import Profile from "../../pages/profile/profile";
+import TransactionSale from "../../pages/transaction/sale/transactionsale";
+import PortFolio from "../../pages/portfolio/portfolio";
+import Subscriptions from "../../pages/subscriptions/subscriptions";
+import SubscriptionDetails from "../../pages/subscriptionDetails/subscriptionsdetails";
+import PaymentCancel from "../../pages/subscriptions/paymentCancel";
+import PaymentSuccess from "../../pages/subscriptions/paymentSuccess";
+import CustomerPortal from "../../pages/customerPortal/customerPortal";
 function Routing() {
   return (
     <Router>
@@ -39,10 +37,8 @@ function Routing() {
         <Route path='/market' element={<Market />} />
         <Route path='/newtransaction' element={<TransactionNew />} />
         <Route path='/saletransaction' element={<TransactionSale />} />
-        <Route path='/custom-transaction' element={<TransactionCustom />} />
         <Route path='/transactionlist' element={<TransactionList />} />
         <Route path='/newfavourite' element={<FavouriteNew />} />
-        <Route path='/custom-favourite' element={<FavouriteCustom />} />
         <Route path='/favouritelist' element={<FavouriteList />} />
         <Route path='/favourite' element={<Favourite />} />
         <Route path='/report' element={<Report />} />

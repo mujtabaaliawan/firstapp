@@ -19,6 +19,7 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
     "cors": "^2.8.5",
+    "formik": "^2.2.9",
     "lottie-react": "^2.4.0",
     "lottie-web": "^5.10.2",
     "mdbreact": "^5.2.0",
@@ -37,8 +38,10 @@
     "react-toastify": "^9.1.1",
     "react-tooltip": "^5.11.1",
     "redux-persist": "^6.0.0",
+    "rsuite": "^5.31.1",
     "shepherd.js": "^11.1.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
