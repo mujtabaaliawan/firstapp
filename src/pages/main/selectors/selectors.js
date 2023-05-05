@@ -4,6 +4,7 @@ import newTrader from "../services/newTrader";
 import * as Yup from "yup";
 import {useState} from "react";
 
+
 function Selectors (dispatch){
     const [navigationUrl, setNavigationUrl] = useState('');
         const formik = useFormik({

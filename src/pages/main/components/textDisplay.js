@@ -23,10 +23,6 @@ function TextDisplay (){
                 </div>
                 </Row>
         </Row>
-                <Row id={'footer'}>
-                <p>Free All Features for 14 days on</p>
-                <p> registration or <a href={'/login'}>press here for login</a></p>
-                </Row>
         </div>
     )
 }

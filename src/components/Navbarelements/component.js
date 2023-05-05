@@ -7,10 +7,10 @@ import Button from "react-bootstrap/Button";
 import {useSelector} from "react-redux";
 
 function Navigator() {
-  const isLoggedIn = useSelector((state) => state.logged.value);
-  const isManager = useSelector((state) => state.manager.value);
-  const isActiveSub = useSelector((state) => state.activeSub.value);
-  const isTrialSub = useSelector((state) => state.trialSub.value);
+  const isLoggedIn = useSelector((state) => state.user.logged);
+  const isManager = useSelector((state) => state.user.manager);
+  const isActiveSub = useSelector((state) => state.user.activeSub);
+  const isTrialSub = useSelector((state) => state.user.trialSub);
 
   return (<div> {
         isLoggedIn ? ( <div> {

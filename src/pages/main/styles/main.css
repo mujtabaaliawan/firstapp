@@ -1,0 +1,29 @@
+
+body {
+    background-color: orange !important;
+}
+
+
+#submit-button:hover {
+  background-color: white;
+    color: black;
+}
+
+#greeting {
+    color: white;
+}
+
+#email {
+    width: 280px;
+}
+
+#password {
+    width: 280px;
+}
+
+#photo {
+    max-width: 100% ;
+    height: auto;
+    margin: 20% 20%;
+}
+

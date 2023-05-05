@@ -1,15 +1,17 @@
 import {Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import React from "react";
-import Button from "react-bootstrap/Button";
+import styles from "../styles/styles";
+import {Button} from "react-bootstrap";
 
 function UserForm(props){
 
     const formik = props.formik;
-
+    const { FormBox, SubmitButton } = styles();
 
     return (
-        <Row id={'box'}>
+        <div as={FormBox}>
+        <Row>
             <Form onSubmit={formik.handleSubmit}>
                 <Row>
                   <Form.Group className="mb-3 mt-5">
@@ -34,12 +36,13 @@ function UserForm(props){
                       {formik.touched.password && formik.errors.password && (
                           <span className='text-red-400'>{formik.errors.password}</span> )}
                   </div>
-                  <div>
-                    <Button type="submit" id='submit-button' className="btn btn-primary">Register</Button>
+                  <div className={"ml-5"}>
+                    <Button as={SubmitButton} type="submit" id='submit-button' className="btn-primary">Register</Button>
                   </div>
                   </Row>
             </Form>
                 </Row>
+            </div>
     )
 }
 

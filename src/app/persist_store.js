@@ -11,6 +11,7 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   user: userReducer,
   favourite: favouriteReducer,
   transaction: transactionReducer,
+
 }));
 
 export const store = configureStore({

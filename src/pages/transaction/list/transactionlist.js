@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React from 'react';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../../../hooks/documentname";
 import TransactionDataUpdate from "./hooks/UpdateData";
