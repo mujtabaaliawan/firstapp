@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/graph.css';
+import './styles/graph.css';
 import Chart from "react-apexcharts";
 import useDocumentName from "../../hooks/documentname";
 import GetCompanyNames from "./hooks/getCompanyNames";
@@ -8,13 +8,15 @@ import GraphForm from "./components/graphForm";
 import GraphButtons from "./components/graphButtons";
 import UserSelectors from "../selectors/userSelectors";
 import Selectors from "./selectors/selectors";
+import styles from "./styles/components";
 
 const Graph = () => {
 
   let {token, isActiveSub, isTrialSub} = UserSelectors();
-  let{xValues, setXValues, yValues, setYValues, companies, setCompanies,
+  let {xValues, setXValues, yValues, setYValues, companies, setCompanies,
     company_id,  selectedCompany,  field, fields, currentDate,
     currentDateTime, dateTimeOptions, formik} = Selectors(token);
+  const {StyledChart} = styles();
 
   useDocumentName('Graph');
 
@@ -30,13 +32,7 @@ const Graph = () => {
         <GraphButtons token={token} field={field} currentDate={currentDate} dateTimeOptions={dateTimeOptions}
         company_id={company_id} currentDateTime={currentDateTime} setXValues={setXValues} setYValues={setYValues}/>
 
-    <div id="chart-div" style={{
-      display: "flex",
-      margin:"auto",
-      justifyContent: "center",
-      height: "50%",
-      width: "100%"
-      }}>
+    <StyledChart id="chart-div">
       <Chart id="responsive-chart"
              options={options}
              series={dataSeries}
@@ -44,7 +40,7 @@ const Graph = () => {
              width="1500"
              height="500"
       />
-    </div>
+    </StyledChart>
       </div>
         )}
       </div>

@@ -27,7 +27,7 @@ function UserForm(props){
                 </Row>
               <Row>
                   <div className="mb-4">
-                    <input type="password"
+                    <Form.Control type="password"
                            className={`form-control ${formik.touched.password &&
                            formik.errors.password ? 'border-red-400' : 'border-gray-300'}`}
                            id="password" value={formik.values.password}

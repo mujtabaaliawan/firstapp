@@ -7,7 +7,7 @@ import {useState} from "react";
 
 function Selectors (dispatch){
     const [navigationUrl, setNavigationUrl] = useState('');
-        const formik = useFormik({
+    const formik = useFormik({
       initialValues: {
           email: '',
           password: '',

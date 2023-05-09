@@ -6,8 +6,8 @@ import UserSelectors from "../selectors/userSelectors";
 import Selectors from "./selectors/selectors";
 
 const Following = () => {
-    let {token, isActiveSub, isTrialSub} = UserSelectors();
-    let {isManager, followingData, setFollowingData} = Selectors();
+    let {token, isActiveSub, isTrialSub, isManager} = UserSelectors();
+    let {followingData, setFollowingData} = Selectors();
 
     useDocumentName('Following');
     FollowingDataUpdate(token, setFollowingData);

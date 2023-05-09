@@ -1,4 +1,4 @@
-import {Form} from "react-bootstrap";
+import {Col, Form, Row} from "react-bootstrap";
 import React from "react";
 import Button from "react-bootstrap/Button";
 
@@ -9,16 +9,11 @@ function GraphForm(props) {
     let fields = props.fields;
 
     return (
-                <div className="d-flex justify-content-center mb-2 mt-2" style={{
-          display: "flex",
-          flexShrink: "1",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "center",
-          whiteSpace: "nowrap",
-          margin: "auto",
-        }}>
+        <div id='graph-form' className="d-flex justify-content-center mb-2 mt-2">
+
           <Form onSubmit={formik.handleSubmit}>
+              <Row className={"mt-2 mb-2"}>
+              <Col className={"col-6"}>
           <div className={`form-control 
                     ${formik.touched.companyName && 
                     formik.errors.companyName ? 'border-red-400' : 'border-gray-300'}`}
@@ -34,8 +29,9 @@ function GraphForm(props) {
             {formik.touched.companyName && formik.errors.companyName && (
                 <span className='text-red-400'>{formik.errors.companyName}</span> )}
           </div>
+          </Col>
 
-
+            <Col className={"col-4"}>
           <div className={`form-control 
                     ${formik.touched.field && 
                     formik.errors.field ? 'border-red-400' : 'border-gray-300'}`} style={{order: "2"}}>
@@ -50,11 +46,15 @@ function GraphForm(props) {
               {formik.touched.field && formik.errors.field && (
                 <span className='text-red-400'>{formik.errors.email}</span> )}
           </div>
-
-          <div>
-              <Button type="submit" id='submit-button' className="btn btn-primary">Submit</Button>
+            </Col>
+          </Row>
+            <Row>
+                <Col>
+              <div id={'submit-button'}>
+              <Button type="submit" className="btn btn-primary">Submit</Button>
           </div>
-
+                    </Col>
+            </Row>
           </Form>
         </div>
 

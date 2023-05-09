@@ -15,7 +15,7 @@ function TransactionSaleForm(props){
     let setSelectedStock = props.setSelectedStock;
 
     return (
-            <div>
+            <div className={'container-fluid d-flex justify-content-center mt-2 mb-2 w-50'}>
                 <Form onSubmit={formik.handleSubmit}>
                     <div className={`form-control mb-3 ${formik.touched.companyName && 
                     formik.errors.companyName ? 'border-red-400' : 'border-gray-300'}`}>

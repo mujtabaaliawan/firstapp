@@ -1,5 +1,6 @@
 import 'rsuite/dist/rsuite.min.css';
 import { Table } from 'rsuite';
+import React from 'react';
 
 function DisplayMarket(props){
 
@@ -8,21 +9,23 @@ function DisplayMarket(props){
 
 
     return (
-        <Table virtualized height={400} data={data} defaultSortType={'asc'}
+        <Table virtualized height={450} data={data} defaultSortType={'asc'}
                sortColumn={'id'}>
-            <Column width={50} align="center" fixed>
-                <HeaderCell >Id</HeaderCell>
-                <Cell dataKey="id" />
-            </Column>
 
-      <Column width={260}>
-        <HeaderCell>Company</HeaderCell>
+
+          <Column width={50} align="center" fixed>
+            <HeaderCell >Id</HeaderCell>
+            <Cell dataKey="id" />
+          </Column>
+
+      <Column flexGrow={2}>
+        <HeaderCell>Company <code>flexGrow={2}</code></HeaderCell>
         <Cell dataKey="company_name" />
       </Column>
 
-      <Column width={255}>
+      <Column flexGrow={1}>
         <HeaderCell
-        >Category</HeaderCell>
+        >Category <code>flexGrow={1}</code></HeaderCell>
         <Cell dataKey="category_name" />
       </Column>
 
@@ -68,4 +71,4 @@ function DisplayMarket(props){
 
 }
 
-export default DisplayMarket;
+export const MemoizedMarket = React.memo(DisplayMarket);

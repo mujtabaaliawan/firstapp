@@ -14,3 +14,28 @@
         width: 30%;
     }
 }
+
+#graph-form {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}
+
+#submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+#plot-1-year {
+    margin-right: 5px;
+}
+
+#plot-6-months {
+    margin-right: 5px;
+}
+
+#plot-1-month {
+    margin-right: 5px;
+}

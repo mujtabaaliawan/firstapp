@@ -3,26 +3,26 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useDocumentName from "../../hooks/documentname";
 import Button from "react-bootstrap/Button";
 import {Col, Row} from "react-bootstrap";
-import '../../styles/market-search.css'
+import './styles/market.css';
 import useMarketUpdate from "./hooks/UpdateData";
 import SearchBox from "./component/searchBox";
-import DisplayMarket from "./component/displayMarket";
+import {MemoizedMarket} from "./component/displayMarket";
 import UserSelectors from "../selectors/userSelectors";
 import Selectors from "./selectors/selectors";
 
 const Market = () => {
     let {token, isActiveSub, isTrialSub} = UserSelectors();
-    let {marketData, setMarketData, field, searchQuery, setSearchQuery, searchData, setSearchData,
-        marketDate, setMarketDate, searchField, displaySearchResults, setDisplaySearchResults} = Selectors()
+    let {marketData, setMarketData, field, searchData, setSearchData,
+        marketDate, setMarketDate, searchField, displaySearchResults, setDisplaySearchResults,
+        formik} = Selectors(token);
 
 
     useDocumentName('Market');
-
     useMarketUpdate(token, field, setMarketData, setMarketDate);
 
     function SearchCancel(){
         setDisplaySearchResults(false);
-        setSearchQuery('');
+        formik.values.SearchQuery='';
     }
     return (
       <div>
@@ -33,13 +33,12 @@ const Market = () => {
                   <h4>Market Updated on: <span id={'date-value'}>{marketDate}</span></h4>
               </Col>
           </Row>
-            <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery}
-                   token={token} setSearchData={setSearchData}
+            <SearchBox token={token} setSearchData={setSearchData} formik={formik}
                        setDisplaySearchResults={setDisplaySearchResults} />
           <div>
               { !displaySearchResults ? ( <div>
               {marketData && (
-                  <DisplayMarket data={marketData} field={field}
+                  <MemoizedMarket data={marketData} field={field}
                   />
               )} </div>
                   ) : ( <div>
@@ -52,7 +51,7 @@ const Market = () => {
                       </Col>
                   </Row>
                   {
-                      <DisplayMarket data={searchData} field={searchField}
+                      <MemoizedMarket data={searchData} field={searchField}
                   />
                   }
                   </div>) }

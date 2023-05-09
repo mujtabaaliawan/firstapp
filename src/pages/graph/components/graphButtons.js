@@ -13,35 +13,28 @@ function GraphButtons(props){
     let setYValues = props.setYValues;
 
     return (
-        <div className="d-flex justify-content-center mb-2 mt-2" style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          margin: "auto",
-          maxWidth: "50vw",
-          whiteSpace: "nowrap",
-        }}>
+        <div className="d-flex justify-content-center mb-2 mt-2">
         <div>
           <Button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-year'}
-                  style={{order: "1", marginLeft:"5rem"}} onClick={() => ButtonClick(token, field, '1-year',
+                  onClick={() => ButtonClick(token, field, '1-year',
               currentDate, dateTimeOptions, company_id, currentDateTime, setXValues, setYValues)}>
               1 year</Button>
         </div>
         <div>
           <Button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-6-months'}
-                  style={{order: "2", marginLeft:"5rem"}} onClick={() => ButtonClick(token, field, '6-months',
+                  onClick={() => ButtonClick(token, field, '6-months',
               currentDate, dateTimeOptions, company_id, currentDateTime, setXValues, setYValues)}>
               6 months</Button>
         </div>
         <div>
           <Button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-month'}
-                  style={{order: "3", marginLeft:"5rem"}} onClick={ () => ButtonClick(token, field, '1-month',
+                  onClick={ () => ButtonClick(token, field, '1-month',
               currentDate, dateTimeOptions, company_id, currentDateTime, setXValues, setYValues)}
           >1 month</Button>
         </div>
         <div>
           <Button type="button" className="btn btn-primary mt-2 mb-2" id={'plot-1-week'}
-                  style={{order: "4", marginLeft:"5rem"}} onClick={() => ButtonClick(token, field, '1-week',
+                  onClick={() => ButtonClick(token, field, '1-week',
               currentDate, dateTimeOptions, company_id, currentDateTime, setXValues, setYValues)}
           >1 week</Button>
         </div>
