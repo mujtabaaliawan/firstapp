@@ -14,13 +14,13 @@ function ProfileEditBox(props){
     }
 
     return (
-    <div className="container mt-5 d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
             <Form onSubmit={formik.handleSubmit}>
                 <Row>
                   <Form.Group className="mb-3 mt-5">
-                      <Form.Control type={"file"} className={'form-control'}
+                      <Form.Control type={"file"} className={'form-control'} aria-valuetext={"Profile"}
                            id="profile-picture" onChange={(event) => handleImageChange(event.target.files[0])}
-                           placeholder={"Upload new Profile Picture"} />
+                      />
                   </Form.Group>
                 </Row>
                 <Row>

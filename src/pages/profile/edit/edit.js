@@ -3,6 +3,7 @@ import Selectors from "./selectors/selectors";
 import Navigation from "./hooks/navigation";
 import UserSelectors from "../../selectors/userSelectors";
 import ProfileEditBox from "./components/ProfileEditBox";
+import "./styles/edit.css";
 
 function EditProfile(){
     let {navigate} = GlobalSelectors();

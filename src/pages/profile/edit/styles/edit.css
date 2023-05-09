@@ -1,4 +1,17 @@
 #profile-picture {
+    width: 380px;
     height: auto;
-    width: 200px;
+    margin: auto;
+}
+
+#name {
+    width: 380px;
+    height: auto;
+    margin: auto;
+}
+
+#mobile_number {
+    width: 380px;
+    height: auto;
+    margin-left: 11%;
 }
