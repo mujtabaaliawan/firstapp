@@ -23,6 +23,8 @@ import SubscriptionDetails from "../../pages/subscriptionDetails/subscriptionsde
 import PaymentCancel from "../../pages/subscriptions/paymentCancel";
 import PaymentSuccess from "../../pages/subscriptions/paymentSuccess";
 import CustomerPortal from "../../pages/customerPortal/customerPortal";
+import EditProfile from "../../pages/profile/edit/edit";
+
 function Routing() {
   return (
     <Router>
@@ -30,6 +32,7 @@ function Routing() {
         <Route path='/' element={<Newuser />} />
         <Route path='/main' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/profile-edit' element={<EditProfile />} />
         <Route path='/portfolio' element={<PortFolio />} />
         <Route path='/explore' element={<Following />} />
         <Route path='/followers' element={<Followers />} />

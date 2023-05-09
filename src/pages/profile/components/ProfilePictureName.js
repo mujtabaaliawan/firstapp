@@ -1,21 +1,26 @@
 import {Col, Image, Row} from "react-bootstrap";
 import React from "react";
+import Button from "react-bootstrap/Button";
 
 function ProfilePictureName(props){
     let profileData = props.profileData;
     let traderPictureURL = props.traderPictureURL;
+    let setNavigationUrl = props.setNavigationUrl;
 
     return (
         <div>
-                  <Row>
+            <Row>
           <Col className='col-xs-3 col-lg-3 d-flex justify-content-center'>
             <Image src= {traderPictureURL} id='profile-picture'
-                   roundedCircle style={{ width: '10rem', height: '10rem'}}/>
+                   roundedCircle />
           </Col>
-          <Col className='col-xs-9 col-lg-9'>
-            <h1 style={{color: "blue"}}>{profileData["name"]}</h1>
+          <Col className='col-xs-7 col-lg-7'>
+            <h1 id='profile-name' >{profileData["name"]}</h1>
             <p>Trader</p>
           </Col>
+                <Col className='col-xs-2 col-lg-2'>
+                    <Button onClick={()=> setNavigationUrl('/profile-edit')}>Edit Profile</Button>
+                </Col>
         </Row>
         <Row className="mb-3">
           <Col md={2}>
@@ -35,15 +40,15 @@ function ProfilePictureName(props){
           </Col>
           <Col>
             <h4 className="d-flex justify-content-center"
-                id='transaction-data' style={{color: "blue"}}>{profileData["transactions"]}</h4>
+                id='transaction-data'>{profileData["transactions"]}</h4>
           </Col>
           <Col>
             <h4 className="d-flex justify-content-center"
-                id='followers-data' style={{color: "blue"}}>{profileData["followers"]}</h4>
+                id='followers-data'>{profileData["followers"]}</h4>
           </Col>
           <Col>
             <h4 className="d-flex justify-content-center"
-                id='following-data' style={{color: "blue"}}>{profileData["following"]}</h4>
+                id='following-data'>{profileData["following"]}</h4>
           </Col>
         </Row>
             </div>

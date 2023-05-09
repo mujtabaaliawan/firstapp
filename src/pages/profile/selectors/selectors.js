@@ -1,11 +1,12 @@
-import {useSelector} from "react-redux";
 import {useState} from "react";
+
 function Selectors (){
     const [profileData, setProfileData] = useState([]);
     const [traderPictureURL, setTraderPictureURL] = useState('');
-    const isManager = useSelector((state) => state.manager.value);
+    const [navigationUrl, setNavigationUrl] = useState('');
     return {
-        profileData, setProfileData, traderPictureURL, setTraderPictureURL, isManager
+        profileData, setProfileData, traderPictureURL, setTraderPictureURL,
+        navigationUrl, setNavigationUrl
     }
 }
 export default Selectors;

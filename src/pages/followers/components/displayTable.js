@@ -16,18 +16,18 @@ function FollowerTable(props){
                 <Cell dataKey="id" />
             </Column>
 
-            <Column width={100}>
-                <HeaderCell>Name</HeaderCell>
+            <Column flexGrow={3}>
+                <HeaderCell>Name <code>flexGrow={3}</code></HeaderCell>
                 <Cell dataKey="name" />
             </Column>
 
-            <Column width={100}>
-                <HeaderCell>Email</HeaderCell>
+            <Column flexGrow={1}>
+                <HeaderCell>Email <code>flexGrow={1}</code></HeaderCell>
                 <Cell dataKey="email" />
             </Column>
 
-            <Column width={100}>
-        <HeaderCell>Mobile Number</HeaderCell>
+            <Column flexGrow={2}>
+        <HeaderCell>Mobile Number <code>flexGrow={2}</code></HeaderCell>
         <Cell dataKey="mobile_number" />
       </Column>
 

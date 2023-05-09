@@ -8,14 +8,13 @@ function Login() {
     let {dispatch, navigate} = GlobalSelectors();
     let{navigationUrl, formik} = Selectors(dispatch);
 
+    Navigation(navigationUrl, navigate);
 
-  Navigation(navigationUrl, navigate);
-
-  return (
+    return (
       <div>
         <LoginBox formik={formik}/>
       </div>
-  );
+    );
 }
 
 export default Login;

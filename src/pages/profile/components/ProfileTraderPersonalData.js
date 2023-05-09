@@ -23,7 +23,7 @@ function ProfileTraderPersonalData(props){
                       <h4>Mobile Number</h4>
                   </Col>
                   <Col md={4}>
-                      <h4 style={{color: "brown"}}>{data["mobile_number"]}</h4>
+                      <h4 id='mobile-number'>{data["mobile_number"]}</h4>
                   </Col>
               </Row>
               <Row>
@@ -36,21 +36,11 @@ function ProfileTraderPersonalData(props){
                       <h4>Email</h4>
                   </Col>
                   <Col md={4}>
-                      <h4 style={{color: "brown"}}>{data["email"]}</h4>
+                      <h4 id='profile-email'>{data["email"]}</h4>
                   </Col>
               </Row>
               <Row>
                   <Col>&nbsp;</Col>
-              </Row>
-              <Row>
-                  <Col md={3}>
-                  </Col>
-                  <Col md={4}>
-                      <h4>City</h4>
-                  </Col>
-                  <Col md={4}>
-                      <h4 style={{color: "brown"}}>Lahore</h4>
-                  </Col>
               </Row>
               <Row>
                   <Col>&nbsp;</Col>

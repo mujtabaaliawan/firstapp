@@ -1,0 +1,28 @@
+#profile-picture {
+    width: 10rem;
+    height: 10rem;
+}
+
+#profile-name {
+    color: #094bf8;
+}
+
+#transaction-data {
+    color: #094bf8;
+}
+
+#followers-data {
+    color: #094bf8;
+}
+
+#following-data {
+    color: #094bf8;
+}
+
+#mobile-number {
+    color: darkred;
+}
+
+#profile-email {
+    color: darkred;
+}
