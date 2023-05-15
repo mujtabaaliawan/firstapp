@@ -1,8 +1,8 @@
 import {Col, Container, Row} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import {Elements} from "@stripe/react-stripe-js";
 import CheckoutForm from "../Stripeelements/component";
 import React from "react";
+import styles from "../styles/components";
 
 
 function SubscriptionDisplay(props){
@@ -12,6 +12,7 @@ function SubscriptionDisplay(props){
     let setButtonState = props.setButtonState;
     let planName = props.planName;
     let buttonState = props.buttonState;
+    const {SubButton} = styles();
 
     function handlePlanClick(plan_name){
         setPlanName(plan_name);
@@ -35,8 +36,8 @@ function SubscriptionDisplay(props){
                         <h4>Price: <span id='price'>USD 24.00</span></h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' id='yearly-button' style={{width: "50%", margin: "auto"}}
-                                onClick={() => handlePlanClick("yearly")}>Purchase Plan</Button>
+                        <SubButton className='mt-5 mb-3' id='yearly-button'
+                                onClick={() => handlePlanClick("yearly")}>Purchase Plan</SubButton>
                     </Row>
                 </Col>
                 <Col id='plan'>
@@ -55,8 +56,8 @@ function SubscriptionDisplay(props){
                         <h4>Price: <span id='price'>USD 3.00</span></h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' id='monthly-button' style={{ width: "50%", margin: "auto"}}
-                                onClick={() => handlePlanClick("monthly")}>Purchase Plan</Button>
+                        <SubButton className='mt-5 mb-3' id='monthly-button'
+                                onClick={() => handlePlanClick("monthly")}>Purchase Plan</SubButton>
                     </Row>
                 </Col>
                 <Col id='plan'>
@@ -73,8 +74,8 @@ function SubscriptionDisplay(props){
                         <h4>Price: <span id='price'>USD 1.00</span></h4>
                     </Row>
                     <Row>
-                        <Button className='mt-5 mb-3' id='weekly-button' style={{width: "50%", margin: "auto",}}
-                                onClick={() => handlePlanClick("weekly")}>Purchase Plan</Button>
+                        <SubButton className='mt-5 mb-3' id='weekly-button'
+                                onClick={() => handlePlanClick("weekly")}>Purchase Plan</SubButton>
                     </Row>
                 </Col>
             </Row>

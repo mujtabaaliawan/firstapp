@@ -1,5 +1,5 @@
 import React from "react";
-import HomeSteps from "../../tour/home";
+import HomeSteps from "./tour/home";
 import UserSelectors from "../selectors/userSelectors";
 import GlobalSelectors from "../selectors/globalSelectors";
 import Selectors from "./selectors/selectors";

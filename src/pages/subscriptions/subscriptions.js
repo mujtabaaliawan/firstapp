@@ -1,6 +1,6 @@
 import React from 'react';
 import {loadStripe} from "@stripe/stripe-js/pure";
-import "../../styles/subscriptions.css";
+import "./styles/subscriptions.css";
 import SubscriptionDisplay from "./components/subscriptionDisplay";
 import Selectors from "./selectors/selectors";
 

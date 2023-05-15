@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../styles/subscriptions.css";
+import "../subscriptions/styles/subscriptions.css";
 import { Container} from 'react-bootstrap';
 import useDocumentName from "../../hooks/documentname";
 import SubscriptionDataUpdate from "./hooks/UpdateData";
